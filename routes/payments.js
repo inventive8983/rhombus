@@ -71,7 +71,7 @@ Router.post('/paywithpaytm', [
         params['ORDER_ID'] = result._id;
         params['CUST_ID'] = paymentDetails.customerId;
         params['TXN_AMOUNT'] = total;
-        params['CALLBACK_URL'] = 'http://localhost:4000/api/payment/callback';
+        params['CALLBACK_URL'] = 'https://rhombusedu.herokuapp.com/api/payment/callback';
         params['EMAIL'] = paymentDetails.customerEmail;
         params['MOBILE_NO'] = paymentDetails.customerPhone;
 
