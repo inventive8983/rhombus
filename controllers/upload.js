@@ -1,7 +1,6 @@
 const formidable = require('formidable')
 const fs = require('fs')
 const multer  = require('multer');
-const compress_images = require("compress-images")
 
 
 exports.uploadImage = (req, res) => {
