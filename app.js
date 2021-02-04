@@ -24,7 +24,7 @@ const {connectionDB} = require('./config/db')
 
 app.use('/static', express.static('static'))
 app.use('/media', express.static('media'))
-app.use('/admin', express.static('admin'))
+app.use('/admin', express.static('admin/build'))
 
 app.use('/template', express.static('template'))
 

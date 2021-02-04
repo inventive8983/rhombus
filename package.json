@@ -4,11 +4,11 @@
   "description": "Admin Application of Rhombus Education",
   "main": "app.js",
   "scripts": {
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "BG-Unified Team",
   "license": "ISC",
-  "homepage": "/admin",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
