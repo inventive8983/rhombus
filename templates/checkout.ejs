@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('components/head') %>
+<%- include('components/theme') %>
+<%- include('components/header') %>
+
+<div class="inner-banner pt-29 pb-md-13 bg-default-2">
+    <div class="container">
+      <div class="row  justify-content-center pt-5">
+        <div class="col-xl-8 col-lg-9">
+          <div class="px-md-15 text-center">
+            <h2 class="title gr-text-2 mb-9">Checkout</h2>
+            <p class="gr-text-8 mb-13"><%= cart.length %> Items on your cart</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-default-2 pb-17 pb-md-29 ">
+    <div class="container">
+      <div class="row justify-content-md-between pt-9">
+        <div class="col-lg-7 col-xl-7">
+          <div class="login-form bg-white border-gray-3 px-md-12 px-7 pt-12 pb-13 shadow-1 rounded-10 mb-9">
+            <h3 class="gr-text-7 font-weight-bold mb-8 text-blackish-blue">Billing Details</h3>
+            <form action="/api/payment/paywithpaytm" method="POST">
+              <div class="row">
+                <!-- .name starts -->
+                <div class="col-12">
+                  <div class="form-group mb-7">
+                    <label for="name" class="gr-text-11 font-weight-bold text-blackish-blue">First & Last Name</label>
+                    <input class="form-control gr-text-11 border-gray-3 px-4" name="name" type="text" id="name" placeholder="i.e. John Doe">
+                  </div>
+                </div>
+                <!-- ./name ends -->
+                <!-- .email-adress starts -->
+                <div class="col-12">
+                  <div class="form-group mb-7">
+                    <label for="email" class="gr-text-11 font-weight-bold text-blackish-blue">Email Address</label>
+                    <input class="form-control gr-text-11 border" type="text" name="email" id="email" placeholder="i.e. john@mail.com">
+                  </div>
+                </div>
+                <!-- ./email-adress ends -->
+
+                <div class="col-12">
+                  <div class="form-group mb-7">
+                    <label for="mobile" class="gr-text-11 font-weight-bold text-blackish-blue">Mobile Number</label>
+                    <input class="form-control gr-text-11 border" type="text" name="mobile" id="mobile" placeholder="i.e. +91 XXXXX XXXXX">
+                  </div>
+                </div>
+
+                <!-- .select-country starts -->
+                <!-- <div class="col-12 mb-9">
+                  <div class="form-group">
+                    <label for="country" class="gr-text-11 font-weight-bold text-blackish-blue">Country</label>
+                    <select name="country-select" id="country" class="nice-select gr-text-11 text-blackish-blue">
+                      <option value="">United States of America</option>
+                      <option value="">United Arab Emirates</option>
+                      <option value="">Bangladesh</option>
+                      <option value="">Pakistan</option>
+                    </select>
+                  </div>
+                </div> -->
+                <!-- ./select-country ends -->
+                <div class="col-md-12">
+                  <div class="form-group mb-7">
+                    <label for="address" class="gr-text-11 font-weight-bold text-blackish-blue">Address</label>
+                    <textarea rows="4" class="form-control gr-text-11 border" name="address" type="text" id="address" placeholder="Address"></textarea>
+                  </div>
+                </div>
+                <!-- .city/zip starts -->
+                <div class="col-md-6">
+                  <div class="form-group mb-7">
+                    <label for="city" class="gr-text-11 font-weight-bold text-blackish-blue">City</label>
+                    <input class="form-control gr-text-11 border" name="city" type="text" id="city" placeholder="City">
+                  </div>
+                </div>
+                <!-- ./city/zip ends -->
+                <!-- state starts -->
+                <div class="col-md-6">
+                  <div class="form-group mb-7">
+                    <label for="state" class="gr-text-11 font-weight-bold text-blackish-blue">State</label>
+                    <input class="form-control gr-text-11 border" name="state" type="text" id="state" placeholder="State">
+                  </div>
+                </div>
+                <!-- state ends -->
+                <!-- country starts -->
+                <div class="col-md-6">
+                  <div class="form-group mb-7">
+                    <label for="country" class="gr-text-11 font-weight-bold text-blackish-blue">Country</label>
+                    <input class="form-control gr-text-11 border" name="country" disabled type="text" id="country" value="India">
+                  </div>
+                </div>
+                <!-- country ends -->
+                <!-- .Zip/Postal starts -->
+                <div class="col-md-6 pb-9">
+                  <div class="form-group mb-7">
+                    <label for="zip" class="gr-text-11 font-weight-bold text-blackish-blue">Zip/Postal Code</label>
+                    <input class="form-control gr-text-11 border" name="pincode" type="text" id="zip" placeholder="Zip Code">
+                  </div>
+                </div>
+                <!-- ./Zip/Postal ends -->
+                
+                <!-- .send-btn starts -->
+                <div class="col-12">
+                  <div class="button-block mt-3 ">
+                    <p class="gr-text-11 mb-7 text-blackish-blue">By clicking the button you agree the <a href="terms.html">Terms and Conditions</a></p>
+                    <button id="rzp-button1" class="form-btn btn btn-primary w-100">Proceed to payment</button>
+                  </div>
+                </div>
+                <!-- ./send-btn ends -->
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-sm-7 col-md-7 col-lg-5">
+          <div class="bg-white px-7 pt-8 pb-6 rounded-10 mt-9 mt-md-0">
+            <h3 class="gr-text-12 font-weight-bold text-blackish-blue text-uppercase pb-7">Order Details</h3>
+            <ul class="list-unstyled">
+              <li class="d-flex justify-content-between mb-5">
+                <span class="d-block gr-text-9 text-blackish-blue">Total Items</span>
+                <div class="d-flex gr-text-9">
+                  <span class="d-inline-flex  pl-7 pt-5 position-relative mr-2 ">
+                <input type="text" value="<%= cart.length%>" class="border-0 p-0 w-100 h-100 gr-abs-tl gr-text-9 gr-text-opacity focus-reset pointer-none text-blackish-blue-opacity"> 
+              </span>
+                  items
+                </div>
+              </li>
+              <% cart.map(item => { %>
+              <li class="mb-5">
+                <div class="d-flex my-3">
+                  <div class="mr-6">
+                    <img src="/api/course/cover/<%= item.id %>" alt="" class="rounded-8 square-50 object-fit-cover">
+                  </div>
+                  <div class="d-flex w-100 position-relative border-gray-3 rounded-10 overflow-hidden">
+                    <div class="w-100">
+                      <h3 class="gr-text-9 mb-0 text-blackish-blue text-dots"><%= item.name %></h3>
+                      <div class="w-100 d-flex justify-content-between">
+                        <span class="inline-block gr-text-12 font-weight-bold text-blackish-blue">
+                          <% item.details.forEach(detail => { %>
+                            <span class="gr-text-11 mr-4"><%= detail %></span>
+                        <% }) %>
+                        </span>
+                        <span class="inline-block gr-text-12 font-weight-bold text-bold text-blackish-blue">₹<%= item.amount %></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <% }) %>
+              <li class="d-flex mt-12 justify-content-between mb-9">
+                <span class="d-block gr-text-9 text-blackish-blue">Delivery Fee</span>
+                <span class="d-flex gr-text-9 font-weight-mid text-green-shamrock">FREE</span>
+              </li>
+              <li class="d-flex justify-content-between">
+                <span class="d-block gr-text-7 font-weight-bold text-blackish-blue">Total Price</span>
+                <span class="d-block gr-text-7 font-weight-bold text-blackish-blue">₹<%= total %></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+<%- include('components/footer') %>
+</body>
+</html>

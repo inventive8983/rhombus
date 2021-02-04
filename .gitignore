@@ -1,0 +1,8 @@
+#for ignoring the node modules
+node_modules
+
+admin/node_modules
+build
+
+# environment variable
+.env

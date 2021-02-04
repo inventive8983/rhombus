@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('components/head') %>
+<%- include('components/theme') %>
+<%- include('components/header') %>
+
+     <!-- navbar- -->
+     <section class="pt-29 bg-default">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-10 col-md-12 ml-n1 mt-12 mt-md-0">
+              <div class="">
+                <!-- <div class="ratings d-flex">
+                  <i class="fas fa-star mx-1 text-yellow gr-text-8"></i>
+                  <i class="fas fa-star mx-1 text-yellow gr-text-8"></i>
+                  <i class="fas fa-star mx-1 text-yellow gr-text-8"></i>
+                  <i class="fas fa-star mx-1 text-yellow gr-text-8"></i>
+                  <i class="far fa-star mx-1 text-yellow gr-text-8"></i>
+                </div> -->
+                <h3 class="gr-text-2 pt-5 font-weight-bold"><%= course.name %></h3>
+                <p class="gr-text-9">in <a href=""><%= course.category %></a></p>
+                <!-- <p class="gr-text-8 mb-5">List Price: $90</p>
+                <p class="gr-text-5 font-weight-bold gr-heading-opacity">Price: <span class="gr-text-color"> $70</span></p> -->
+                <!-- <ul class="list-unstyled">
+                  <li class="mt-3 gr-text-11 gr-text-color"><i class="rounded-circle bg-opposite d-inline-block mr-5" style="width: 9px;height:9px"></i>Active noise cancellation for immersive sound</li>
+                  <li class="mt-3 gr-text-11 gr-text-color"><i class="rounded-circle bg-opposite d-inline-block mr-5" style="width: 9px;height:9px"></i>Transparency mode for hearing and connecting
+                  </li>
+                  <li class="mt-3 gr-text-11 gr-text-color"><i class="rounded-circle bg-opposite d-inline-block mr-5" style="width: 9px;height:9px"></i>Three sizes of soft, tapered silicone tips</li>
+                </ul>
+                <div class="input--amount-control d-flex pt-5">
+                  <button class="amount-dec-btn btn-reset circle-xs bg-gray-3">-</button>
+                  <span class="py-6 px-8 position-relative mx-2">
+                    <input type="number" class="form-control gr-abs-tl font-weight-bold h-100 w-100  pl-2 pr-2 text-center"  value="2">
+                  </span>
+                  <button class="amount-inc-btn btn-reset circle-xs bg-gray-3">+</button>
+                </div>
+                <div class="button-group mt-9">
+                  <a href="#" class="btn btn-primary mr-5">Buy now</a>
+                  <a href="#" class="btn btn-white">Add to cart</a>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="pb-md-19 pt-md-19 pt-13 pb-13">
+        <div class="container">
+        <div class="row">
+          <div class="col-lg-8 pr-lg-8">
+              <!-- <nav class="pb-12">
+                <div class="nav gr-nav-tabs " id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active gr-text-7 font-weight-bold" id="nav-description-tab" data-toggle="tab" href="#nav-description" role="tab" aria-controls="nav-description" aria-selected="true">Description</a>
+                  <a class="nav-item nav-link gr-text-7 font-weight-bold" id="nav-specification-tab" data-toggle="tab" href="#nav-specification" role="tab" aria-controls="nav-specification" aria-selected="false">Curriculam</a>
+                </div>
+              </nav> -->
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab">
+                  <p class="gr-text-9"><%= course.description %></p>
+  
+                  <!-- <div class="video-section rounded-10 my-8 bg-image py-23 py-lg-31 dark-mode-texts" style="background-image: url(/static/image/l3/jpg/l3-video-bg.jpg);">
+                      <div class="row align-items-center justify-content-center">
+                        <div class="col-xl-6 col-lg-8 col-md-10">
+                          <div class="text-center video-content">
+                            <a class="video-play-icon mx-auto circle-md bg-white mb-9 gr-hover-y focus-reset" data-fancybox="" href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" tabindex="-1">
+                              <i class="icon icon-triangle-right-17-2"></i>
+                            </a>
+                          </div>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <iframe class="w-100 my-8" height="448" src="<%= course.demoVideo %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  
+                  <h6 class="gr-text-7">Basic Details</h6>
+                  <p class="gr-text-9"><b>Modes:</b> Google Drive and Pen Drive</p>
+                  <p class="gr-text-9"><b>Each Lecture Duration:</b> 40-45 Minutes</p>
+                  <p class="gr-text-9"><b>Run on:</b> Desktop and Laptop</p>
+                  <p class="gr-text-9">
+                    <h6 class="gr-text-7">System Requirements</h6>
+                    <b>Operating System</b>: Windows 7 Home Premium Service Pack 1 or above, Windows 8, 8.1, Windows 10. 
+                    (NOT Compatible With: Windows XP, Windows Vista, Windows 7 Starter, Windows 7 Basic, Windows 7 N Edition, Windows 7 KN Edition.) <br/>
+  
+                    <b>Processor</b> Core 2 Duo 1.5 GHz and above, Celeron Dual Core 1.5 GHZ and above, Intel Atom Quad Core 1.5 GHZ and above. <br/>
+  
+                    <b>Ram</b> 1.5 GB free memory <br/>
+  
+                    Check the graphics driver and audio drivers installed and updated in your PC
+                  </p>
+                  <h6 class="gr-text-7">About the Faculties</h6>
+                  <p class="gr-text-9">All Facuties are well qualified and knowledgeable, having expertise in their respective subjects and a minimum experience of 10years. Our team has given 54AIRs and 34AIRs in top 50 in Nov-2019 & Nov-2018 attempt, respectively. This indeed is a great achievement with highest selections every year. Also, they further thrive to give best results in coming years.</p>
+                  <h6 class="gr-text-7">Technical Support</h6>
+                  <span class="gr-text-9">Email: </span><br/>
+                  <span class="gr-text-9">Mobile: </span>
+                </div>
+                <div class="tab-pane fade" id="nav-specification" role="tabpanel" aria-labelledby="nav-specification-tab">
+                  terative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
+                  Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <form method="POST" action="/api/course/addtocart">
+                <input name="id" value="<%= course._id %>" hidden />
+                <input name="variant" id="courseOption" value="0" hidden />
+              <div class="btn-group-vertical course-pricing w-100 btn-group-toggle" data-toggle="buttons">
+                <% course.variants.map((variant, index) => { %>
+                <label onclick="addOption(`<%= index %>`)" class="btn py-5 mb-6 px-8 d-flex align-items-center justify-content-between active">
+                  <% if(index === 0){ %>
+                    <input type="radio" autocomplete="off" checked>
+                  <% } else { %>
+                    <input type="radio" autocomplete="off">
+                  <% } %>
+                  <div class="text-left">
+                    <span class="gr-text-8 font-weight-bold"><%= variant.name %></span><br/>
+                    <span class="gr-text-10 gr-opacity-8"><%= variant.description %></span> 
+                  </div>
+                  <div class="font-weight-bolder text-right">
+                    <span class="gr-text-6 text-green">₹<%= variant.discountPrice %></span><br />
+                    <span class="gr-text-9 text-linethrough">₹<%= variant.price %></span> 
+                  </div>
+                </label>
+                <% }) %>
+              </div>
+
+              <div class="pt-6">
+                <span class="gr-text-8 font-weight-bold">Add Ons</span>
+                <% course.addons.map(addon => { %>
+                <div class="d-flex justify-content-between py-4">
+                  <div class="d-flex">
+                      <input class="m-4" name="<%= addon.name %>" type="checkbox">
+                      <div>
+                        <div class="gr-text-9 font-weight-bold"><%= addon.name %> <span class="gr-text-8 text-green">₹<%= addon.price %>/-</span></div> 
+                        <div class="gr-text-11"><%= addon.description %></div>
+                      </div>
+                  </div>
+                  <div class="p-4">
+                    <img height="64px" src="<%= addon.img %>" alt="">
+                  </div>
+                </div>
+                <% }) %>
+              </div>
+
+              <div class="d-flex justify-content-center flex-column my-6">
+                <button type="submit" class="btn btn-secondary text-white my-2 rounded-8 gr-min-width-219 w-100"><i class="fa fa-shopping-cart gr-text-9 mr-2"></i> Add to Cart</button>
+              </div>
+            </form>
+              <div class="py-3 mt-8 rounded-10">
+                <div class="price-content light-mode-texts">
+                  <ul class="mx-3 pl-0 my-3 mx-auto">
+                    <li class="text-black gr-text-9 d-flex justify-content-between mb-0 py-7 border-top d-block">
+                      <span class="d-inline-flex mr-2 gr-text-color">
+                        <i class="fa fa-clock gr-text-9 mr-2"></i>
+                        <span class="font-weight-bold">Duration</span>
+                      </span>
+                      <span class="alert-text gr-text-9 gr-text-color"><%= Math.round(course.duration / 60) + " hrs " + Math.round(course.duration % 60) + " mins" %></span>
+                    </li>
+                    <li class="text-black gr-text-9 d-flex justify-content-between mb-0 py-7 border-top d-block">
+                      <span class="d-inline-flex mr-2 gr-text-color">
+                        <i class="fa fa-calendar gr-text-9 mr-2"></i>
+                        <span class="font-weight-bold">Applicable till</span>
+                      </span>
+                      <span class="alert-text gr-text-9 gr-text-color"><%= course.period %> year</span>
+                    </li>
+                    <li class="text-black gr-text-9 d-flex justify-content-between mb-0 py-7 border-top d-block">
+                      <span class="d-inline-flex mr-2 gr-text-color">
+                        <i class="fa fa-bookmark gr-text-9 mr-2"></i>
+                        <span class="font-weight-bold">Category</span>
+                      </span>
+                      <span class="alert-text gr-text-9 gr-text-color"><%= course.category %></span>
+                    </li>
+                    <li class="text-black gr-text-9 d-flex justify-content-between mb-0 py-7 border-top d-block">
+                      <span class="d-inline-flex mr-2 gr-text-color">
+                        <i class="fa fa-file-alt gr-text-9 mr-2"></i>
+                        <span class="font-weight-bold">Total Lectures</span>
+                      </span>
+                      <span class="alert-text gr-text-9 gr-text-color"><%= course.totalLectures %></span>
+                    </li>
+                    <li class="text-black gr-text-9 d-flex justify-content-between mb-0 py-7 border-top d-block">
+                      <span class="d-inline-flex mr-2 gr-text-color">
+                        <i class="fa fa-play-circle gr-text-9 mr-2"></i>
+                        <span class="font-weight-bold">Video Language</span>
+                      </span>
+                      <span class="alert-text gr-text-9 gr-text-color"><%= course.videoLanguage %></span>
+                    </li>
+                    <li class="text-black gr-text-9 d-flex justify-content-between mb-0 py-7 border-top border-bottom d-block">
+                      <span class="d-inline-flex mr-2 gr-text-color">
+                        <i class="fa fa-book-open gr-text-9 mr-2"></i>
+                        <span class="font-weight-bold">Study Material Language</span>
+                      </span>
+                      <span class="alert-text gr-text-9 gr-text-color"><%= course.studyLanguage %></span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="text-center py-6">
+                  <span class="d-inline-flex align-items-center mr-2 gr-text-color">
+                    <span class="font-weight-bold">Questions?</span>
+                    <a href="#" class="ml-1 font-weight-bold">Contact Seller</a>
+                  </span>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      <!-- Product Area -->
+      <div class="pt-13 pt-md-25 pb-13 pb-md-25 bg-default-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="section-title text-center">
+                <h2 class="gr-text-4">
+                  Related Products
+                </h2>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-8" data-aos="fade-right" data-aos-duration="600" data-aos-once="true">
+            <% relatedCourses.map(course => { %>
+              <div class="col-md-6 col-lg-4 px-2">
+                <%- include('components/course-card', course) %>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+      
+      <script>
+
+        function addOption(id){
+          document.getElementById("courseOption").value = id
+        }
+
+      </script>
+
+<%- include('components/footer') %>
+</body>
+</html>

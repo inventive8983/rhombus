@@ -1,0 +1,68 @@
+   <!-- Modal -->
+   <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+          <h5 class="modal-title p-8 gr-text-5" id="exampleModalLabel">Cart</h5>
+        <div class="modal-body">
+            <% if(cart.length > 0){ %>
+            <div class="cart-details-main-block" id="dynamic-cart">
+                <div class="cart-product text-left pb-5 d-none d-lg-flex align-items-center">
+                  <div class="product-block">
+                    <h3 class="gr-text-12 pl-8 font-weight-bold text-uppercase">Product</h3>
+                  </div>
+                  <div class="quantity-block">
+                    <h3 class="gr-text-12 font-weight-bold text-uppercase">Details</h3>
+                  </div>
+                  <div class="total-block ml-lg-n6">
+                    <h3 class="gr-text-12 font-weight-bold text-uppercase">Total </h3>
+                  </div>
+                </div>
+                <!-- .cart_single-product-block starts -->
+                <% cart.forEach(item => { %>
+                <div class="cart-product cart-item bg-white p-8 rounded-10 mb-5 overflow-hidden position-relative">
+                  <!-- .product-block starts -->
+                  <div class="product-block mb-7 mb-md-0 pr-md-15 pr-lg-12 pr-xl-15">
+                    <div class="gr-flex-y-center pr-4 pr-xs-0">
+                        <img src="/api/course/cover/<%= item.id %>" alt="" class="rounded-8 square-80 object-fit-cover">
+                        <h3 class="gr-text-8 ml-7 font-weight-bold text-blackish-blue mb-0"><%= item.name %></h3>
+                    </div>
+                  </div>
+                  <!-- .product-block ends -->
+                  <!-- .product-quantity-block starts -->
+                  <div class="quantity-block gr-flex-y-center ml-xs-23 ml-md-0">
+                    <% item.details.forEach(detail => { %>
+                        <span class="p-4 border rounded-8 mr-4"><%= detail %></span>
+                    <% }) %>
+                  </div>
+                  <!-- .product-quantity-block ends -->
+                  <!-- .product-quantity-block starts -->
+                  <div class="total-block gr-flex-y-center pl-7 pl-xs-0">
+                    <div class="gr-flex-y-center justify-content-between w-100">
+                      <h3 class="gr-text-8 font-weight-bold text-uppercase mb-0 text-blackish-blue">₹<%= item.amount %></h3>
+                    </div>
+                  </div>
+                  <!-- .product-quantity-block ends -->
+                </div>
+                <% }) %>
+                <!-- .cart_single-product-block ends -->
+              </div>
+              <% } else { %>
+                    <div class="p-12 text-center gr-text-8">
+                        No items in cart.
+                    </div>
+                <% } %>
+        </div>
+        <div class="modal-footer justify-content-between border-0">
+            <% if(cart.length > 0){ %>
+                <button type="button" class="btn btn-white border" data-dismiss="modal" onclick="clearCart()" >Clear Cart</button>
+            <% } %>
+        <div class="d-flex">
+            <button type="button" class="btn btn-white border mr-3" data-dismiss="modal" >Continue Shopping</button>
+            <a href="/checkout" type="button" class="btn btn-primary">Proceed to Checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  

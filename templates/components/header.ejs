@@ -1,0 +1,135 @@
+<!-- Header Area -->
+<div class="p-6 gr-bg-white-opacity-visible">
+     <div class="container">
+       <div class="row justify-content-between align-items-center">
+         <!-- Brand Logo-->
+            <div class="col-auto">
+              <div class="brand-logo"><a href="/">
+                <!-- light version logo (logo must be black)-->
+                <img src="/static/image/logo-main-black.png" alt="" class="light-version-logo ">
+                <!-- Dark version logo (logo must be White)-->
+                <img src="/static/image/logo-main-white.png" alt="" class="dark-version-logo">
+              </a></div>
+            </div>
+            <div class="ml-auto ml-lg-5 mr-6 mr-lg-0 d-none d-xs-flex align-items-center">
+              <!-- <a class="btn btn-secondary gr-text-9 mx-3" href="/login">
+                <i class="fa fa-key mr-2"></i>
+                Log In
+              </a> -->
+              <% if(fundamentals.facebook){ %>
+                <a href="<%= fundamentals.facebook %>" class="p-6 gr-text-8 text-dark gr-hover-text-blue">
+                  <i class="fab fa-facebook-f "></i>
+                </a>
+                <% } %>
+                <% if(fundamentals.twitter){ %>
+                <a href="<%= fundamentals.twitter %>" class="p-6 gr-text-8 text-dark gr-hover-text-blue">
+                  <i class="fab fa-twitter "></i>
+                </a>
+                <% } %>
+                <% if(fundamentals.instagram){ %>
+                <a href="<%= fundamentals.instagram %>" class="p-6 gr-text-8 text-dark gr-hover-text-blue">
+                  <i class="fab fa-instagram "></i>
+                </a>
+                <% } %>
+                <% if(fundamentals.linkedin){ %>
+                <a href="<%= fundamentals.linkedin %>" class="p-6 gr-text-8 text-dark gr-hover-text-blue">
+                  <i class="fab fa-linkedin "></i>
+                </a>
+                <% } %>
+              <a class="header-btn btn btn-primary ml-10 gr-text-10" href="tel:<% if(fundamentals.mobile1){ %><%= fundamentals.mobile1 %><% } %>">
+                <i class="fa fa-phone mr-2"></i>
+                <span>Call Now</span> 
+              </a>
+            </div>
+       </div>
+     </div>
+</div>
+<header class="site-header gr-bg-white-opacity-visible border-bottom border-top position-sticky top-0 site-header--menu-left site-header--absolute">
+    <div class="container">
+      <nav class="navbar site-navbar offcanvas-active navbar-expand-lg  px-0">
+        <div class="collapse navbar-collapse" id="mobile-menu">
+          <div class="navbar-nav-wrapper">
+            <ul class="navbar-nav pl-lg-0 main-menu">
+              <li class="nav-item">
+                <a class="nav-link" href="/" role="button" aria-expanded="false">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about" role="button" aria-expanded="false">About</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle gr-toggle-arrow" id="navbarDropdown02" href="/courses" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Courses <i class="icon icon-small-down"></i></a>
+                <ul class="gr-menu-dropdown dropdown-menu" aria-labelledby="navbarDropdown02">
+                  <li class="drop-menu-item">
+                    <a href="/courses#CA">
+                      CA Courses
+                    </a>
+                  </li>
+                  <li class="drop-menu-item">
+                    <a href="/courses#UGC-NET">
+                      UGC-NET Courses
+                    </a>
+                  </li>
+                  <li class="drop-menu-item">
+                    <a href="/courses#MBA">
+                      MBA Courses
+                    </a>
+                  </li>
+                  <li class="drop-menu-item">
+                    <a href="/courses#Junior">
+                      Junior Courses
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/blogs" role="button" aria-expanded="false">Blogs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/gallery" role="button" aria-expanded="false">Gallery</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/contact" role="button" aria-expanded="false">Contact Us</a>
+              </li>
+            </ul>
+          </div>
+          <button class="d-block d-lg-none offcanvas-btn-close" type="button" data-toggle="collapse" data-target="#mobile-menu" aria-controls="mobile-menu" aria-expanded="true" aria-label="Toggle navigation">
+            <i class="gr-cross-icon"></i>
+          </button>
+        </div>
+        
+        
+
+        <!-- Mobile Menu Hamburger-->
+        <button class="navbar-toggler btn-close-off-canvas  hamburger-icon border-0" type="button" data-toggle="collapse" data-target="#mobile-menu" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle navigation">
+          <!-- <i class="icon icon-simple-remove icon-close"></i> -->
+          <span class="hamburger hamburger--squeeze js-hamburger">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+          </span>
+          </span>
+        </button>
+        <!--/.Mobile Menu Hamburger Ends-->
+        <div class="d-flex align-items-center">
+          <div class="ml-auto ml-lg-50 d-none d-xs-flex align-items-center justify-content-end">
+              <a class="p-5 gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" href="/comingsoon" role="button">Log In</a>
+              <a class="p-5 gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" href="/comingsoon" role="button">Sign Up</a>
+          </div>
+          <% if(cart.length > 0){ %>
+          <button class="p-5 btn gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" data-toggle="modal" data-target="#cartModal" role="button">
+            <a class='header-cart'><i class='fas fa-shopping-cart'></i>
+            <% if(cart.length > 0){ %>
+                <span class='car'><%= cart.length %></span>
+              <% } %>
+            </a>
+          </button>
+         <% } %>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <%- include('message') %>
+
+<%- include('cart') %>
+
+  <!-- navbar-dark -->

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('components/head') %>
+<%- include('components/theme') %>
+<%- include('components/header') %>
+
+<div class="inner-banner">
+    <div class="container">
+      <div class="row  justify-content-center mt-md-6 pt-24 pt-lg-20">
+        <div class="col-xl-8 col-lg-9">
+          <div class="px-md-12 text-center mb-11 mb-lg-14">
+            <h2 class="title gr-text-2 mb-4 mb-lg-6">Our courses</h2>
+            <p class="gr-text-8 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur sapiente velit reiciendis, dignissimos eligendi error omnis molestiae eius.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team section (About Page) -->
+  <% categories.map(category => { %>
+    <%if(courses[category]){ %>
+  <div class="accordion  pt-12 pt-lg-16 pb-lg-16" id="<%= category %>">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 d-flex justify-content-between">
+          <div class="section-title mb-lg-8 mb-6">
+            <h2 class="gr-text-5"><%= category %> Courses</h2>
+            <p class="gr-text-10 mb-0">With lots of unique blocks, you can easily build a page without coding.</p>
+          </div>
+          
+          <% if(courses[category].length > 3){ %>
+          <button class="btn-reset gr-text-7 font-weight-bold text-left text-blackish-blue px-0 py-8 accordion-trigger arrow-icon" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+            View All
+          </button>
+          <% } %>
+        </div>
+      </div>
+     
+      <div class="mb-8 row">
+        <% for(var i = 0; i <= 2; i++){ %>
+          <div class="col-md-6 col-lg-4 px-2">
+            <% if(courses[category][i]){ %>
+            <%- include('components/course-card', courses[category][i]) %>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+      <% if(courses[category].length > 3){ %>
+      <div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#accordion1">
+        <div class="mb-0 row">
+          <div class="col-md-6 col-lg-4 px-2">
+            <%- include('components/course-card', courses[category][i]) %>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <% } }) %>
+  <%- include('components/newsletter') %>
+    
+<%- include('components/footer') %>
+</body>
+</html>
