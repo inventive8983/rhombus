@@ -42,7 +42,7 @@
         <% slides.forEach(image => { %>
         <div class="carousel-cell w-100">
           <div class="w-100 bg-blue overflow-hidden">
-            <img class="w-100" style="max-height: 720px;object-fit: cover;" src="/media/covers/<%= image %>" alt="">
+            <img class="w-100" style="max-height: 720px;object-fit: cover;" src="<%= image %>" alt="">
           </div>
         </div>
         <% }) %>
@@ -87,11 +87,28 @@
           </div>
         </div>
         <div class="row justify-content-center position-relative gr-z-index-1">
-          <% featured.forEach(course => { %> 
-          <div class="col-md-6 col-lg-4 mb-9 mb-lg-0" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
-            <%- include('components/course-card', course) %>
+          <div class="col-lg-6 overflow-hidden">
+            <a href="/courses/CA" class="img-hover">
+              <img src="/static/image/main-covers/ca.jpg" width="100%" class="object-fit-cover rounded-12 shadow-4" height="520px" />
+            </a>
           </div>
-          <% })%>
+          <div class="col-lg-6 d-flex flex-wrap">
+            <a href="/courses/UGC-NET" class="img-hover">
+              <img src="/static/image/main-covers/ugc-net.jpg" width="100%" class="object-fit-cover rounded-12 shadow-4" height="245px" />
+            </a>
+            <div class="row mt-9">
+              <div class="col-lg-6">
+                <a href="/courses/MBA" class="img-hover">
+                  <img src="/static/image/main-covers/mba.jpg" width="100%" class="object-fit-cover rounded-12 shadow-4" height="245px" />
+                </a>
+              </div>
+              <div class="col-lg-6">
+                <a href="/courses/Junior" class="img-hover">
+                  <img src="/static/image/main-covers/junior.jpg" width="100%" class="object-fit-cover rounded-12 shadow-4" height="245px" />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -107,38 +124,26 @@
             </div>
           </div>
         </div>
-        <div class="row align-items-center justify-content-center">
-          <div class="col-lg-4 col-md-6 mb-11 mb-lg-19 px-xs-6 px-md-6 px-lg-0 px-xl-8" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
-            <div class="feature-widget text-center">
-              <div class="widget-icon square-80 rounded-15 mx-auto mb-9 mb-lg-12 bg-blue shadow-blue">
-                <img src="/static/image/svg/feature8-icon1.svg" alt="">
-              </div>
-              <div class="widget-text">
-                <h3 class="title gr-text-6 mb-7">Choose Course</h3>
-                <p class="gr-text-11 mb-0">You can choose from around 20+ courses on the website and add them to your cart.</p>
-              </div>
+        <div class="gr-timeline-wrapper gr-flex-all-center">
+          <div class="single-timeline-feature text-center px-6 px-md-9" data-aos="zoom-in" data-aos-duration="900" data-aos-once="true">
+            <div class="count circle-lg bg-red gr-text-4 mx-auto mb-12 text-white"><span>1</span></div>
+            <div class="content px-xl-7">
+              <h3 class="title gr-text-7 mb-6">Choose Course</h3>
+              <p class="gr-text-9">You can choose from around 20+ courses.</p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 mb-11 mb-lg-19 px-xs-6 px-md-6 px-lg-0 px-xl-8" data-aos="fade-right" data-aos-duration="800" data-aos-delay="400" data-aos-once="true">
-            <div class="feature-widget text-center">
-              <div class="widget-icon square-80 rounded-15 mx-auto mb-9 mb-lg-12 bg-red shadow-red">
-                <img src="/static/image/svg/feature8-icon2.svg" alt="">
-              </div>
-              <div class="widget-text">
-                <h3 class="title gr-text-6 mb-7">Pay Securely</h3>
-                <p class="gr-text-11 mb-0">Pay by any means, UPI, Paytm Wallet, Credit Card or Debit Card.</p>
-              </div>
+          <div class="single-timeline-feature text-center px-6 px-md-9" data-aos="zoom-in" data-aos-duration="900" data-aos-delay="400" data-aos-once="true">
+            <div class="count circle-lg bg-green gr-text-4 mx-auto mb-12 text-white"><span>2</span></div>
+            <div class="content px-xl-7">
+              <h3 class="title gr-text-7 mb-6">Pay Securely</h3>
+              <p class="gr-text-9">Pay by any means, UPI, Paytm Wallet, Credit Card or Debit Card.</p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6 mb-11 mb-lg-19 px-xs-6 px-md-6 px-lg-0 px-xl-8" data-aos="fade-right" data-aos-duration="800" data-aos-delay="600" data-aos-once="true">
-            <div class="feature-widget text-center">
-              <div class="widget-icon square-80 rounded-15 mx-auto mb-9 mb-lg-12 bg-green shadow-green">
-                <img src="/static/image/svg/feature8-icon3.svg" alt="">
-              </div>
-              <div class="widget-text">
-                <h3 class="title gr-text-6 mb-7">Get The Material</h3>
-                <p class="gr-text-11 mb-0">It's all done now you can stream videos and give online tests on you device.</p>
-              </div>
+          <div class="single-timeline-feature text-center px-6 px-md-9" data-aos="zoom-in" data-aos-duration="900" data-aos-delay="800" data-aos-once="true">
+            <div class="count circle-lg bg-blue gr-text-4 mx-auto mb-12 text-white"><span>3</span></div>
+            <div class="content px-xl-7">
+              <h3 class="title gr-text-7 mb-6">Start Learning!</h3>
+              <p class="gr-text-9">It's all done now you can stream lectures and learn.</p>
             </div>
           </div>
         </div>

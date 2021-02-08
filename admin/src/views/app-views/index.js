@@ -10,8 +10,8 @@ export const AppViews = ({match}) => {
         <Route path={`${match.url}/content`} component={lazy(() => import(`./content`))} />
         <Route path={`${match.url}/courses`} component={lazy(() => import(`./courses`))} />
         <Route path={`${match.url}/orders`} component={lazy(() => import(`./orders`))} />
-        <Route path={`${match.url}/gallery`} component={lazy(() => import(`./media/gallery`))} />
-        <Route path={`${match.url}/slider`} component={lazy(() => import(`./media/slider`))} />
+        <Route path={`${match.url}/gallery`} component={lazy(() => import(`./media/gallerywithurl`))} />
+        <Route path={`${match.url}/slider`} component={lazy(() => import(`./media/sliderwithurl`))} />
         <Redirect from={`${match.url}`} to={`${match.url}/home`} />
       </Switch>
     </Suspense>

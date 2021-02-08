@@ -1,31 +1,21 @@
 const mongoose = require('mongoose')
 const Course = require('../models/course')
+const General = require('../models/general')
 const fs = require('fs')
 const path = require('path')
-const testimonials = require('../testimonials.json')
 const categories = ['CA', 'UGC-NET', 'MBA', 'Junior']
 
-exports.homepage = (req, res) => {
+exports.homepage = async (req, res) => {
 
-    Course.find({featured: true}).limit(3).then(courses => {
-        
-        //joining path of directory 
-        const directoryPath = path.join(__dirname, `../media/covers`);
-        //passsing directoryPath and callback function
-        fs.readdir(directoryPath, function (err, files) {
-            //handling error
-            if (err) {
-                return console.log('Unable to scan directory: ' + err);
-            } 
-            res.render('homepage', {
-                ...req.pageData,
-                testimonials,
-                featured: courses,
-                slides: files
-            })
-        
-        });
-        
+    const courses = await Course.find({featured: true}).limit(3)
+    const testimonials = await General.findOne({name: 'testimonials'})
+    const slides = await General.findOne({name: 'slider'})    
+
+    res.render('homepage', {
+        ...req.pageData,
+        featured: courses,
+        testimonials: testimonials.data,
+        slides: slides.data
     })
 }
 
@@ -42,22 +32,17 @@ exports.contact = async (req, res) => {
 }
 
 exports.allCourses = async (req, res) => {
-    Course.find({status:"Published"}, {name: 1, category: 1, duration: 1, variants: 1, cover: 1}).then(courses => {
-        var organized = {}
-        courses.forEach(course => {
-            if(organized[course.category]){
-                organized[course.category].push(course)                
-            }
-            else{
-                organized[course.category] = []
-                organized[course.category].push(course)                
-            }
-        });
-        res.render('courses', {
-            courses: organized,
-            categories,
-            ...req.pageData
-        })
+    Course.find({status:"Published", category: req.params.category}, {name: 1, category: 1, duration: 1, variants: 1, cover: 1}).then(courses => {
+        if(courses.length !== 0){
+            res.render('courses', {
+                courses,
+                category: req.params.category,
+                ...req.pageData
+            })
+        }
+        else{
+            res.sendStatus(404)
+        }
     })
     
 }
@@ -85,20 +70,12 @@ exports.course = async (req, res) => {
 
 exports.gallery = async (req, res) => {
 
-    //joining path of directory 
-    const directoryPath = path.join(__dirname, `../media/gallery`);
-    //passsing directoryPath and callback function
-    fs.readdir(directoryPath, function (err, files) {
-        //handling error
-        if (err) {
-            return console.log('Unable to scan directory: ' + err);
-        } 
-        res.render('gallery', {
-            ...req.pageData,
-            files
-        })
-    });
+    const gallery = await General.findOne({name: 'gallery'})    
 
+    res.render('gallery', {
+        ...req.pageData,
+        files: gallery.data
+    })
     
 }
 

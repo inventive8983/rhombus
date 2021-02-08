@@ -1,39 +1,27 @@
-const fundamentals = require('../fundamentals.json')
-const testimonials = require('../testimonials.json')
+const General = require('../models/general')
 const path = require('path');
 const fs = require('fs');
-
+const mongoose = require('mongoose');
 
 exports.updateContent = (req, res) => {
-
-    var values = {}
-    req.body.fundamentals.forEach(value => {
-        values[value.name] = value.description
+    General.updateOne({name: req.params.content}, { $set: {
+        data: req.body.content
+    }}).then(result => {
+        res.sendStatus(200)
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(400)
     })
-    fs.writeFile('./fundamentals.json', JSON.stringify(values), err => {
-        
-        if(err) return res.sendStatus(400);
-        res.sendStatus(200)
-
-    })        
 
 }
 
-exports.updateTestimonials = (req, res) => {
-
-    var values = req.body.testimonials
-    fs.writeFile('./testimonials.json', JSON.stringify(values), err => {
-        
-        if(err) return res.sendStatus(400);
-        res.sendStatus(200)
-
-    })        
-
+exports.getContent = (req, res) => {
+    General.findOne({name: req.params.content}).then(content => {
+        res.send(content.data)
+    }).catch(err => {
+        res.sendStatus(400)
+    })
 }
-
-exports.getContent = (req, res) => {res.send(fundamentals)}
-
-exports.getTestimonials = (req, res) => {res.send(testimonials)}
 
 exports.getImages = (req, res) => {
     //joining path of directory 

@@ -141,6 +141,17 @@ body[data-theme='light'] .default-logo, body[data-theme='light'] .default-shape,
   object-fit: cover;
 }
 
+.img-hover{
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.img-hover:hover img{
+  transition: .6s;
+  filter: brightness(1.25);
+}
+
 .carousel-cell{
   cursor: default !important;
 }

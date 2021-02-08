@@ -102,6 +102,7 @@
               <form method="POST" action="/api/course/addtocart">
                 <input name="id" value="<%= course._id %>" hidden />
                 <input name="variant" id="courseOption" value="0" hidden />
+                <input name="streamSrc" id="streamSrc" value="<%= course.addons[0].name %>" hidden />
               <div class="btn-group-vertical course-pricing w-100 btn-group-toggle" data-toggle="buttons">
                 <% course.variants.map((variant, index) => { %>
                 <label onclick="addOption(`<%= index %>`)" class="btn py-5 mb-6 px-8 d-flex align-items-center justify-content-between active">
@@ -123,11 +124,15 @@
               </div>
 
               <div class="pt-6">
-                <span class="gr-text-8 font-weight-bold">Add Ons</span>
-                <% course.addons.map(addon => { %>
+                <span class="gr-text-8 font-weight-bold">Streaming Source</span>
+                <% course.addons.map((addon, index) => { %>
                 <div class="d-flex justify-content-between py-4">
                   <div class="d-flex">
-                      <input class="m-4" name="<%= addon.name %>" type="checkbox">
+                      <% if(index === 0){ %>
+                        <input class="m-4" id="<%= addon.name %>" name="radioSrc" checked onclick="changeSrc(`<%= addon.name %>`)" type="radio">
+                      <% } else { %>
+                        <input class="m-4" id="<%= addon.name %>" name="radioSrc" onclick="changeSrc(`<%= addon.name %>`)" type="radio">
+                      <% } %>
                       <div>
                         <div class="gr-text-9 font-weight-bold"><%= addon.name %> <span class="gr-text-8 text-green">₹<%= addon.price %>/-</span></div> 
                         <div class="gr-text-11"><%= addon.description %></div>
@@ -230,6 +235,9 @@
           document.getElementById("courseOption").value = id
         }
 
+        function changeSrc(src){
+          document.getElementById("streamSrc").value = src
+        }
       </script>
 
 <%- include('components/footer') %>

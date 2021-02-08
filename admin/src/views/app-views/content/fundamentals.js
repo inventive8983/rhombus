@@ -11,15 +11,9 @@ function Index(props) {
 
     useEffect(() => {
 
-        generalAPI.getContent().then(content => {
-            const values = Object.entries(content).map(item => {
-                return {
-                    name: item[0],
-                    description: item[1]
-                }
-            })
+        generalAPI.getContent({content: 'fundamentals'}).then(content => {
             form.setFieldsValue({
-                fundamentals: values
+                fundamentals: content
             })
         })
 
@@ -27,7 +21,7 @@ function Index(props) {
     
     const onFinish = () => {
         form.validateFields().then(values => {
-            generalAPI.updateContent(values).then(() => {
+            generalAPI.updateContent({content: 'fundamentals'} ,values.fundamentals).then(() => {
                 message.success("Updated Successfully")
             }).catch(err => {
                 message.error("Some error occured")

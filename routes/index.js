@@ -7,23 +7,26 @@ const  cartRoutes = require('./cart')
 const  paymentRoutes = require('./payments')
 const  uploadRoutes = require('./upload')
 const  generalRoutes = require('./general')
-const  fundamentals = require('../fundamentals.json')
 
 //Products
 const  courseRoutes = require('./course')
 
-
+const General = require('../models/general')
 const express =require('express')
 const router = express.Router()
 
 
-router.use("/", (req, res, next) => {
+router.use("/", async (req, res, next) => {
 
+    const content = await General.findOne({name: 'fundamentals'})
+    var fundamentals = {}
+    content.data.forEach(item => {
+        fundamentals[item.name] = item.description
+    })
     req.pageData = {
-        fundamentals,
         cart: req.session.cart || [],
         message: req.session.message,
-
+        fundamentals
     }
     req.session.message = false
     next()

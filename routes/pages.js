@@ -8,7 +8,7 @@ Router.get("/about", pages.about)
 
 Router.get("/contact", pages.contact)
 
-Router.get("/courses", pages.allCourses)
+Router.get("/courses/:category", pages.allCourses)
 
 Router.get("/course/:id", pages.course)
 

@@ -11,9 +11,10 @@ function Index(props) {
 
     useEffect(() => {
 
-        generalAPI.getTestimonials().then(content => {
+        generalAPI.getContent({content: "testimonials"}).then(content => {
+			console.log(content);
             form.setFieldsValue({
-                testimonials: content
+                testimonials:content
             })
         })
 
@@ -21,7 +22,7 @@ function Index(props) {
     
     const onFinish = () => {
         form.validateFields().then(values => {
-            generalAPI.updateTestimonials(values).then(() => {
+            generalAPI.updateContent({content: 'testimonials'},values.testimonials).then(() => {
                 message.success("Updated Successfully")
             }).catch(err => {
                 message.error("Some error occured")

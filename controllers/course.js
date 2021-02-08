@@ -168,12 +168,12 @@ exports.addToCart = (req, res) => {
 
         const fields = req.body
 
+
         Course.findOne({_id: fields.id}, {name: 1, variants: 1,addons: 1}).then(course => {
-            console.log(course);
             var price = course.variants[fields.variant].discountPrice
-            var details = [course.variants[fields.variant].name]
+            var details = [course.variants[fields.variant].name, fields.streamSrc]
             course.addons.forEach(addon => {
-                if(fields[addon.name]) {
+                if(fields.streamSrc === addon.name) {
                     price += addon.price
                     details.push(addon.name)
                 }
