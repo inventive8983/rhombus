@@ -2,22 +2,23 @@ const express = require('express')
 const router = express.Router()
 
 const { addCourse, getAllCourses, getCourse, deleteCourse, changeStatus, addToCart, getCourseCover, duplicate } = require("../controllers/course");
+const {isAdmin} = require('../controllers/admin')
 
-router.post('/add', addCourse)
+router.post('/add', isAdmin, addCourse)
 
-router.get('/duplicate/:id', duplicate)
+router.get('/duplicate/:id',isAdmin, duplicate)
 
-router.get('/all', getAllCourses)
+router.get('/all', isAdmin, getAllCourses)
 
-router.get('/:id', getCourse)
+router.get('/:id', isAdmin, getCourse)
 
 router.get('/cover/:id', getCourseCover)
 
 router.post('/addtocart', addToCart)
 
-router.get('/status/:id/:status', changeStatus)
+router.get('/status/:id/:status', isAdmin, changeStatus)
 
-router.delete('/delete/:id', deleteCourse)
+router.delete('/delete/:id', isAdmin, deleteCourse)
 
 
 module.exports = router

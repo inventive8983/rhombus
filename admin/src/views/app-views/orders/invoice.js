@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { PrinterOutlined } from '@ant-design/icons';
 import { Card, Table, Button, message } from 'antd';
-import { invoiceData } from './invoiceData';
 import NumberFormat from 'react-number-format';
 import orderAPI from '../../../services/orders'
 
@@ -18,13 +17,6 @@ export class Invoice extends Component {
         }
       }
 
-	total() {
-		let total = 0;
-		invoiceData.forEach((elm) => {
-			total += elm.price;
-		})
-		return total
-    }
     
     componentDidMount(){
         orderAPI.getOrder({id: this.state.id}).then(order => {

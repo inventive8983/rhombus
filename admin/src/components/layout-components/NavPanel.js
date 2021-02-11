@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { SettingOutlined } from '@ant-design/icons';
-import { Drawer, Menu } from 'antd';
+import { Button, Drawer, Menu } from 'antd';
 import { connect } from "react-redux";
 
 export class NavPanel extends Component {
@@ -11,6 +11,12 @@ export class NavPanel extends Component {
       visible: true,
     });
   };
+
+  onLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    window.location.reload()
+  }
 
   onClose = () => {
     this.setState({
@@ -23,10 +29,10 @@ export class NavPanel extends Component {
       <>
         <Menu mode="horizontal">
           <Menu.Item onClick={this.showDrawer}>
-            <SettingOutlined className="nav-icon mr-0" />
+            <Button onClick = {() => {this.onLogout()}} className="bg-danger text-white">Log Out</Button>
           </Menu.Item>
         </Menu>
-        <Drawer
+        {/* <Drawer
           title="Theme Config"
           placement="right"
           width={350}
@@ -34,7 +40,7 @@ export class NavPanel extends Component {
           visible={this.state.visible}
         >
           NavPanel Contents here!
-        </Drawer>
+        </Drawer> */}
       </>
     );
 	}

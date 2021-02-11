@@ -10,13 +10,13 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "axios": "^0.19.2",
     "@ant-design/compatible": "0.0.1-rc.1",
     "@babel/runtime": "^7.7.4",
     "@vx/pattern": "0.0.195",
     "ajv": "^6.8.1",
     "antd": "^4.6.0",
     "apexcharts": "^3.17.0",
+    "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "d3-fetch": "^1.1.2",
     "d3-scale": "^3.2.1",

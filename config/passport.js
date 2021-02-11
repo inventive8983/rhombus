@@ -2,6 +2,7 @@ const LocalStrategy = require('passport-local').Strategy
 const mongoose = require('mongoose')
 const bcrypt = require("bcryptjs")
 const User = require('../models/user')
+const Admin = require('../models/admin')
 
 module.exports = function(passport) {
 
@@ -32,8 +33,8 @@ module.exports = function(passport) {
         })
     )
 
-     
     passport.serializeUser((user, done) => {
+
     let userGroup = "user";
   
     const key = {

@@ -27,6 +27,11 @@ const blogSchema = new mongoose.Schema({
     likes: Number,
     tags: Array,
     source: String,
+
+    published: {
+        type: Boolean,
+        default: false
+    },
     
     comments: [{
         type: String,

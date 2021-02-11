@@ -1,9 +1,6 @@
-const mongoose = require('mongoose')
 const Course = require('../models/course')
 const General = require('../models/general')
-const fs = require('fs')
-const path = require('path')
-const categories = ['CA', 'UGC-NET', 'MBA', 'Junior']
+const Blog = require('../models/blog')
 
 exports.homepage = async (req, res) => {
 
@@ -80,16 +77,33 @@ exports.gallery = async (req, res) => {
 }
 
 exports.blogs = async (req, res) => {
+
+    const blogs = await Blog.find({published: true}, {_id: 1, title: 1, category: 1, cover: 1, createdOn: 1})
+
     res.render('blogs', {
+        blogs,
         ...req.pageData
     })
 }
 
 exports.blogDetails = async (req, res) => {
+
+    const blog = await Blog.findOne({_id: req.params.id, published: true}, {_id: 1, title: 1, category: 1, cover: 1, lastUpdatedOn: 1})
+    if(!blog) return res.sendStatus(404)
     res.render('blog-details', {
+        blog,
         ...req.pageData
     })
 }
+
+exports.blogContent = async (req, res) => {
+
+    const blog = await Blog.findOne({_id: req.params.id, published: true}, {content: 1})
+    if(!blog) return res.sendStatus(404)
+    res.status(200).json({content: blog.content})
+
+}
+
 
 exports.login = async (req, res) => {
     res.render('login', {

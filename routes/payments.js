@@ -3,22 +3,29 @@ const mongoose = require('mongoose')
 const Router = express.Router()
 const {check, validationResult} = require('express-validator')
 
-const http  = require('http')
 const Order = require('../models/order')
-const checksum_lib = require('../helpers/checksum')
+const {initialize, sendOTP, validateOTP, process} = require('../helpers/paytmAPI')
 const config = require('../helpers/paytmconfig')
+const https = require('https');
+
+const totalOrders = async () => {
+    var data = await Order.find({})
+    return data.length
+}
 
 
-Router.post('/paywithpaytm', [
+
+Router.post('/initialize',[
     check("name", "Please enter a valid name").isLength({min: 3}),
     check("email", "Please enter a valid email").isEmail(),
-    check("mobile", "Please enter a valid mobile number").isMobilePhone(),
+    check("mobile", "Please enter a valid mobile number").isNumeric().isLength({max: 10}),
     check("address", "Address field is required").exists(),
     check("city", "Please enter a city").exists(),
     check("state", "Please enter a state").exists(),
     check("pincode", "Please enter a valid pincode").isNumeric().isLength(6),
 ], async (req, res) => {
 
+    var orderTotal = await totalOrders()
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -37,71 +44,62 @@ Router.post('/paywithpaytm', [
         customerPhone: req.body.mobile
     }
 
-    var totalOrders = await Order.find({})
-    var totalOrders = totalOrders.length
-
     var total = 0
     cart.forEach(item => { total += item.amount })
 
-    var d = new Date()
-    var date = d.getDate() < 10 ? '0' + d.getDate() : d.getDate()  
-    var month = d.getMonth() < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)
-
-    const newOrder = new Order({
-        _id: new mongoose.Types.ObjectId(),
-        orderId: `${totalOrders+3000}${date}${month}${d.getFullYear()}`,
-        name: req.body.name,
-        phone: req.body.mobile,
-        email: req.body.email,
-        date: Date.now(),
-        billingAddress: req.body.address,
-        city: req.body.city,
-        state: req.body.state,
-        pincode: req.body.pincode,
-        totalAmount: total || 1,
-        items: req.session.cart,
+    initialize({
+        orderId: "ORDER_" + (3000 + orderTotal) + "_" + Date.now(),
+        callbackUrl: "https://rhombuseducation.com/api/payment/callback",
+        txnAmount: total,
+        customerId: "CUST_001",
+    }, (result, orderId) => {
+        res.send({...result, orderId})
     })
 
-    newOrder.save().then(result => {
-        var params = {};
-        params['MID'] = config.PaytmConfig.mid;
-        params['WEBSITE'] = config.PaytmConfig.website;
-        params['CHANNEL_ID'] = 'WEB';
-        params['INDUSTRY_TYPE_ID'] = 'Retail';
-        params['ORDER_ID'] = result._id;
-        params['CUST_ID'] = paymentDetails.customerId;
-        params['TXN_AMOUNT'] = total;
-        params['CALLBACK_URL'] = 'https://rhombusedu.herokuapp.com/api/payment/callback';
-        params['EMAIL'] = paymentDetails.customerEmail;
-        params['MOBILE_NO'] = paymentDetails.customerPhone;
+})
 
-        checksum_lib.genchecksum(params, config.PaytmConfig.key, function (err, checksum) {
+Router.post('/payWithWallet', async (req, res) => {
 
-            if(err) throw err
+    sendOTP({
+        mobile: req.body.mobile,
+        orderId: req.body.orderId,
+        txnToken: req.headers.txn_token
+    }, (result, orderId) => {
+        res.send({...result, orderId})
+    })
 
-            var txn_url = "https://securegw-stage.paytm.in/theia/processTransaction"; // for staging
-            // var txn_url = "https://securegw.paytm.in/theia/processTransaction"; // for production
+})
 
-            var form_fields = "";
-            for (var x in params) {
-                form_fields += "<input type='hidden' name='" + x + "' value='" + params[x] + "' >";
-            }
-            form_fields += "<input type='hidden' name='CHECKSUMHASH' value='" + checksum + "' >";
-            console.log(req.session.cart);
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.write('<html><head><title>Merchant Checkout Page</title></head><body><center><h1>Please do not refresh this page...</h1></center><form method="post" action="' + txn_url + '" name="f1">' + form_fields + '</form><script type="text/javascript">document.f1.submit();</script></body></html>');
-            res.end();
-        });
-    })   
-    .catch(err =>{
-        console.log(err)
-    }) 
+Router.post('/validateotp', (req, res) => {
 
+    validateOTP({
+        otp: req.body.otp,
+        orderId: req.body.orderId,
+        txnToken: req.headers.txn_token
+    }, (result, orderId) => {
+        res.send({...result, orderId})
+    })
     
+})
+
+
+Router.post('/process', (req, res) => {
+
+
+    process({
+        orderId: req.body.orderId,
+        txnToken: req.header.txn_token,
+    }, req.body.paymentOptions, (result) => {
+        res.send(result)
+    })
+
+
 })
 
 Router.post("/callback", async (req, res) => {
     // Route for verifiying payment
+
+    console.log("Callback Called");
   
     var post_data = req.body
     // received params in callback

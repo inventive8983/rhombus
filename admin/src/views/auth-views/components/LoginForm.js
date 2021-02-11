@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
-import { Button, Form, Input, Divider, Alert } from "antd";
+import { Button, Form, Input, Divider, message } from "antd";
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { GoogleSVG, FacebookSVG } from 'assets/svg/icon';
@@ -14,6 +14,7 @@ import {
 import JwtAuthService from 'services/JwtAuthService'
 import { useHistory } from "react-router-dom";
 import { motion } from "framer-motion"
+import authAPI from '../../../services/auth'
 
 export const LoginForm = (props) => {
 	let history = useHistory();
@@ -26,8 +27,6 @@ export const LoginForm = (props) => {
 		showLoading,
 		extra,
 		loading,
-		showMessage,
-		message,
 		authenticated,
 		showAuthMessage,
 		token,
@@ -36,12 +35,10 @@ export const LoginForm = (props) => {
 	} = props
 
 	const onLogin = values => {
-		showLoading()
-		const fakeToken = 'fakeToken'
-		JwtAuthService.login(values).then(resp => {
-			authenticated(fakeToken)
-		}).then(e => {
-			showAuthMessage(e)
+		authAPI.login({email: values.email, password: values.password}).then(result => {
+			window.location.reload()
+		}).catch(err => {
+			message.error(err.response.data)			
 		})
 	};
 
@@ -54,14 +51,7 @@ export const LoginForm = (props) => {
 	}
 
 	useEffect(() => {
-		if (token !== null && allowRedirect) {
-			history.push(redirect)
-		}
-		if(showMessage) {
-			setTimeout(() => {
-			hideAuthMessage();
-		}, 3000);
-		}
+		
 	});
 	
 	const renderOtherSignIn = (
@@ -91,14 +81,14 @@ export const LoginForm = (props) => {
 
 	return (
 		<>
-			<motion.div 
+			{/* <motion.div 
 				initial={{ opacity: 0, marginBottom: 0 }} 
 				animate={{ 
 					opacity: showMessage ? 1 : 0,
 					marginBottom: showMessage ? 20 : 0 
 				}}> 
 				<Alert type="error" showIcon message={message}></Alert>
-			</motion.div>
+			</motion.div> */}
 			<Form 
 				layout="vertical" 
 				name="login-form"
@@ -149,9 +139,9 @@ export const LoginForm = (props) => {
 						Sign In
 					</Button>
 				</Form.Item>
-				{
+				{/* {
 					otherSignIn ? renderOtherSignIn : null
-				}
+				} */}
 				{ extra }
 			</Form>
 		</>

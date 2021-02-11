@@ -80,7 +80,6 @@ const ProductList = () => {
 	
 	const deleteRow = row => {
 		courseAPI.deleteCourse({id: row._id}).then(res => {
-			console.log(res)
 			var coursesData = list
 			coursesData = utils.deleteArrayRow(coursesData, '_id', row._id)
 			setList(coursesData)
@@ -130,7 +129,6 @@ const ProductList = () => {
 			dataIndex: 'variants',
 			render: (_, elm) => (
 				<div>
-					{console.log(elm)}
 					<NumberFormat
 						displayType={'text'} 
 						value={(Math.round(elm.variants[0].discountPrice * 100) / 100).toFixed(2)} 

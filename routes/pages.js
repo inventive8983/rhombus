@@ -16,7 +16,9 @@ Router.get("/gallery", pages.gallery)
 
 Router.get("/blogs", pages.blogs)
 
-Router.get("/blog", pages.blogDetails)
+Router.get("/blog/:id", pages.blogDetails)
+
+Router.get("/blog/content/:id", pages.blogContent)
 
 Router.get("/login", pages.login)
 

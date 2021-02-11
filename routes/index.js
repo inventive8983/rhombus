@@ -5,8 +5,10 @@ const  contactRoutes = require('./contact')
 const  pagesRoutes = require('./pages')
 const  cartRoutes = require('./cart')
 const  paymentRoutes = require('./payments')
+const  blogRoutes = require('./blog')
 const  uploadRoutes = require('./upload')
 const  generalRoutes = require('./general')
+const  adminRoutes = require('./admin')
 
 //Products
 const  courseRoutes = require('./course')
@@ -39,8 +41,10 @@ router.use("/api/contact", contactRoutes)
 router.use("/api/report", reportRoutes)
 router.use("/api/cart", cartRoutes)
 router.use("/api/payment", paymentRoutes)
+router.use("/api/blogs", blogRoutes)
 router.use("/api/upload", uploadRoutes)
 router.use("/api/general", generalRoutes)
+router.use("/api/admin", adminRoutes)
 
 //Products
 router.use("/api/course", courseRoutes)
