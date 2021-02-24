@@ -17,22 +17,22 @@
       <div class="row">
         <div class="col-lg-5">
           <div class="about-image img-big pt-lg-13" data-aos="fade-right" data-aos-duration="800" data-aos-once="true">
-            <img class="w-100 rounded-10 object-fit-cover" style="height: 300px;" src="/static/image/l5/jpg/l5-about-big.jpg" alt="">
+            <img class="w-100 rounded-10 object-fit-cover" style="height: 300px;" src="<% if(fundamentals.aboutimg1){ %><%= fundamentals.aboutimg1 %><% } %>" alt="">
           </div>
         </div>
         <div class="col-lg-7">
           <div class="row justify-content-between align-items-center pl-lg-13">
             <div class="col-md-6">
               <div class="about-image img-mid mt-9 mt-lg-0" data-aos="fade-up" data-aos-duration="900" data-aos-once="true">
-                <img class="w-100 rounded-10" src="/static/image/l5/jpg/l5-about-mid.jpg" alt="">
+                <img class="w-100 rounded-10 object-fit-cover" height="200px" src="<% if(fundamentals.aboutimg2){ %><%= fundamentals.aboutimg2 %><% } %>" alt="">
                 <div class="abs-pattern gr-abs-tr-custom" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300" data-aos-once="true">
-                  <img src="/static/image/l5/png/l5-about-pattern.png" alt="">
+                  <img src="/static/image/l5/png/l5-about-pattern.png"  alt="">
                 </div>
               </div>
             </div>
             <div class="col-md-5">
               <div class="about-image img-sm mt-9 mt-lg-0" data-aos="fade-left" data-aos-duration="1000" data-aos-once="true">
-                <img class="rounded-10" src="/static/image/l5/jpg/l5-about-sm.jpg" alt="">
+                <img class="w-100 rounded-10 object-fit-cover" src="<% if(fundamentals.aboutimg3){ %><%= fundamentals.aboutimg3 %><% } %>" height="150px" alt="">
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@
       <div class="row align-items-center justify-content-center">
         <div class="col-sm-10 col-lg-6">
           <div class="content-img pr-9">
-            <img src="http://news.stanford.edu/news/2011/august/images/cs_online.jpg" alt="" class="gr-image-box-shadow rounded-8 mw-100">
+            <img src="<% if(fundamentals.whyrhombusimg){ %><%= fundamentals.whyrhombusimg %><% } %>" alt="" class="gr-image-box-shadow rounded-8 mw-100">
           </div>
         </div>
         <div class="col-lg-6 col-md-10 pl-xl-15 mt-11 mt-lg-0" data-aos="fade-left" data-aos-duration="700" data-aos-once="true">

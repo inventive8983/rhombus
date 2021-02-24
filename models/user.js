@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true
     },
-    phone:{
+    mobile:{
       type:Number,
       required:true
     },
@@ -24,9 +24,22 @@ const userSchema = new mongoose.Schema(
     role: {
       type: Number,
       default: 0
-    }
+    },
+    addresses: [
+      {
+        street: String,
+        city: String,
+        state: String,
+        country: String,
+        pincode: String
+      }
+    ],
+    defaultPaymentMethod: String,
+    paymentMethods: Array,
+    myOrders: Array
+
   },
-  //for stroing the update and create time
+  //for storing the update and create time
   { timestamps: true }
 );
 

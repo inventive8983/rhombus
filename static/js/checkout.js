@@ -1,47 +1,55 @@
+var paymentOption = "PAYTM"
+
 $('#proceedBtn').click(() => {
+
+    document.getElementById('proceedBtn').innerHTML = '<img src="/static/image/animations/loading-circle.gif" style="filter: invert(1);" height="24px">'
+
     const data = $("#checkoutform").serializeArray()
     var formData = {}
     data.forEach(element => {
         formData[element.name] = element.value
     });
     $.ajax({
-        url :'/api/payment/initialize',
+        url :'/payment/initialize',
         type: "POST", 
-        data: formData, 
+        data: {paymentOption, ...formData}, 
         success: (response) => {
             console.log(response);
-            if(response.body.resultInfo.resultStatus === "S"){
-                
-                var paymentMode = "WALLET"
+            document.getElementById('proceedBtn').innerHTML = 'Redirecting...'
+            window.location.replace(`/payment?orderId=${response.order._id}&mode=${paymentOption}`);
 
-                switch(paymentMode){
-                    case "WALLET":  payWithWallet({
-                        mobile: formData.mobile,
-                        txnToken: response.body.txnToken,
-                        orderId: response.orderId
-                    })
-                }
-
-            }
-            else{
-                console.log(response.body.resultInfo.resultMsg);
-            }
         },
         error: function(error){
-            console.log(error.responseText);
+            toast.error(error.responseText);
+            document.getElementById('proceedBtn').innerHTML = 'Proceed to payment'
         }
     })
 })
 
+$('#paytm').click(() => {
+    paymentOption = "PAYTM"
+})
+$('#otherOptions').click(() => {
+    paymentOption = "OTHER"
+})
+
 const processPayment = ({txnToken, orderId}, paymentOptions) => {
+    console.log(txnToken);
     $.ajax({
-        url :'/api/payment/process',
+        url :`https://securegw-stage.paytm.in/theia/api/v1/processTransaction?mid=pwasbC00537792186239&orderId=${orderId}`,
         type: "POST", 
         data: {
-            orderId,
-            paymentOptions
+            "head": {
+                "txnToken": txnToken
+            },
+            "body": {
+                "requestType": "NATIVE",
+                "mid": "pwasbC00537792186239",
+                "orderId": orderId,
+                "paymentMode": "BALANCE",
+                "authMode": "OTP"
+            }
         },
-        headers: {'txn_token': txnToken},
         success: (response) => {
             console.log(response);
             // if(response.body.resultInfo.resultStatus === "SUCCESS"){

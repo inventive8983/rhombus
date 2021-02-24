@@ -25,6 +25,7 @@
             <form id="checkoutform">
               <div class="row">
                 <!-- .name starts -->
+                <% if(!authenticated){ %>
                 <div class="col-12">
                   <div class="form-group mb-7">
                     <label for="name" class="gr-text-11 font-weight-bold text-blackish-blue">First & Last Name</label>
@@ -99,26 +100,44 @@
                   </div>
                 </div>
                 <!-- ./Zip/Postal ends -->
-                
+                <% } else { %>
+                  <div class="col-12 mb-12" style="line-height: 200%;">
+                      <b>Name:</b> <%= user.name %><br />
+                      <b>Email:</b> <%= user.email %><br />
+                      <b>Mobile:</b> <%= user.mobile %><br />
+                      <b>Address:</b> <%= user.addresses[0].street %><br />
+                      <b>City:</b> <%= user.addresses[0].city %><br />
+                      <b>State:</b> <%= user.addresses[0].state %><br />
+                      <b>Country:</b> <%= user.addresses[0].country || "India" %><br />
+                      <b>Pin Code:</b> <%= user.addresses[0].pincode %><br />
+                      If you want to edit this details, go to your Dashboard's <a href="dashboard/edit">Edit Profile</a> Page
+                  </div>
+                <% } %>
               
               </div>
-            </form>
               <div class="row">
               <!-- .credit-card starts -->
               <div class="col-12 mb-6">
                 <h3 class="gr-text-7 font-weight-bold mb-8 text-blackish-blue">Payment Method</h3>
                 <div class="form-group mb-7 gr-radio-input d-flex align-items-center w-100 border-gray-3 rounded-5 pt-5 pb-5 px-6">
-                  <input type="radio" name="payment" id="credit-card" class="invisible position-absolute pointer-none">
-                  <label for="credit-card" class="d-flex align-items-center mb-0 w-100">
+                  <input type="radio" name="payment" id="otherOptions" class="invisible position-absolute pointer-none">
+                  <label for="otherOptions" class="d-flex align-items-center mb-0 w-100">
                     <span class="round-indicator mr-3"></span>
-                    <span class="line-height-reset font-weight-bold gr-text-11 text-blackish-blue">Credit Cards </span>
-                    <img src="/static/image/inner/credit-cards.png" alt="" class="ml-auto d-none d-md-block">
+                    <span class="line-height-reset font-weight-bold gr-text-11 text-blackish-blue">Credit/Debit Cards Or Net Banking </span>
+                  </label>
+                </div>
+                <div class="form-group mb-8 gr-radio-input d-flex align-items-center w-100 border-gray-3 rounded-5 pt-5 pb-5 px-6">
+                  <input type="radio" name="payment" id="paytm" class="invisible position-absolute pointer-none">
+                  <label for="paytm" class="d-flex align-items-center mb-0 w-100">
+                    <span class="round-indicator mr-3"></span>
+                    <span class="line-height-reset font-weight-bold gr-text-11  text-blackish-blue">PayTM Wallet</span>
+                    <img src="/static/image/inner/paypal-brand.png" alt="" class="ml-auto">
                   </label>
                 </div>
               </div>
               <!-- /.credit-card ends -->
               <!-- .card-number starts -->
-              <div class="col-12 mb-7">
+              <!-- <div class="col-12 mb-7">
                 <div class="form-group mb-0">
                   <label for="card" class="gr-text-11 font-weight-bold text-blackish-blue">Card Number</label>
                   <div class="position-relative">
@@ -128,18 +147,18 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <!-- ./card-number ends -->
                   <!-- .expire-date starts -->
-                  <div class="col-md-6 mb-7">
+                  <!-- <div class="col-md-6 mb-7">
                     <div class="form-group mb-0">
                       <label for="date" class="gr-text-11 font-weight-bold text-blackish-blue">Expire Date </label>
                       <input class="form-control gr-text-11 border" type="text" id="date" placeholder="Month/Year">
                     </div>
-                  </div>
+                  </div> -->
                   <!-- ./expire-date ends -->
                   <!-- .security-code starts -->
-                  <div class="col-md-6 pb-9">
+                  <!-- <div class="col-md-6 pb-9">
                     <div class="form-group mb-0">
                       <label for="code" class="gr-text-11 font-weight-bold text-blackish-blue">Security Code</label>
                       <div class="position-relative">
@@ -147,40 +166,50 @@
                         <i class="far fa-question-circle gr-abs-cr mr-6 "></i>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <!-- ./security-code ends -->
               <!-- .paypal-card starts -->
               <div class="col-12">
-                <div class="form-group mb-8 gr-radio-input d-flex align-items-center w-100 border-gray-3 rounded-5 pt-5 pb-5 px-6">
-                  <input type="radio" name="payment" id="paypal" class="invisible position-absolute pointer-none">
-                  <label for="paypal" class="d-flex align-items-center mb-0 w-100">
-                    <span class="round-indicator mr-3"></span>
-                    <span class="line-height-reset font-weight-bold gr-text-11  text-blackish-blue">PayTM Wallet</span>
-                    <img src="/static/image/inner/paypal-brand.png" alt="" class="ml-auto">
-                  </label>
-                </div>
+                
               </div>
               <!-- ./paypal-card starts -->
               
-
-              <!-- .send-btn starts -->
-              <div class="col-12">
-                <div class="button-block mt-3 mb-8 ">
-                  <p class="gr-text-11 mb-7 text-blackish-blue">By clicking the button you agree the <a href="terms.html">Terms and Conditions</a></p>
-                  <button id="proceedBtn" class="form-btn btn btn-primary w-100">Proceed to payment</button>
+              <% if(!authenticated){ %>
+              <div class="col-12 mb-6">
+                <h3 class="gr-text-7 font-weight-bold mb-8 text-blackish-blue">Account Details</h3>
+                <div class="form-group mb-7">
+                  <label for="email" class="gr-text-11 font-weight-bold text-blackish-blue">Password</label>
+                  <input class="form-control gr-text-11 border" type="password" name="password" id="password" placeholder="Enter new password">
+                </div>
+                <div class="form-group mb-7">
+                  <label for="email" class="gr-text-11 font-weight-bold text-blackish-blue">Confirm Password</label>
+                  <input class="form-control gr-text-11 border" type="password" name="cnfrmPassword" id="password2" placeholder="Confirm Password">
                 </div>
               </div>
-              <div class="col-12">
-                <p class="gr-text-11 my-3 py-3 px-4 rounded-8 text-white bg-danger" id="error-line" >Error Line</p>
-              </div>
+              <% } %>
+            </form>
               
-              <!-- ./send-btn ends -->
           </div>
+          <!-- .send-btn starts -->
+          <div class="col-12">
+            <div class="button-block mt-3 mb-8 ">
+              <p class="gr-text-11 mb-7 text-blackish-blue">By clicking the button you agree the <a href="/terms">Terms and Conditions</a></p>
+              <button id="proceedBtn" class="form-btn btn btn-primary w-100">Proceed to payment</button>
+            </div>
+          </div>
+          <!-- <div class="col-12">
+            <p class="gr-text-11 my-3 py-3 px-4 rounded-8 text-white bg-danger" id="error-line" >Error Line</p>
+          </div> -->
+        
+          <!-- ./send-btn ends -->
         </div>
         </div>
         <div class="col-sm-7 col-md-7 col-lg-5">
           <div class="bg-white px-7 pt-8 pb-6 rounded-10 mt-9 mt-md-0">
-            <h3 class="gr-text-12 font-weight-bold text-blackish-blue text-uppercase pb-7">Order Details</h3>
+            <div class="d-flex justify-content-between">
+              <h3 class="gr-text-12 font-weight-bold text-blackish-blue text-uppercase pb-7">Order Details</h3>
+              <a href="#" onclick="clearCart()">Clear Cart</a>
+            </div>
             <ul class="list-unstyled">
               <li class="d-flex justify-content-between mb-5">
                 <span class="d-block gr-text-9 text-blackish-blue">Total Items</span>

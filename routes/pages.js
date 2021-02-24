@@ -1,6 +1,7 @@
 const express = require('express')
 const Router = express.Router()
 const pages = require('../controllers/pages')
+const { isSignedIn } = require('../controllers/user')
 
 Router.get("/", pages.homepage)
 
@@ -40,5 +41,15 @@ Router.get('/checkout', pages.checkout)
 Router.get('/terms', (req, res) => {res.render('terms', {...req.pageData})})
 
 Router.get('/privacypolicy', (req, res) => {res.render('privacy', {...req.pageData})})
+
+
+//Dashboard
+Router.get('/dashboard',isSignedIn, pages.dashboard)
+
+Router.get('/dashboard/basicinfo', isSignedIn,pages.basicInfo)
+
+Router.get('/dashboard/paymentinfo', isSignedIn,pages.paymentInfo)
+
+Router.get('/dashboard/history', isSignedIn,pages.paymentHistory)
 
 module.exports = Router 

@@ -2,145 +2,139 @@ const express = require('express')
 const mongoose = require('mongoose')
 const Router = express.Router()
 const {check, validationResult} = require('express-validator')
-
 const Order = require('../models/order')
-const {initialize, sendOTP, validateOTP, process} = require('../helpers/paytmAPI')
-const config = require('../helpers/paytmconfig')
-const https = require('https');
+const Razorpay = require('../controllers/razorpay');
+const createUser = require('../helpers/createUser');
+const User = require('../models/user')
 
-const totalOrders = async () => {
+
+const totalOrders = async (req, res, next) => {
     var data = await Order.find({})
-    return data.length
+    req.totalOrders = data.length
+    next()
 }
 
-
-
-Router.post('/initialize',[
+const validate = [
     check("name", "Please enter a valid name").isLength({min: 3}),
     check("email", "Please enter a valid email").isEmail(),
     check("mobile", "Please enter a valid mobile number").isNumeric().isLength({max: 10}),
     check("address", "Address field is required").exists(),
     check("city", "Please enter a city").exists(),
+    check("password", "Password is required").exists(),
+    check("cnfrmPassword", "Please confirm your password").exists(),
     check("state", "Please enter a state").exists(),
     check("pincode", "Please enter a valid pincode").isNumeric().isLength(6),
-], async (req, res) => {
+]
 
-    var orderTotal = await totalOrders()
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).send(errors.array()[0].msg);
-    }
-
+const totalAmount = (req, res, next) => {
     var cart = req.session.cart
     // Route for making payment
     if(cart.length === 0) 
     return res.status(400).send("Please add something to cart")
 
-    var paymentDetails = {
-        customerId: req.body.mobile,
-        customerName: req.body.name,
-        customerEmail: req.body.email,
-        customerPhone: req.body.mobile
-    }
-
     var total = 0
     cart.forEach(item => { total += item.amount })
 
-    initialize({
-        orderId: "ORDER_" + (3000 + orderTotal) + "_" + Date.now(),
-        callbackUrl: "https://rhombuseducation.com/api/payment/callback",
-        txnAmount: total,
-        customerId: "CUST_001",
-    }, (result, orderId) => {
-        res.send({...result, orderId})
-    })
+    req.totalAmount = total
+    next()
 
-})
+}
 
-Router.post('/payWithWallet', async (req, res) => {
-
-    sendOTP({
-        mobile: req.body.mobile,
-        orderId: req.body.orderId,
-        txnToken: req.headers.txn_token
-    }, (result, orderId) => {
-        res.send({...result, orderId})
-    })
-
-})
-
-Router.post('/validateotp', (req, res) => {
-
-    validateOTP({
-        otp: req.body.otp,
-        orderId: req.body.orderId,
-        txnToken: req.headers.txn_token
-    }, (result, orderId) => {
-        res.send({...result, orderId})
-    })
+const getOrder = (req, res, next) => {
     
-})
+    Order.findOne({_id: req.query.orderId}).then(order => {
 
+        req.oderId = order.orderId
+        req.totalAmount = order.totalAmount
+        req.userId = order.userId
+        req.userEmail = order.email
+        req.userMobile = order.phone
+        next()
 
-Router.post('/process', (req, res) => {
-
-
-    process({
-        orderId: req.body.orderId,
-        txnToken: req.header.txn_token,
-    }, req.body.paymentOptions, (result) => {
-        res.send(result)
+    }).catch(err => {
+        res.sendStatus(400)
     })
 
+}
 
-})
-
-Router.post("/callback", async (req, res) => {
-    // Route for verifiying payment
-
-    console.log("Callback Called");
-  
-    var post_data = req.body
-    // received params in callback
-
-    // verify the checksum
-    var checksumhash = post_data.CHECKSUMHASH;
-    // delete post_data.CHECKSUMHASH;
-    var result = checksum_lib.verifychecksum(post_data, config.PaytmConfig.key, checksumhash);
-    console.log("Checksum Result => ", result, "\n");
-
-    if(result){
-        Order.updateOne({_id: post_data["ORDERID"]}, {$set:{
-            status: post_data["STATUS"],
-            meta: post_data
-        }}).then(async txn => {
-            const order = await Order.findOne({_id: post_data["ORDERID"]})
-            res.render('status-page', {
-                icon: post_data["STATUS"] === "TXN_SUCCESS" ? "success" : "error",
-                title: post_data["STATUS"] === "TXN_SUCCESS" ? "Transaction Success" : "Transaction Failed",
-                info: post_data["STATUS"] === "TXN_SUCCESS" ? "Your order has been successfully completed. Please check your mail id to get the details of the order." : "We are sorry! Your transaction has been declined by the bank.",
-                ...req.pageData
-            })
-        })
+Router.get('/', getOrder, (req, res) => {
+    
+    if(req.query.mode === 'PAYTM'){
+        res.send('This is paytm gateway')
     }
     else{
-        Order.updateOne({_id: post_data["ORDERID"]}, {status: "Failed"}).then(result => {
-            res.render('status-page', {
-                icon: "error",
-                title: "Transaction Failed",
-                info: "There was some unknown error. Please contact our customer support.",
-                ...req.pageData
-            })
-        })
+        Razorpay.createOrder(req, res)
     }
 
+})
 
+Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) => {
     
-  });
+    if(req.isAuthenticated()){
+        var currentUser = req.session.passport.user
+    }
+    else{
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).send(errors.array()[0].msg);
+        }
 
-  Router.post("/webhook", (req, res) => {
-        res.send({data: req.body, status: "Ok"})
-  })
+        const passwordMatch = req.body.password === req.body.cnfrmPassword
+    if(!passwordMatch) return res.status(400).send("Password does not match")
+        //Creating User
+        var newUser = {
+            name:req.body.name,
+            mobile: req.body.mobile,
+            email: req.body.email,
+            addresses: [{
+                street: req.body.address,
+                city: req.body.city,
+                state: req.body.state,
+                country: req.body.country,
+                pincode: req.body.pincode
+            }],
+            password: req.body.password,
+            defaultPaymentMethod: req.body.paymentOption
+        }
+
+        var currentUser = await createUser(newUser)
+        if(!currentUser) return res.status(400).send("You are an existing user. Please login to continue.")
+    }
+
+    Order({
+        _id: new mongoose.Types.ObjectId(),
+        name: currentUser.name,
+        phone: currentUser.mobile,
+        email: currentUser.email,
+        userId: currentUser._id,
+        date: Date.now(),
+        billingAddress: currentUser.addresses[0].street,
+        city: currentUser.addresses[0].city,
+        state: currentUser.addresses[0].state,
+        country: currentUser.addresses[0].country,
+        pincode: currentUser.addresses[0].pincode,
+        totalAmount: req.totalAmount,
+        orderId: "RHOMBUS_" + (req.totalOrders + 3000) + Date.now(),
+        items: req.session.cart,
+    }).save().then(result => {
+
+        //Send Order Id
+        res.status(200).send({
+            message: "Redirecting...",
+            paymentOption: currentUser.defaultPaymentMethod,
+            order: result
+        })
+
+    }).catch(err => {
+        res.status(400).send("Some error occured. Please contact support.")
+    })
+
+})
+
+
+//Webhhooks & Callback
+Router.post('/razorpay', Razorpay.webhook)
+
+
 
 module.exports = Router

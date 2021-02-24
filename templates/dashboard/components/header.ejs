@@ -1,0 +1,63 @@
+ <!-- Header -->
+
+ <div id="header"
+ data-fixed
+ class="mdk-header js-mdk-header mb-0">
+<div class="mdk-header__content">
+
+    <!-- Navbar -->
+    <nav id="default-navbar"
+         class="navbar navbar-expand navbar-light bg-light m-0">
+        <div class="container-fluid">
+            <!-- Toggle sidebar -->
+            <button class="navbar-toggler d-block"
+                    data-toggle="sidebar"
+                    type="button">
+                <span class="material-icons">menu</span>
+            </button>
+
+            <!-- Brand -->
+            <a href="/dashboard"
+               class="navbar-brand">
+                <img src="/static/image/logo-main-black.png"
+                     class="mr-2"
+                     height="64px"
+                     alt="LearnPlus" />
+                     
+            </a>
+
+
+            <!-- Menu -->
+            <ul class="nav navbar-nav flex-nowrap">
+
+                <!-- User dropdown -->
+                <li class="nav-item dropdown ml-1 ml-md-3">
+                    <a class="nav-link dropdown-toggle"
+                       data-toggle="dropdown"
+                       href="#"
+                       role="button">
+                       <i class="material-icons">settings</i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item"
+                           href="/account/edit">
+                            <i class="material-icons">edit</i> Edit Account
+                        </a>
+                        <a class="dropdown-item"
+                           href="/api/user/logout">
+                            <i class="material-icons">lock</i> Logout
+                        </a>
+                    </div>
+                </li>
+                <!-- // END User dropdown -->
+
+            </ul>
+            <!-- // END Menu -->
+        </div>
+    </nav>
+    <!-- // END Navbar -->
+
+</div>
+</div>
+
+<!-- // END Header -->

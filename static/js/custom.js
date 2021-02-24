@@ -1,4 +1,5 @@
 'use strict'
+
 $(document).ready(function() {
     $('select').niceSelect();
 
@@ -281,6 +282,58 @@ if ($.fn.counterUp) {
     });
 }
 
+$('#viewCart').on('click', function(e){
+
+    $.ajax({
+        url: '/api/payment/orders',
+        type: "POST",
+        success: (response) => {
+            $('#cartModal').modal('show')
+            window.paymentDetails = response
+        },
+        error: (error) => {
+            console.log(error);
+        }
+    })
+
+})
+
+const clearToast = (id) => {
+    setTimeout(() => {
+        document.getElementById(id).innerHTML = ''
+    }, 10000)
+}
+
+const toast = {
+    success: (msg) => {
+        var toastBar = document.getElementById('toast-bar')
+        var id = 'toast-' + Date.now()
+        toastBar.innerHTML += 
+        `<div id='${id}'>
+            <div data-aos="fade-down" data-aos-once="true" class="toast show p-4 rounded-10 text-white bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body p-5">
+                ${msg}
+                </div>
+            </div>
+        </div>`
+       clearToast(id)
+    },
+    error: (msg) => {
+        var toastBar = document.getElementById('toast-bar')
+        var id = 'toast-' + Date.now()
+        toastBar.innerHTML += 
+        `<div id='${id}'>
+            <div data-aos="fade-down" data-aos-once="true" class="toast show p-4 rounded-10 text-white bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body p-5">
+                ${msg}
+                </div>
+            </div>
+        </div>`
+        clearToast(id)
+    },
+    
+}
+
 
 function clearCart(){
     fetch('/api/cart/clear').then(res => {
@@ -296,3 +349,4 @@ function clearCart(){
         alert("Some error occured.")
     })
 }
+

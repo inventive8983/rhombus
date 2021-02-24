@@ -1,0 +1,137 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<span id="payment-details">Loading...</span>
+<button id="rzp-button1">Submit</button>   
+
+<form name="paymentForm" method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+    <input type="hidden" name="key_id" value="rzp_test_mBfTcQewtdvFRL">
+    <input type="hidden" name="order_id" value="order_GdleXDJZxXI6uv">
+    <input type="hidden" name="name" value="Peppershades">
+    <input type="hidden" name="description" value="Redesign your business">
+    <input type="hidden" name="image" value="https://lh3.googleusercontent.com/6v5CTb_Zh23nS6r8cmggYddWyxLvFlsh68MQRVrqPa5gT9Lq3GmbUpf-WgzkfG1lb6ICYjrE0JYpwFW_OKtuG2YCh3G1DhRkzLEIBRt3sxGnoX-mdmaqzW_fOJ7F40mLAD0JXzqO5t9t5Q4rcKuSYVQI2jbC6BmgtF2NvA4sXWwA2jpF8C2U4Mr3-_U_pNTUH24rCgWhCkFiKreCKxDvHLZTJT6SfM3zqRPfTOjJBxalvl54OQdAbTembwPKiuBi1zRclc9X4wEVzTH5QONk0BCvgLpsnpwRXx_8fpYTvvmDxS3qQSIpIOTGfKev4jR5_Zy6o2YbkzKU8ga0mYAKiux79ikCaRW-jk0F3wQmg1juJEXG-LliLWmiGEEVJdxWQ0CfGFVjqUX7m6AHFCGlr4oCXX3VsicY29uPVulaXZj8eeGQDW9eW00Q3uZdeE9Mb1p6K5u4hhHS_pFGR8q_MQIIsM30u8pti6l4onoBBkmMpuCDXI8HH_gI5TmpzTzJo_wJjAX0pne86KpK11DWwKEffRtxp8soWvsm3Qit5aP8t6ig79cU2_-c7R2GuxqPQhYTmoDOc-Q5xH2jwSITKB570f0wwHDDioySlm5149Wxc1oXbdnBG_iqENZgxVm4kRQtwvKr8n7PB9Nt3v-swZp7lY9SYdfaVl-57He_r6LQcWZYwUhsmYwsSQhz=w205-h220-no?authuser=3">
+    <!-- <input type="hidden" name="prefill[name]" v-model="$user.name">
+    <input type="hidden" name="prefill[contact]" v-model="$user.contact">
+    <input type="hidden" name="prefill[email]" v-model="$user.email"> -->
+    <input type="hidden" name="callback_url" value="https://www.google.com">
+    <input type="hidden" name="cancel_url" value="https://www.yahoo.com">
+    <button>Submit</button>
+  </form> 
+<script src="/static/js/vendor.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    $.ajax({
+        url: '/api/payment/orders',
+        type: "POST",
+        success: (response) => {
+            $('#cartModal').modal('show')
+            window.paymentDetails = response
+            document.getElementById('payment-details').innerHTML = JSON.stringify(response)
+        },
+        error: (error) => {
+            console.log(error);
+        }
+    })
+
+
+    var bodyData = {
+        "amount": 1000,
+        "currency": "INR",
+        "accept_partial": true,
+        "first_min_partial_amount": 100,
+        "reference_id": "#421",
+        "description": "Payment for policy no #23456",
+        "customer": {
+            "name": "Gaurav Kumar",
+            "contact": "+919999999999",
+            "email": "gaurav.kumar@example.com"
+        },
+        "notify": {
+            "sms": true,
+            "email": true
+        },
+        "reminder_enable": true,
+        "options": {
+            "checkout": {
+            "partial_payment": {
+                "min_amount_label": "Minimum Money to be paid",
+                "partial_amount_label": "Pay in parts",
+                "partial_amount_description": "Pay at least ₹100",
+                "full_amount_label": "Pay the entire amount"
+            }
+            }
+        }
+        }
+
+    document.getElementById('rzp-button1').onclick = function(e){
+
+        var options = {
+            "key": "rzp_test_mBfTcQewtdvFRL", // Enter the Key ID generated from the Dashboard
+            "amount": window.paymentDetails.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "Rhombus Education",
+            "description": "Test Transaction",
+            "image": "https://rhombuseducation.com/static/image/logo-main-black.png",
+            "order_id": window.paymentDetails.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+                alert(response.razorpay_payment_id);
+                alert(response.razorpay_order_id);
+                alert(response.razorpay_signature)
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            },
+            "checkout": {
+                "prefill": {
+                    "method": "card",
+                    "card[name]": "Gaurav Kumar",
+                    "card[number]": "4111111111111111",
+                    "card[expiry]": "12/21",
+                    "card[cvv]": "123"
+                }
+            }
+            
+        };
+
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response){
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+        });
+        rzp1.open();
+        $('#cartModal').modal('hide')
+
+        $.ajax({
+            url: 'https://api.razorpay.com/v1/payment_links/',
+            type: "POST",
+            data: bodyData,
+            success: (response) => {
+                $('#cartModal').modal('show')
+                window.paymentDetails = response
+                document.getElementById('payment-details').innerHTML = JSON.stringify(response)
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        })  
+
+        e.preventDefault();
+    }
+
+
+</script>
+</body>
+</html>

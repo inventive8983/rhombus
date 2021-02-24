@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="ltr">
+
+    <%- include('components/head') %>
+
+    <body class=" layout-fluid">
+
+ 
+        <%- include('components/preloader') %>
+        <!-- Header Layout -->
+        <div class="mdk-header-layout js-mdk-header-layout">
+
+            <%- include('components/header') %>
+
+            <!-- Header Layout Content -->
+            <div class="mdk-header-layout__content">
+
+                <div data-push
+                     data-responsive-width="992px"
+                     class="mdk-drawer-layout js-mdk-drawer-layout">
+                    <div class="mdk-drawer-layout__content page ">
+
+                        <div class="container-fluid page__container">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="student-dashboard.html">Account</a></li>
+                                <li class="breadcrumb-item active">Basic Information</li>
+                            </ol>
+                            <div class="media mb-headings align-items-center">
+                                <div class="media-body">
+                                    <h1 class="h2">Billing Details</h1>
+                                </div>
+                            </div>
+                            
+                            <div class="" id="updateLine">
+                                
+                            </div>
+
+                            <!-- Write code here -->
+
+                            <div class="list-group list-group-fit rounded">
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-firstname">
+                                        <div class="form-row">
+                                            <label id="label-name" for="name" class="col-md-3 col-form-label form-label">Name</label>
+                                            <div class="col-md-9">
+                                                <input id="name" type="text" placeholder="Your name" value="<%= user.name %>" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-lastname">
+                                        <div class="form-row">
+                                            <label id="label-mobile" for="mobile" class="col-md-3 col-form-label form-label">Mobile</label>
+                                            <div class="col-md-9">
+                                                <input id="mobile" type="text" placeholder="Your Mobile Number" value="<%= user.mobile %>" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-lastname">
+                                        <div class="form-row">
+                                            <label id="label-address" for="address" class="col-md-3 col-form-label form-label">Address</label>
+                                            <div class="col-md-9">
+                                                <textarea id="address" type="text" placeholder="Your Billing Address" class="form-control"><%= user.addresses[0].street %></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-city">
+                                        <div class="form-row">
+                                            <label id="label-city" for="city" class="col-md-3 col-form-label form-label">City</label>
+                                            <div class="col-md-9">
+                                                <input id="city" type="text" placeholder="Your city" value="<%= user.addresses[0].city %>" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-state">
+                                        <div class="form-row">
+                                            <label id="label-state" for="state" class="col-md-3 col-form-label form-label">State</label>
+                                            <div class="col-md-9">
+                                                <input id="state" type="text" placeholder="Your state" value="<%= user.addresses[0].state %>" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-country">
+                                        <div class="form-row">
+                                            <label id="label-country" for="country" class="col-md-3 col-form-label form-label">Country</label>
+                                            <div class="col-md-9">
+                                                <input id="country" type="text" placeholder="Your country" value="<%= user.addresses[0].country || `India` %>" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-pincode">
+                                        <div class="form-row">
+                                            <label id="label-pincode" for="pincode" class="col-md-3 col-form-label form-label">Pin Code</label>
+                                            <div class="col-md-9">
+                                                <input id="pincode" type="text" placeholder="Your pincode" value="<%= user.addresses[0].pincode %>" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item">
+                                    <div class="form-group m-0" role="group" aria-labelledby="label-pincode">
+                                        <div class="form-row justify-content-end">
+                                            <button id="updateUser" class="btn btn-success">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            
+                            <h1 class="h2">Change Password</h1>
+
+                            <div class="" id="passwordLine">
+
+                            </div>
+
+                            <div class="card">
+                                <div class="list-group list-group-fit">
+                                    <div class="list-group-item">
+                                        <div class="form-group m-0"
+                                             role="group"
+                                             aria-labelledby="label-password">
+                                            <div class="form-row">
+                                                <label id="label-password"
+                                                       for="oldpassword"
+                                                       class="col-sm-3 col-form-label form-label">Old password:</label>
+                                                <div class="col-sm-9">
+                                                    <div role="group"
+                                                         class="input-group input-group-merge form-control-prepended">
+                                                        <input id="oldpassword"
+                                                               type="password"
+                                                               required="required"
+                                                               placeholder="Old password"
+                                                               aria-required="true"
+                                                               class="form-control form-control-prepended">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <span class="far fa-key"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="form-group m-0"
+                                             role="group"
+                                             aria-labelledby="label-password">
+                                            <div class="form-row">
+                                                <label id="label-password"
+                                                       for="password"
+                                                       class="col-sm-3 col-form-label form-label">New password:</label>
+                                                <div class="col-sm-9">
+                                                    <div role="group"
+                                                         class="input-group input-group-merge form-control-prepended">
+                                                        <input id="password"
+                                                               type="password"
+                                                               required="required"
+                                                               placeholder="New password"
+                                                               aria-required="true"
+                                                               class="form-control form-control-prepended">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <span class="far fa-key"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="form-group m-0"
+                                             role="group"
+                                             aria-labelledby="label-password2">
+                                            <div class="form-row">
+                                                <label id="label-password2"
+                                                       for="password2"
+                                                       class="col-sm-3 col-form-label form-label">Confirm password:</label>
+                                                <div class="col-sm-9">
+                                                    <div role="group"
+                                                         class="input-group input-group-merge form-control-prepended">
+                                                        <input id="password2"
+                                                               type="password"
+                                                               required="required"
+                                                               placeholder="Confirm password"
+                                                               aria-required="true"
+                                                               class="form-control form-control-prepended">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <span class="far fa-key"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="form-group m-0" role="group" aria-labelledby="label-pincode">
+                                            <div class="form-row justify-content-end">
+                                                <button id="changePassword" class="btn btn-success">Save Changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+
+                    </div>
+
+                    
+
+                           
+                  <%- include('components/sidebar') %>
+
+                </div>
+
+            </div>
+
+        <%- include('components/footer') %>
+
+        <script>
+
+            $('#updateUser').click(() => {
+
+                const updated = {
+                    name: document.getElementById('name').value,
+                    mobile: document.getElementById('mobile').value,
+                    addresses: [{
+                        street: document.getElementById('address').value,
+                        city: document.getElementById('city').value,
+                        state: document.getElementById('state').value,
+                        country: document.getElementById('country').value,
+                        pincode: document.getElementById('pincode').value
+                    }]
+                }
+
+                
+                $.ajax({
+                    url: '/api/user/update',
+                    method: "POST",
+                    data: JSON.stringify(updated),
+                    contentType: 'application/json',
+                    success: (response) => {
+                        document.getElementById('updateLine').innerHTML = `
+                            <div class="alert alert-light border-1 border-left-3 border-left-success d-flex">
+                                <i class="material-icons text-success mr-3">check_circle</i>
+                                <div class="text-body">${response.message}</div>
+                            </div>
+                        `
+                    },
+                    error: (error) => {
+
+                        document.getElementById('updateLine').innerHTML = `
+                            <div class="alert alert-light border-1 border-left-3 border-left-danger d-flex">
+                                <i class="material-icons text-danger mr-3">error</i>
+                                <div class="text-body">${error.responseText}</div>
+                            </div>
+                        `
+                    }
+                })
+
+            })
+
+            $('#changePassword').click(() => {
+
+                const updated = {
+                    oldpassword: document.getElementById('oldpassword').value,
+                    password: document.getElementById('password').value,
+                    password2: document.getElementById('password2').value,
+                }
+
+
+                $.ajax({
+                    url: '/api/user/password/change',
+                    method: "POST",
+                    data: JSON.stringify(updated),
+                    contentType: 'application/json',
+                    success: (response) => {
+                        console.log(response);
+                        document.getElementById('passwordLine').innerHTML = `
+                            <div class="alert alert-light border-1 border-left-3 border-left-success d-flex">
+                                <i class="material-icons text-success mr-3">check_circle</i>
+                                <div class="text-body">${response.message}</div>
+                            </div>
+                        `
+                    },
+                    error: (error) => {
+
+                        document.getElementById('passwordLine').innerHTML = `
+                            <div class="alert alert-light border-1 border-left-3 border-left-danger d-flex">
+                                <i class="material-icons text-danger mr-3">error</i>
+                                <div class="text-body">${error.responseText}</div>
+                            </div>
+                        `
+                    }
+                })
+
+                })
+
+        </script>
+
+    </body>
+
+</html>

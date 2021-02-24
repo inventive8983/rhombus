@@ -4,7 +4,12 @@ const orderSchema = new mongoose.Schema({
     
     _id: mongoose.Types.ObjectId,
 
-    orderId: String,
+    orderId: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    userId: String,
     transactionId: String,
     name: String,
     phone: String,
@@ -14,7 +19,10 @@ const orderSchema = new mongoose.Schema({
     city: String,
     state: String,
     pincode: String,
-    totalAmount: Number,
+    totalAmount: {
+        type:Number,
+        required: true
+    },
     currency:{
         type: String,
         default: "INR"

@@ -10,6 +10,8 @@ const  uploadRoutes = require('./upload')
 const  generalRoutes = require('./general')
 const  adminRoutes = require('./admin')
 
+const User = require('../models/user')
+
 //Products
 const  courseRoutes = require('./course')
 
@@ -18,7 +20,7 @@ const express =require('express')
 const router = express.Router()
 
 
-router.use("/", async (req, res, next) => {
+const commonData = async (req, res, next) => {
 
     const content = await General.findOne({name: 'fundamentals'})
     var fundamentals = {}
@@ -28,19 +30,23 @@ router.use("/", async (req, res, next) => {
     req.pageData = {
         cart: req.session.cart || [],
         message: req.session.message,
-        fundamentals
+        fundamentals,
+        authenticated: req.isAuthenticated(),
+        user: req.isAuthenticated() ? await User.findById(req.session.passport.user) : {}
     }
     req.session.message = false
     next()
 
-}, pagesRoutes)
+}
+
+router.use("/", commonData, pagesRoutes)
+router.use("/payment", paymentRoutes)
 
 router.use("/api/user", userRoutes)
 router.use("/api/feedback", feedBackRoutes)
 router.use("/api/contact", contactRoutes)
 router.use("/api/report", reportRoutes)
 router.use("/api/cart", cartRoutes)
-router.use("/api/payment", paymentRoutes)
 router.use("/api/blogs", blogRoutes)
 router.use("/api/upload", uploadRoutes)
 router.use("/api/general", generalRoutes)

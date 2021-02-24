@@ -4,14 +4,13 @@ const { transporter } = require("./transporter");
 
 
 // mailing function
-exports.sendMail = async(to,subject,html,text) =>{
+const sendMail = async(to,subject,html) =>{
   
     // send mail with defined transport object
     await transporter.sendMail({
-      from: "BGUS Support webapi@bghosted.net",
+      from: "Rhombus Support _mainaccount@rhombuseducation.com",
       to: to, 
       subject:subject, 
-      text: text, 
       html: html},
       (err, data)=>{
         if(err){
@@ -22,3 +21,4 @@ exports.sendMail = async(to,subject,html,text) =>{
     })
 }
 
+exports.sendMail = sendMail

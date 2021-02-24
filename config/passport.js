@@ -9,8 +9,7 @@ module.exports = function(passport) {
     passport.use('client',
         new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
             
-            User.findOne({ email: email }, function (err, user) {
-                if (err) { return done(err); }
+            User.findOne({ email: email }).then(user => {
                 if (!user) {
                     return done(null, false, { message: 'Incorrect email.' });
                 }
@@ -25,30 +24,19 @@ module.exports = function(passport) {
                     else{
                         return done(null, false, {message: 'Incorrect Password'})
                     } 
-
-                    
                 })
-                
             })
         })
     )
 
-    passport.serializeUser((user, done) => {
-
-    let userGroup = "user";
-  
-    const key = {
-        user:user,
-        userGroup
-    }
-
-        done(null, key);
-    })
-
-    passport.deserializeUser(function(key, done) {
-        User.findById(key.user._id, (err, user) => {
-        done(err, user);
-    })
-    })
+    passport.serializeUser(function(user, done) {
+        done(null, user.id);
+    });
+      
+    passport.deserializeUser(function(id, done) {
+        User.findById({_id: id}, function(err, user) {
+          done(err, user);
+        });
+    });
     
 }

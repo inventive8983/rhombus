@@ -106,9 +106,19 @@ exports.blogContent = async (req, res) => {
 
 
 exports.login = async (req, res) => {
-    res.render('login', {
-        ...req.pageData
-    })
+    if(req.isAuthenticated()){
+        res.render('status-page', {
+            icon: "error",
+            title: "You are already logged in",
+            info: "",
+            ...req.pageData
+        })
+    }
+    else{
+        res.render('login', {
+            ...req.pageData
+        })
+    }
 }
 
 exports.signup = async (req, res) => {
@@ -131,13 +141,30 @@ exports.checkout = async (req, res) => {
         req.session.cart.map(item => { total += item.amount })
     }
     catch(e){
-        
+        total = 0
     }
 
     res.render('checkout', {
         total,
         ...req.pageData
     })
-
     
+}
+
+
+//Dashboard
+exports.dashboard = (req, res) => {
+    res.render('dashboard/home', {...req.pageData})
+}
+
+exports.basicInfo = (req, res) => {
+    res.render('dashboard/basicinfo', {...req.pageData})
+}
+
+exports.paymentInfo = (req, res) => {
+    res.render('dashboard/paymentinfo', {...req.pageData})
+}
+
+exports.paymentHistory = (req, res) => {
+    res.render('dashboard/paymenthistory', {...req.pageData})
 }

@@ -111,12 +111,16 @@
         <!--/.Mobile Menu Hamburger Ends-->
         <div class="d-flex align-items-center">
           <div class="ml-auto ml-lg-50 d-none d-xs-flex align-items-center justify-content-end">
-              <a class="p-5 gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" href="/comingsoon" role="button">Log In</a>
-              <a class="p-5 gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" href="/comingsoon" role="button">Sign Up</a>
+              <% if(!authenticated){ %> 
+                <a class="p-5 gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" href="/login" role="button">Log In %></a>
+                <!-- <a class="p-5 gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" href="/comingsoon" role="button">Sign Up</a> -->
+              <% }else{ %>
+                <a class="p-5 gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" href="/dashboard" role="button">My Dashboard</a>
+              <% } %>
           </div>
           <% if(cart.length > 0){ %>
-          <button class="p-5 btn gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" data-toggle="modal" data-target="#cartModal" role="button">
-            <a class='header-cart'><i class='fas fa-shopping-cart'></i>
+          <button class="p-5 btn gr-text-9 text-black font-weight-bold mx-2 text-right gr-hover-text-blue" role="button">
+            <a href="/checkout" class='header-cart'><i class='fas fa-shopping-cart'></i>
             <% if(cart.length > 0){ %>
                 <span class='car'><%= cart.length %></span>
               <% } %>
@@ -127,6 +131,10 @@
       </nav>
     </div>
   </header>
+
+  <div class="position-fixed p-8" id="toast-bar" style="z-index: 1000; top: 0;left: 50%; transform: translateX(-50%);">
+    
+  </div>
 
   <%- include('message') %>
 
