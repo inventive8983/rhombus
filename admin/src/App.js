@@ -5,6 +5,8 @@ import { HashRouter as Router } from 'react-router-dom';
 import Views from './views';
 import { Route, Switch } from 'react-router-dom';
 
+
+
 function App() {
   return (
     <div className="App">

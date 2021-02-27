@@ -12,6 +12,8 @@
   "dependencies": {
     "@ant-design/compatible": "0.0.1-rc.1",
     "@babel/runtime": "^7.7.4",
+    "@ckeditor/ckeditor5-build-classic": "^25.0.0",
+    "@ckeditor/ckeditor5-react": "^3.0.1",
     "@vx/pattern": "0.0.195",
     "ajv": "^6.8.1",
     "antd": "^4.6.0",
