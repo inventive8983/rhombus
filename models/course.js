@@ -41,10 +41,18 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    subCategory:{
+        type: String,
+        required: true
+    },
     tags:[{
         type: String,
     }],
     demoVideo: String,
+    demoVideos: [{
+        name: String,
+        link: String
+    }],
     driveLink:{
         type: String,
         required: true

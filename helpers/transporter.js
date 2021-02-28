@@ -4,8 +4,8 @@ exports.transporter = nodemailer.createTransport({
   host: 'email-smtp.ap-south-1.amazonaws.com',
   port: 465,
   auth: {
-      user: 'AKIAR2DD4JPBAUK5SNGC',
-      pass: 'BBpiN/AxhSNm+1QPN4LqiooTB0J9kyU/VRl1ygWcoi9s'
+      user: 'AKIAR2DD4JPBHQV2FWHB',
+      pass: 'BKrRFM7+WOsQv59x95GM7tSVZdN8iLULnVaGIqSUWZLE'
   },
   requireTLS: true,
 })

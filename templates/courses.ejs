@@ -10,23 +10,37 @@
         <div class="col-xl-8 col-lg-9">
           <div class="px-md-12 text-center mb-11 mb-lg-14">
             <h2 class="title gr-text-2 mb-4 mb-lg-6"><%= category %> Courses</h2>
-            <p class="gr-text-8 mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur sapiente velit reiciendis, dignissimos eligendi error omnis molestiae eius.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-
+  
   <div class="container">
+    <% subCategories.forEach(subCategory => { %>
+      <div class="col-12">
+        <h3><%= subCategory %></h3>
+      </div>
+      <div class="row mb-16 d-flex">
+        <% courses.filter(course => course.subCategory === subCategory).map(course => { %>    
+            <div class="col-lg-4 my-6">
+              <%- include('components/course-card', course) %>
+            </div>
+        <% }) %>
+        </div>
+    <% }) %> 
     <div class="row mb-24 d-flex">
-  <!-- Team section (About Page) -->
-      <% courses.map(course => { %>    
+      <div class="col-12">
+        <h3>Others</h3>
+      </div>
+      <% courses.filter(course => course.subCategory === "Others").map(course => { %>    
           <div class="col-lg-4 my-6">
             <%- include('components/course-card', course) %>
           </div>
       <% }) %>
       </div>
   </div>
+  
   <%- include('components/newsletter') %>
     
 <%- include('components/footer') %>

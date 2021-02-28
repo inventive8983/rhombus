@@ -42,7 +42,7 @@
         <% slides.forEach(image => { %>
         <div class="carousel-cell w-100">
           <div class="w-100 bg-blue overflow-hidden">
-            <img class="w-100" style="max-height: 720px;object-fit: cover;" src="<%= image %>" alt="">
+            <img class="w-100" style="max-height: 720px;min-height: 720px;object-fit: cover;" src="<%= image %>" alt="">
           </div>
         </div>
         <% }) %>
@@ -78,15 +78,43 @@
     <!-- Service section  -->
     <div class="service-section bg-default-4 pt-15 pb-13 py-lg-12">
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-xl-6 col-lg-7 col-md-9">
-            <div class="section-title text-center mb-11 mb-lg-19 px-lg-3">
-              <h4 class="pre-title gr-text-12 text-red text-uppercase mb-7">Our Courses</h4>
-              <h2 class="title gr-text-4">We provide great courses for our students</h2>
+        <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-12">
+            <div class="section-title mb-11 mb-lg-19 px-lg-3">
+              <h4 class="pre-title gr-text-4 mt-12">Our Courses</h4>
+              <span class="gr-text-8">We provide great courses for our students</span>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 mb-10">
+            <div class="rounded-10 bg-white shadow-4 h-100 p-12">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/41d-kZxsuIL._SY679_.jpg" class="object-fit-cover rounded-circle" height="64px" width="64px">
+                <h3 class="my-8">CA Courses</h3>
+                <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 mb-10">
+            <div class="rounded-10 bg-white shadow-4 h-100 p-12">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/41d-kZxsuIL._SY679_.jpg" class="object-fit-cover rounded-circle" height="64px" width="64px">
+                <h3 class="my-8">UGC-NET Courses</h3>
+                <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
+            </div>
+          </div>
+          <div class="ml-24 col-xl-4 col-lg-4 col-md-12 h-100 mb-10">
+            <div class="rounded-10 bg-white shadow-4 p-12">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/41d-kZxsuIL._SY679_.jpg" class="object-fit-cover rounded-circle" height="64px" width="64px">
+                <h3 class="my-8">MBA Courses</h3>
+                <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
+            </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 h-100 mb-10">
+            <div class="rounded-10 bg-white shadow-4 p-12">
+                <img src="https://images-na.ssl-images-amazon.com/images/I/41d-kZxsuIL._SY679_.jpg" class="object-fit-cover rounded-circle" height="64px" width="64px">
+                <h3 class="my-8">Junior Courses</h3>
+                <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
             </div>
           </div>
         </div>
-        <div class="row justify-content-center position-relative gr-z-index-1">
+        <!-- <div class="row justify-content-center position-relative gr-z-index-1">
           <div class="col-lg-6 overflow-hidden">
             <a href="/courses/CA" class="img-hover">
               <img src="/static/image/main-covers/ca.jpg" width="100%" class="object-fit-cover rounded-12 shadow-4" height="520px" />
@@ -109,12 +137,12 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
      <!-- Feature section -->
-     <div class="feature-section pt-14 pt-lg-21 pb-7 bg-default-6">
+     <div class="feature-section pt-14 pt-lg-21 pb-7">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-5 col-lg-6 col-md-8">
@@ -153,7 +181,7 @@
     
 
     <!-- Feature section -->
-    <div class="feature-section pt-8 pt-lg-11 pb-7 pb-lg-11">
+    <div class="feature-section pt-8 pt-lg-22 pb-7 pb-lg-11">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-6 col-lg-7 col-md-8">
@@ -173,7 +201,7 @@
                   </div>
                   <div class="widget-text">
                     <h3 class="title gr-text-7 mb-6">Face to Face Classes</h3>
-                    <p class="gr-text-9 mb-0 pr-11">With lots of unique blocks, you can easily build a page without coding. Build your next landing page.</p>
+                    <p class="gr-text-9 mb-0 pr-11">we organise one to one meetings to gather the feedback from the students</p>
                   </div>
                 </div>
               </div>
@@ -184,7 +212,7 @@
                   </div>
                   <div class="widget-text">
                     <h3 class="title gr-text-7 mb-6">Study Material & Assessments</h3>
-                    <p class="gr-text-9 mb-0 pr-11">With lots of unique blocks, you can easily build a page without coding. Build your next landing page.</p>
+                    <p class="gr-text-9 mb-0 pr-11">We  provide the precise and concise notes that are relative to the academics.</p>
                   </div>
                 </div>
               </div>
@@ -195,7 +223,7 @@
                   </div>
                   <div class="widget-text">
                     <h3 class="title gr-text-7 mb-6">Notification Updates & Exam Guidance</h3>
-                    <p class="gr-text-9 mb-0 pr-11">With lots of unique blocks, you can easily build a page without coding. Build your next landing page.</p>
+                    <p class="gr-text-9 mb-0 pr-11">We provide you with one platform which gives you all the information about the exams</p>
                   </div>
                 </div>
               </div>
@@ -206,7 +234,7 @@
                   </div>
                   <div class="widget-text">
                     <h3 class="title gr-text-7 mb-6">Smart Study Techniques</h3>
-                    <p class="gr-text-9 mb-0 pr-11">With lots of unique blocks, you can easily build a page without coding. Build your next landing page.</p>
+                    <p class="gr-text-9 mb-0 pr-11">We help the students to inculcate smart techniques which they can implement in their daily lifes as well.</p>
                   </div>
                 </div>
               </div>
@@ -217,7 +245,7 @@
                   </div>
                   <div class="widget-text">
                     <h3 class="title gr-text-7 mb-6">Fully Featured Classrooms</h3>
-                    <p class="gr-text-9 mb-0 pr-11">With lots of unique blocks, you can easily build a page without coding. Build your next landing page.</p>
+                    <p class="gr-text-9 mb-0 pr-11">We are equipped with the best quality projectors and whiteboards</p>
                   </div>
                 </div>
               </div>
@@ -228,7 +256,7 @@
                   </div>
                   <div class="widget-text">
                     <h3 class="title gr-text-7 mb-6">24x7 Personalized Online Support</h3>
-                    <p class="gr-text-9 mb-0 pr-11">With lots of unique blocks, you can easily build a page without coding. Build your next landing page.</p>
+                    <p class="gr-text-9 mb-0 pr-11">Our 24x7 support is there to help out students in case of any issues</p>
                   </div>
                 </div>
               </div>
@@ -279,7 +307,7 @@
             <div class="col-lg-6 col-md-10">
               <div class="cta-text section-title">
                 <h2 class="title gr-text-5 mb-7 text-white">Ready to prepare?</h2>
-                <p class="gr-text-8 gr-color-white-opacity-7 mb-8 mb-lg-0">With lots of unique blocks, you can easily build a page without coding. Build your next landing page.</p>
+                <p class="gr-text-8 gr-color-white-opacity-7 mb-8 mb-lg-0"><% if(fundamentals.description){ %><%= fundamentals.description %><% } %></p>
               </div>
             </div>
             <div class="col-lg-4 offset-lg-2 col-md-10">

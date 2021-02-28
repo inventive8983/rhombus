@@ -61,7 +61,7 @@
                       <div class="row align-items-center justify-content-center">
                         <div class="col-xl-6 col-lg-8 col-md-10">
                           <div class="text-center video-content">
-                            <a class="video-play-icon mx-auto circle-md bg-white mb-9 gr-hover-y focus-reset" data-fancybox="" href="https://www.youtube.com/watch?v=_sI_Ps7JSEk" tabindex="-1">
+                            <a class="video-play-icon mx-auto circle-md bg-white mb-9 gr-hover-y focus-reset" >
                               <i class="icon icon-triangle-right-17-2"></i>
                             </a>
                           </div>
@@ -69,8 +69,23 @@
                     </div>
                   </div> -->
 
-                  <iframe class="w-100 my-8" height="448" src="<%= course.demoVideo %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  
+                  <!-- <iframe class="w-100 my-8" height="448" src="<%= course.demoVideo %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                  <% if(course.demoVideos.length > 0){ %>  
+                    <div class="py-6">
+                      <div class="w-100 border-bottom">
+                        <h4 class="h3 w-100 ">Demo Videos</h4>
+                      </div>
+                      <% course.demoVideos.forEach((video, index) => { %>
+                      <div class="p-6 border-bottom d-flex justify-content-between align-items-center">
+                        <span class="gr-text-8 h3 mb-0"><%= video.name %></span> 
+                        <button onclick="checkDemo('<%= video.link %>')" class="btn btn-primary-outline py-3 px-6" tabindex="-1">
+                          <i class="fa fa-play mr-4"></i> Watch Now
+                        </button>
+                      </div>
+                      <% }) %>
+                    </div>
+                      
+                  <% } %>
                   <h6 class="gr-text-7">Basic Details</h6>
                   <p class="gr-text-9"><b>Modes:</b> Google Drive and Pen Drive</p>
                   <p class="gr-text-9"><b>Each Lecture Duration:</b> 40-45 Minutes</p>
@@ -229,6 +244,36 @@
         </div>
       </div>
       
+      <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header pt-12 px-12 border-0">
+              <h5 class="modal-title" id="exampleModalLabel">Enter details to watch demo</h5>
+            </div>
+            <div class="modal-body px-12">
+              <div class="form-group w-100">
+                <input class="form-control gr-text-11 border" name="name" type="text" id="name" placeholder="Name">
+              </div>
+              <div class="form-group w-100">
+                <input class="form-control gr-text-11 border" name="mobile" type="text" id="mobile" placeholder="Mobile">
+              </div>
+              <div class="form-group w-100">
+                <input class="form-control gr-text-11 border" name="city" type="text" id="city" placeholder="City">
+              </div>
+            </div>
+            <div class="modal-footer pb-12 px-12 border-0">
+              <button type="button" id="watchDemoBtn" class="w-100 btn btn-primary">Proceed</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="container h-100 d-flex align-items-center">
+          <iframe class="w-100 my-8" height="800" src="<%= course.demoVideo %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+
       <script>
 
         function addOption(id){

@@ -25,7 +25,7 @@
             <form id="checkoutform">
               <div class="row">
                 <!-- .name starts -->
-                <% if(!authenticated){ %>
+                <!-- if(!authenticated){ -->
                 <div class="col-12">
                   <div class="form-group mb-7">
                     <label for="name" class="gr-text-11 font-weight-bold text-blackish-blue">First & Last Name</label>
@@ -100,24 +100,11 @@
                   </div>
                 </div>
                 <!-- ./Zip/Postal ends -->
-                <% } else { %>
-                  <div class="col-12 mb-12" style="line-height: 200%;">
-                      <b>Name:</b> <%= user.name %><br />
-                      <b>Email:</b> <%= user.email %><br />
-                      <b>Mobile:</b> <%= user.mobile %><br />
-                      <b>Address:</b> <%= user.addresses[0].street %><br />
-                      <b>City:</b> <%= user.addresses[0].city %><br />
-                      <b>State:</b> <%= user.addresses[0].state %><br />
-                      <b>Country:</b> <%= user.addresses[0].country || "India" %><br />
-                      <b>Pin Code:</b> <%= user.addresses[0].pincode %><br />
-                      If you want to edit this details, go to your Dashboard's <a href="dashboard/edit">Edit Profile</a> Page
-                  </div>
-                <% } %>
               
               </div>
               <div class="row">
               <!-- .credit-card starts -->
-              <div class="col-12 mb-6">
+              <!-- <div class="col-12 mb-6">
                 <h3 class="gr-text-7 font-weight-bold mb-8 text-blackish-blue">Payment Method</h3>
                 <div class="form-group mb-7 gr-radio-input d-flex align-items-center w-100 border-gray-3 rounded-5 pt-5 pb-5 px-6">
                   <input type="radio" name="payment" id="otherOptions" class="invisible position-absolute pointer-none">
@@ -134,7 +121,7 @@
                     <img src="/static/image/inner/paypal-brand.png" alt="" class="ml-auto">
                   </label>
                 </div>
-              </div>
+              </div> -->
               <!-- /.credit-card ends -->
               <!-- .card-number starts -->
               <!-- <div class="col-12 mb-7">
@@ -174,7 +161,7 @@
               </div>
               <!-- ./paypal-card starts -->
               
-              <% if(!authenticated){ %>
+              <!-- <% if(!authenticated){ %>
               <div class="col-12 mb-6">
                 <h3 class="gr-text-7 font-weight-bold mb-8 text-blackish-blue">Account Details</h3>
                 <div class="form-group mb-7">
@@ -186,7 +173,7 @@
                   <input class="form-control gr-text-11 border" type="password" name="cnfrmPassword" id="password2" placeholder="Confirm Password">
                 </div>
               </div>
-              <% } %>
+              <% } %> -->
             </form>
               
           </div>
@@ -194,7 +181,7 @@
           <div class="col-12">
             <div class="button-block mt-3 mb-8 ">
               <p class="gr-text-11 mb-7 text-blackish-blue">By clicking the button you agree the <a href="/terms">Terms and Conditions</a></p>
-              <button id="proceedBtn" class="form-btn btn btn-primary w-100">Proceed to payment</button>
+              <button id="verifyEmail" class="form-btn btn btn-primary w-100">Next</button>
             </div>
           </div>
           <!-- <div class="col-12">
@@ -257,21 +244,21 @@
     </div>
   </div>
 
-  <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="codeModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div style="position: fixed;top:0px;height: 100vh;width: 1000vw;left: 0;background: rgba(0,0,0,.8);"></div>
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header pt-12 px-12 border-0">
-          <h5 class="modal-title" id="exampleModalLabel">Enter OTP for logging into PayTM</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Enter the code sent to <span id="showEmail"></span></h5>
         </div>
         <div class="modal-body px-12">
           <div class="form-group w-100">
-            <input class="form-control gr-text-11 border" name="otp" type="text" id="otp" placeholder="Enter OTP here">
+            <input class="form-control gr-text-11 border" name="code" type="text" id="code" placeholder="Enter OTP here">
           </div>
           <p class="py-2 text-danger mb-0" id="otp-error"></p>
         </div>
         <div class="modal-footer pb-12 px-12 border-0">
-          <button type="button" id="validateOtp" class="btn btn-primary">Submit</button>
+          <button type="button" id="proceedBtn" class="w-100 btn btn-primary">Proceed</button>
         </div>
       </div>
     </div>

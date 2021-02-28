@@ -1,27 +1,58 @@
-var paymentOption = "PAYTM"
+var paymentOption = "OTHER"
 
-$('#proceedBtn').click(() => {
 
-    document.getElementById('proceedBtn').innerHTML = '<img src="/static/image/animations/loading-circle.gif" style="filter: invert(1);" height="24px">'
 
-    const data = $("#checkoutform").serializeArray()
-    var formData = {}
-    data.forEach(element => {
-        formData[element.name] = element.value
-    });
+$('#verifyEmail').click(() => {
+
+    const email = document.getElementById('email').value
+
     $.ajax({
-        url :'/payment/initialize',
+        url :'/payment/verifyemail',
         type: "POST", 
-        data: {paymentOption, ...formData}, 
+        data: {email}, 
         success: (response) => {
             console.log(response);
-            document.getElementById('proceedBtn').innerHTML = 'Redirecting...'
-            window.location.replace(`/payment?orderId=${response.order._id}&mode=${paymentOption}`);
+            document.getElementById('showEmail').innerHTML = email
+
+            $('#codeModal').modal({
+                'show': true,
+                'backdrop': false
+            })
+
+            $('#proceedBtn').click(() => {
+
+                document.getElementById('proceedBtn').innerHTML = '<img src="/static/image/animations/loading-circle.gif" style="filter: invert(1);" height="24px">'
+                
+                const code = document.getElementById('code').value
+                const data = $("#checkoutform").serializeArray()
+                var formData = {}
+                data.forEach(element => {
+                    formData[element.name] = element.value
+                });
+                $.ajax({
+                    url :'/payment/initialize',
+                    type: "POST", 
+                    data: {paymentOption, token: response.token, code, ...formData}, 
+                    success: (response) => {
+                        console.log(response);
+                        document.getElementById('proceedBtn').innerHTML = 'Redirecting...'
+                        window.location.replace(`/payment?orderId=${response.order._id}&mode=${paymentOption}`);
+                       
+                    },
+                    error: function(error){
+                        console.log(error.responseText);
+                        toast.error(error.responseText);
+                        document.getElementById('proceedBtn').innerHTML = 'Proceed to payment'
+                        $('#codeModal').modal('hide')
+                    }
+                })
+            })
+           
 
         },
         error: function(error){
             toast.error(error.responseText);
-            document.getElementById('proceedBtn').innerHTML = 'Proceed to payment'
+            // document.getElementById('proceedBtn').innerHTML = 'Proceed to payment'
         }
     })
 })

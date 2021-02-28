@@ -9,6 +9,7 @@ const generator = require('generate-password');
 const { sendMail } = require('../helpers/mail');
 const domain = 'http://localhost:4000'
 
+
 //signUP  controller 
 exports.signUp = async (req, res) =>{
   

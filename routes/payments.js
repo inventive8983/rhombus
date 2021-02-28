@@ -6,6 +6,8 @@ const Order = require('../models/order')
 const Razorpay = require('../controllers/razorpay');
 const createUser = require('../helpers/createUser');
 const User = require('../models/user')
+const { sendMail } = require('../helpers/mail')
+const jwt  = require('jsonwebtoken')
 
 
 const totalOrders = async (req, res, next) => {
@@ -20,10 +22,9 @@ const validate = [
     check("mobile", "Please enter a valid mobile number").isNumeric().isLength({max: 10}),
     check("address", "Address field is required").exists(),
     check("city", "Please enter a city").exists(),
-    check("password", "Password is required").exists(),
-    check("cnfrmPassword", "Please confirm your password").exists(),
     check("state", "Please enter a state").exists(),
     check("pincode", "Please enter a valid pincode").isNumeric().isLength(6),
+    check("code", "Please enter a valid code").isNumeric().isLength(6),
 ]
 
 const totalAmount = (req, res, next) => {
@@ -68,66 +69,105 @@ Router.get('/', getOrder, (req, res) => {
 
 })
 
+Router.post('/verifyemail', [check("email", "Please enter a valid email").isEmail()], async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).send(errors.array()[0].msg);
+    }
+
+    const code = Math.floor(Math.random() * 1000000);
+
+    jwt.sign({
+        data: {email: req.body.email, code}
+    }, 'checkout-verify', { expiresIn: '1h' }, (err, token) => {
+        if(err) throw err
+        sendMail(req.body.email, "Verify checkout details", `The code is ${code}`)
+        res.send({
+            message: "Sent an email to your inbox.",
+            token
+        })
+    });
+
+})
+
 Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) => {
     
-    if(req.isAuthenticated()){
-        var currentUser = req.session.passport.user
-    }
-    else{
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).send(errors.array()[0].msg);
-        }
+    console.log(req.body);
 
-        const passwordMatch = req.body.password === req.body.cnfrmPassword
-    if(!passwordMatch) return res.status(400).send("Password does not match")
-        //Creating User
-        var newUser = {
-            name:req.body.name,
-            mobile: req.body.mobile,
-            email: req.body.email,
-            addresses: [{
-                street: req.body.address,
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors.array()[0].msg);
+        return res.status(400).send(errors.array()[0].msg);
+    }
+
+    jwt.verify(req.body.token, 'checkout-verify', async function(err, decoded) {
+
+        if(err) throw err
+
+        console.log(decoded);
+
+        if(req.body.code === `${decoded.data.code}`){
+
+            Order({
+
+                _id: new mongoose.Types.ObjectId(),
+                name:req.body.name,
+                phone: req.body.mobile,
+                email: req.body.email,
+                date: Date.now(),
+                billingAddress: req.body.address,
                 city: req.body.city,
                 state: req.body.state,
                 country: req.body.country,
-                pincode: req.body.pincode
-            }],
-            password: req.body.password,
-            defaultPaymentMethod: req.body.paymentOption
+                pincode: req.body.pincode,
+                totalAmount: req.totalAmount,
+                orderId: "RHOMBUS_" + (req.totalOrders + 3000) + Date.now(),
+                items: req.session.cart,
+        
+            }).save().then(result => {
+        
+                //Send Order Id
+                res.status(200).send({
+                    message: "Redirecting...",
+                    paymentOption: "OTHER",
+                    order: result
+                })
+        
+            }).catch(err => {
+                res.status(400).send("Some error occured. Please contact support.")
+            })
+
         }
+        else{
+            console.log("Hey");
+            res.status(400).send("Invalid Code")
+        }
+    });
 
-        var currentUser = await createUser(newUser)
-        if(!currentUser) return res.status(400).send("You are an existing user. Please login to continue.")
-    }
+    // if(req.isAuthenticated()){
+    //     var currentUser = req.session.passport.user
+    // }
+    // else{
+    //     
 
-    Order({
-        _id: new mongoose.Types.ObjectId(),
-        name: currentUser.name,
-        phone: currentUser.mobile,
-        email: currentUser.email,
-        userId: currentUser._id,
-        date: Date.now(),
-        billingAddress: currentUser.addresses[0].street,
-        city: currentUser.addresses[0].city,
-        state: currentUser.addresses[0].state,
-        country: currentUser.addresses[0].country,
-        pincode: currentUser.addresses[0].pincode,
-        totalAmount: req.totalAmount,
-        orderId: "RHOMBUS_" + (req.totalOrders + 3000) + Date.now(),
-        items: req.session.cart,
-    }).save().then(result => {
+    //     var newUser = {
+    //         name:req.body.name,
+    //         mobile: req.body.mobile,
+    //         email: req.body.email,
+    //         addresses: [{
+    //             street: req.body.address,
+    //             city: req.body.city,
+    //             state: req.body.state,
+    //             country: req.body.country,
+    //             pincode: req.body.pincode
+    //         }],
+    //         defaultPaymentMethod: "OTHER"
+    //     }
 
-        //Send Order Id
-        res.status(200).send({
-            message: "Redirecting...",
-            paymentOption: currentUser.defaultPaymentMethod,
-            order: result
-        })
-
-    }).catch(err => {
-        res.status(400).send("Some error occured. Please contact support.")
-    })
+    //     var currentUser = await createUser(newUser)
+    //     if(!currentUser) return res.status(400).send("You are an existing user. Please login to continue.")
+    // }
 
 })
 

@@ -4,6 +4,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 
 exports.updateContent = (req, res) => {
+
     General.updateOne({name: req.params.content}, { $set: {
         data: req.body.content
     }}).then(result => {

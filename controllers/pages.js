@@ -29,11 +29,25 @@ exports.contact = async (req, res) => {
 }
 
 exports.allCourses = async (req, res) => {
-    Course.find({status:"Published", category: req.params.category}, {name: 1, category: 1, duration: 1, variants: 1, cover: 1}).then(courses => {
-        if(courses.length !== 0){
+
+    Course.find({status:"Published", category: req.params.category}, {name: 1, category: 1, duration: 1, variants: 1, cover: 1, subCategory: 1}).then(courses => {
+        if(courses.length !== 0){   
+
+            var subCategories = []
+
+            courses.forEach((course, index) => {  
+
+                if(!course.subCategory) courses[index].subCategory = "Others"
+                else if(!subCategories.includes(course.subCategory)) subCategories.push(course.subCategory)
+
+                console.log(course.subCategory, index);
+                    
+            });
+
             res.render('courses', {
                 courses,
                 category: req.params.category,
+                subCategories,
                 ...req.pageData
             })
         }
@@ -52,6 +66,9 @@ exports.course = async (req, res) => {
         if(!course) return res.sendStatus(404)
 
         var relatedCourses = await Course.find({category: course.category}, {name: 1, category: 1, duration: 1, variants: 1, cover: 1}).limit(3)
+
+        if(!course.demoVideos) course.demoVideos = []
+
         res.render('course-details', {
             course,
             relatedCourses,

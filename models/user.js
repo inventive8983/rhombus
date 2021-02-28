@@ -14,11 +14,12 @@ const userSchema = new mongoose.Schema(
     },
     mobile:{
       type:Number,
-      required:true
+      required:true,
+      unique: true,
+      trim: true
     },
     password: {
       type: String,
-      required: true
     },
     //define admin and simple user
     role: {

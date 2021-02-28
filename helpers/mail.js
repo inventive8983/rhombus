@@ -8,7 +8,7 @@ const sendMail = async(to,subject,html) =>{
   
     // send mail with defined transport object
     await transporter.sendMail({
-      from: "inventive8983@gmail.com",
+      from: "Rhombus Support <support@rhombuseducation.com>",
       to: to, 
       subject:subject, 
       html: html},

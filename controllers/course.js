@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Course = require('../models/course')
 const formidable = require('formidable');
 var fs = require('fs');
+const Customers = require('../models/customers');
 
 exports.addCourse = async (req, res) => {
 
@@ -17,6 +18,9 @@ exports.addCourse = async (req, res) => {
     const courseExist = await Course.findOne({_id:req.body.id})
 
     if (courseExist){
+
+        req.body.data.subCategory = req.body.data.subCategory[0]
+
         Course.updateOne({_id: req.body.id}, {$set: {
             ...req.body.data, sections, cover: req.body.coverImg
         }}).then(result => {
@@ -41,8 +45,9 @@ exports.addCourse = async (req, res) => {
             videoLanguage: req.body.data.videoLanguage,
             studyLanguage: req.body.data.studyLanguage,
             category: req.body.data.category,
+            subCategory: req.body.data.subCategory[0],
             tags: req.body.data.tags,
-            demoVideo: req.body.data.demoVideo,
+            demoVideos: req.body.data.demoVideos,
             driveLink: req.body.data.driveLink,
             variants: req.body.data.variants,
             addons: req.body.data.addons,
@@ -80,8 +85,9 @@ exports.duplicate = async(req, res) => {
         videoLanguage: course.videoLanguage,
         studyLanguage: course.studyLanguage,
         category: course.category,
+        subCategory: course.subCategory,
         tags: course.tags,
-        demoVideo: course.demoVideo,
+        demoVideos: course.demoVideos,
         driveLink: course.driveLink,
         variants: course.variants,
         addons: course.addons,
@@ -214,4 +220,25 @@ exports.deleteCourse = async (req, res) => {
         console.log(err);
         res.status(400).send(err)
     })
+}
+
+
+exports.watchDemo = async (req, res) => {
+
+    console.log(req.body);
+
+    const newCust = new Customers({
+        _id: new mongoose.Types.ObjectId,
+        name: req.body.name,
+        mobile: req.body.mobile,
+        city: req.body.city
+    })
+
+    newCust.save().then(result => {
+        res.send({
+            customer: result,
+            message: "You can watch now."
+        })
+    })
+
 }
