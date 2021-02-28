@@ -8,10 +8,10 @@ const {check} = require('express-validator')
 Router.post("/submit",[
     check("name","Name should be Atleast three character").exists().isLength({min:3}),
     check("email", "Wrong Email Syntax").isEmail(),
-    check("contactNumber","Contact detail should be Number").isNumeric(),
+    check("mobile","Contact detail should be Number").isNumeric(),
     check("subject","Subject should be Atleast three character").exists().isLength({min:3}),
     check("message","Message should be Atleast three character").exists().isLength({min:3}),
-],contactSubmit)
+], contactSubmit)
 
 
 //exporting the file

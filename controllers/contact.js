@@ -6,34 +6,34 @@ const { sendMail } = require('../helpers/mail')
 //submission  the contact
 exports.contactSubmit =async (req,res)=>{
 
+    console.log(req.body);
     //apply the validations result
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        return handleError(res, errors, errors.array()[0].msg,400)
+        return res.status(400).json({
+            success :false,
+            message: errors.array()[0].msg
+        })
     }
     
     //destructuring the comming body
-    var {name , email , contactNumber, subject, message} = req.body
-    
+    var {name , email , mobile, subject, message} = req.body
+
     //creating the new contact
     const contact = new Contact({
-        name , email, contactNumber ,subject, message
+        name , email, mobile ,subject, message
     })
     
-    contact.save((err,data)=>{
+    contact.save().then(() => {
 
-        if(err){
-            return handleError(res,err,"Unable to Store in DB" ,503)
-        }
-        else{
             var  emailObject={
-                email: "ssareen@bgunifiedsolutions.net",
-                subject:"BGUS's Contact Us",
+                email: "yuvrajsinghmidha@gmail.com",
+                subject:"Received a query from Rhombus Education",
                 html:`
-                    <h1>User Details are Following as :</h1>
+                    <h1>Details are Following as :</h1>
                     <p>Name: ${name}</p>
                     <p>Email: ${email}</p>
-                    <p>Contact Number: ${contactNumber}</p>
+                    <p>Contact Number: ${mobile}</p>
                     <p>Subject: ${subject}</p>
                     <p>Message: ${message}</p>
                 `
@@ -45,9 +45,11 @@ exports.contactSubmit =async (req,res)=>{
                 })
             })
             .catch(err =>{
-                    console.log('Error in sending mail')
+                    return handleError(res, err, "Please contact Support", 500)
             })
-        }        
 
+
+    }).catch(err => {
+        return handleError(res, err, "Please contact Support", 403)
     })
 }

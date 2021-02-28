@@ -18,7 +18,7 @@ const contactSchema = new mongoose.Schema({
         maxlength:100,
         trim:true
     },
-    contactNumber:{
+    mobile:{
         type:Number,
         required:true
     },

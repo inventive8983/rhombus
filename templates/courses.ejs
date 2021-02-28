@@ -4,11 +4,21 @@
 <%- include('components/theme') %>
 <%- include('components/header') %>
 
-<div class="inner-banner">
+<% 
+  var icon = ''
+  if(category === 'CA') icon = 'ca'
+  else if(category === 'CA') icon = 'ca'
+  else if(category === 'UGC-NET') icon = 'ugc'
+  else if(category === 'MBA') icon = 'mba'
+  else if(category === 'JUNIOR') icon = 'junior'
+%>
+
+<div class="inner-banner overflow-hidden position-relative bg-default-3 mb-18 py-lg-22 py-12">
+  <img class="position-absolute object-fit-cover" style="bottom: -16px;right: -32px;opacity: .6;" height="250px" src="/static/image/main-covers/<%= icon %>.png" alt="">
     <div class="container">
-      <div class="row  justify-content-center mt-md-6 pt-24 pt-lg-20">
-        <div class="col-xl-8 col-lg-9">
-          <div class="px-md-12 text-center mb-11 mb-lg-14">
+      <div class="row py-12">
+        <div class="col-xl-12 col-lg-12">
+          <div class="px-md-12">
             <h2 class="title gr-text-2 mb-4 mb-lg-6"><%= category %> Courses</h2>
           </div>
         </div>
