@@ -45,7 +45,11 @@
                 <div class="col-12">
                   <div class="form-group mb-7">
                     <label for="mobile" class="gr-text-11 font-weight-bold text-blackish-blue">Mobile Number</label>
-                    <input class="form-control gr-text-11 border" type="text" name="mobile" id="mobile" placeholder="i.e. +91 XXXXX XXXXX">
+                    <div class="d-flex">
+                      <input class="form-control gr-text-11 border mr-4" style="width: 80px;" name="country" disabled type="text" id="country" value="+91">
+                      <input class="form-control gr-text-11 border" type="text" name="mobile" id="mobile" placeholder="i.e. +91 XXXXX XXXXX">
+                    </div>
+                    
                   </div>
                 </div>
 
@@ -181,7 +185,7 @@
           <div class="col-12">
             <div class="button-block mt-3 mb-8 ">
               <p class="gr-text-11 mb-7 text-blackish-blue">By clicking the button you agree the <a href="/terms">Terms and Conditions</a></p>
-              <button id="verifyEmail" class="form-btn btn btn-primary w-100">Next</button>
+              <button id="verifyMobile" class="form-btn btn btn-primary w-100">Next</button>
             </div>
           </div>
           <!-- <div class="col-12">
@@ -249,13 +253,16 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header pt-12 px-12 border-0">
-          <h5 class="modal-title" id="exampleModalLabel">Enter the code sent to <span id="showEmail"></span></h5>
+          <h5 class="modal-title" id="exampleModalLabel">Enter the code sent to +91<span id="showMobile"></span></h5>
         </div>
         <div class="modal-body px-12">
           <div class="form-group w-100">
             <input class="form-control gr-text-11 border" name="code" type="text" id="code" placeholder="Enter OTP here">
           </div>
-          <p class="py-2 text-danger mb-0" id="otp-error"></p>
+          <div class="d-flex justify-content-between">
+            <p class="py-2 text-danger mb-0" id="otp-error"></p>
+            <a id="resendOTP" href="#">Resend OTP</a>
+          </div>
         </div>
         <div class="modal-footer pb-12 px-12 border-0">
           <button type="button" id="proceedBtn" class="w-100 btn btn-primary">Proceed</button>

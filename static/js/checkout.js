@@ -1,18 +1,17 @@
 var paymentOption = "OTHER"
 
+const sendOTP = () => {
 
-
-$('#verifyEmail').click(() => {
-
-    const email = document.getElementById('email').value
+    const mobile = document.getElementById('mobile').value
 
     $.ajax({
-        url :'/payment/verifyemail',
+        url :'/payment/sendotp',
         type: "POST", 
-        data: {email}, 
+        data: {mobile}, 
         success: (response) => {
+
             console.log(response);
-            document.getElementById('showEmail').innerHTML = email
+            document.getElementById('showMobile').innerHTML = mobile
 
             $('#codeModal').modal({
                 'show': true,
@@ -24,6 +23,7 @@ $('#verifyEmail').click(() => {
                 document.getElementById('proceedBtn').innerHTML = '<img src="/static/image/animations/loading-circle.gif" style="filter: invert(1);" height="24px">'
                 
                 const code = document.getElementById('code').value
+
                 const data = $("#checkoutform").serializeArray()
                 var formData = {}
                 data.forEach(element => {
@@ -34,16 +34,14 @@ $('#verifyEmail').click(() => {
                     type: "POST", 
                     data: {paymentOption, token: response.token, code, ...formData}, 
                     success: (response) => {
-                        console.log(response);
+                        document.getElementById('otp-error').innerHTML = ''
                         document.getElementById('proceedBtn').innerHTML = 'Redirecting...'
                         window.location.replace(`/payment?orderId=${response.order._id}&mode=${paymentOption}`);
-                       
                     },
                     error: function(error){
-                        console.log(error.responseText);
-                        toast.error(error.responseText);
                         document.getElementById('proceedBtn').innerHTML = 'Proceed to payment'
-                        $('#codeModal').modal('hide')
+                        document.getElementById('otp-error').innerHTML = 'Invalid Code'
+                        document.getElementById('code').value = ''
                     }
                 })
             })
@@ -55,14 +53,19 @@ $('#verifyEmail').click(() => {
             // document.getElementById('proceedBtn').innerHTML = 'Proceed to payment'
         }
     })
-})
+}
 
 $('#paytm').click(() => {
     paymentOption = "PAYTM"
 })
+
 $('#otherOptions').click(() => {
     paymentOption = "OTHER"
 })
+
+
+$('#verifyMobile').click(sendOTP)
+$('#resendOTP').click(sendOTP)
 
 const processPayment = ({txnToken, orderId}, paymentOptions) => {
     console.log(txnToken);

@@ -8,6 +8,7 @@ const createUser = require('../helpers/createUser');
 const User = require('../models/user')
 const { sendMail } = require('../helpers/mail')
 const jwt  = require('jsonwebtoken')
+const sendSMS = require('../helpers/SNS')
 
 
 const totalOrders = async (req, res, next) => {
@@ -24,7 +25,7 @@ const validate = [
     check("city", "Please enter a city").exists(),
     check("state", "Please enter a state").exists(),
     check("pincode", "Please enter a valid pincode").isNumeric().isLength(6),
-    check("code", "Please enter a valid code").isNumeric().isLength(6),
+    check("code", "Please enter a valid code").isNumeric().isLength(4),
 ]
 
 const totalAmount = (req, res, next) => {
@@ -91,6 +92,31 @@ Router.post('/verifyemail', [check("email", "Please enter a valid email").isEmai
 
 })
 
+Router.post('/sendotp', [check("mobile", "Please enter a valid mobile number").isNumeric().isLength({max: 10})], async (req, res) => {
+
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).send(errors.array()[0].msg);
+    }
+
+    const code = Math.floor(Math.random() * 10000);
+
+
+
+    jwt.sign({
+        data: {mobile: req.body.mobile, code}
+    }, 'checkout-verify', { expiresIn: '1h' }, (err, token) => {
+        if(err) throw err
+        sendSMS("Your OTP for checkout at Rhombus Education is " + code, `+91${req.body.mobile}`)
+        res.send({
+            message: "Sent an email to your inbox.",
+            token
+        })
+    });
+
+})
+
 Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) => {
     
     console.log(req.body);
@@ -106,6 +132,7 @@ Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) 
         if(err) throw err
 
         console.log(decoded);
+        console.log(req.body.code);
 
         if(req.body.code === `${decoded.data.code}`){
 
@@ -140,7 +167,6 @@ Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) 
 
         }
         else{
-            console.log("Hey");
             res.status(400).send("Invalid Code")
         }
     });
