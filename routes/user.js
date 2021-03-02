@@ -2,8 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 //signup  route
-const { signUp, signin, isSignedIn, signout, verifyToken, isAdmin, resetPassword, newPassword, update, changePassword} = require('../controllers/user') 
+const { signUp, signin, isSignedIn, signout, resetPassword, newPassword, update, changePassword, downloadCustomers, resetPasswordFromOTP} = require('../controllers/user') 
 const {check} = require('express-validator')
+const { isAdmin } = require('../controllers/admin')
 
 
 const validate = [
@@ -33,6 +34,13 @@ router.post('/signup', validate ,signUp)
 
 router.post('/reset', resetPassword)
 
+router.post('/resetWithOTP',[
+    check("mobile", "Please enter a valid mobile number").isNumeric().isLength({max: 10}), 
+    check("password1", "Password is required").exists(),
+    check("password2", "Password is required").exists(),
+    check("code", "Please enter a valid OTP").isNumeric().isLength(4)
+], resetPasswordFromOTP)
+
 //signin 
 router.post("/login",
     [
@@ -50,6 +58,8 @@ router.post('/update',isSignedIn, validateUser, update)
 router.post('/password/change',isSignedIn, changePassword)
 
 router.get('/password/new', newPassword)
+
+router.get('/download/customers', isAdmin, downloadCustomers)
 
 
 

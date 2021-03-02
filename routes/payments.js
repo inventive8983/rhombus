@@ -4,12 +4,10 @@ const Router = express.Router()
 const {check, validationResult} = require('express-validator')
 const Order = require('../models/order')
 const Razorpay = require('../controllers/razorpay');
-const createUser = require('../helpers/createUser');
-const User = require('../models/user')
 const { sendMail } = require('../helpers/mail')
 const jwt  = require('jsonwebtoken')
 const sendSMS = require('../helpers/SNS')
-
+const bcrypt = require('bcryptjs')
 
 const totalOrders = async (req, res, next) => {
     var data = await Order.find({})
@@ -100,26 +98,23 @@ Router.post('/sendotp', [check("mobile", "Please enter a valid mobile number").i
         return res.status(400).send(errors.array()[0].msg);
     }
 
-    const code = Math.floor(Math.random() * 10000);
+    const code = `${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`
 
+    const salt = await bcrypt.genSalt(10)
+    const hashed = await bcrypt.hash(`${code}`, salt)  
 
+    console.log(code);
 
-    jwt.sign({
-        data: {mobile: req.body.mobile, code}
-    }, 'checkout-verify', { expiresIn: '1h' }, (err, token) => {
-        if(err) throw err
-        sendSMS("Your OTP for checkout at Rhombus Education is " + code, `+91${req.body.mobile}`)
-        res.send({
-            message: "Sent an email to your inbox.",
-            token
-        })
-    });
+    sendSMS("Your OTP for checkout at Rhombus Education is " + code, `+91${req.body.mobile}`)
+    res.send({
+        message: "Sent an email to your inbox.",
+        hashed
+    })
 
 })
 
 Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) => {
     
-    console.log(req.body);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -127,49 +122,40 @@ Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) 
         return res.status(400).send(errors.array()[0].msg);
     }
 
-    jwt.verify(req.body.token, 'checkout-verify', async function(err, decoded) {
+    const pass = await bcrypt.compare(req.body.code, req.body.hashed)
+    if(!pass) return res.status(400).send("Invalid Code")
 
-        if(err) throw err
+    Order({
 
-        console.log(decoded);
-        console.log(req.body.code);
+        _id: new mongoose.Types.ObjectId(),
+        name:req.body.name,
+        phone: req.body.mobile,
+        email: req.body.email,
+        date: Date.now(),
+        billingAddress: req.body.address,
+        city: req.body.city,
+        state: req.body.state,
+        country: req.body.country,
+        pincode: req.body.pincode,
+        totalAmount: req.totalAmount,
+        orderId: "RHOMBUS_" + (req.totalOrders + 3000) + Date.now(),
+        items: req.session.cart,
 
-        if(req.body.code === `${decoded.data.code}`){
+    }).save().then(result => {
 
-            Order({
+        //Send Order Id
+        res.status(200).send({
+            message: "Redirecting...",
+            paymentOption: "OTHER",
+            order: result
+        })
 
-                _id: new mongoose.Types.ObjectId(),
-                name:req.body.name,
-                phone: req.body.mobile,
-                email: req.body.email,
-                date: Date.now(),
-                billingAddress: req.body.address,
-                city: req.body.city,
-                state: req.body.state,
-                country: req.body.country,
-                pincode: req.body.pincode,
-                totalAmount: req.totalAmount,
-                orderId: "RHOMBUS_" + (req.totalOrders + 3000) + Date.now(),
-                items: req.session.cart,
-        
-            }).save().then(result => {
-        
-                //Send Order Id
-                res.status(200).send({
-                    message: "Redirecting...",
-                    paymentOption: "OTHER",
-                    order: result
-                })
-        
-            }).catch(err => {
-                res.status(400).send("Some error occured. Please contact support.")
-            })
+    }).catch(err => {
+        res.status(400).send("Some error occured. Please contact support.")
+    })
 
-        }
-        else{
-            res.status(400).send("Invalid Code")
-        }
-    });
+ 
+});
 
     // if(req.isAuthenticated()){
     //     var currentUser = req.session.passport.user
@@ -195,11 +181,11 @@ Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) 
     //     if(!currentUser) return res.status(400).send("You are an existing user. Please login to continue.")
     // }
 
-})
-
 
 //Webhhooks & Callback
-Router.post('/razorpay', Razorpay.webhook)
+Router.post('/razorpay/success', Razorpay.webhook)
+
+Router.post('/razorpay/failure', Razorpay.failure)
 
 
 

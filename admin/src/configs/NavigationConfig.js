@@ -114,6 +114,14 @@ const dashBoardNavTree = [
         breadcrumb: false,
         submenu: []
       },
+      {
+        key: 'results',
+        path: '/app/results',
+        title: 'Result',
+        icon: BookOutlined,
+        breadcrumb: false,
+        submenu: []
+      },
     ]
   },
   

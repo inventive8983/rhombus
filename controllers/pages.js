@@ -92,6 +92,16 @@ exports.gallery = async (req, res) => {
     })
     
 }
+exports.results = async (req, res) => {
+
+    const results = await General.findOne({name: 'results'})    
+
+    res.render('results', {
+        ...req.pageData,
+        files: results.data
+    })
+    
+}
 
 exports.blogs = async (req, res) => {
 

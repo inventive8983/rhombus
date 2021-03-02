@@ -7,11 +7,11 @@ const Admin = require('../models/admin')
 module.exports = function(passport) {
 
     passport.use('client',
-        new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
+        new LocalStrategy({usernameField: 'mobile'}, (mobile, password, done) => {
             
-            User.findOne({ email: email }).then(user => {
+            User.findOne({ mobile: mobile }).then(user => {
                 if (!user) {
-                    return done(null, false, { message: 'Incorrect email.' });
+                    return done(null, false, { message: 'Incorrect Mobile Number.' });
                 }
                 bcrypt.compare(password, user.password, (err, isMatch) => {
                     if(err){

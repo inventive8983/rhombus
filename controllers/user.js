@@ -5,9 +5,12 @@ const passport = require("passport");
 const bcrypt = require('bcryptjs')
 const jwt  = require('jsonwebtoken')
 const User  = require('../models/user')
+const Customer  = require('../models/customers')
 const generator = require('generate-password');
 const { sendMail } = require('../helpers/mail');
 const domain = 'http://localhost:4000'
+const fs = require('fs');
+const convertToCSV = require('../helpers/convertToCSV');
 
 
 //signUP  controller 
@@ -197,3 +200,51 @@ exports.changePassword = async (req, res) => {
      })
 
 }
+
+
+exports.resetPasswordFromOTP = async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors.array()[0].msg);
+        return res.status(400).send(errors.array()[0].msg);
+    }
+
+    const pass = await bcrypt.compare(req.body.code, req.body.hashed)
+    if(!pass) return res.status(400).send("Invalid Code")
+
+    if(req.body.password1 !== req.body.password2){
+        res.status(400).send("Password did not match.")
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashPassword = await bcrypt.hash(req.body.password1, salt)
+
+    User.updateOne({mobile: req.body.mobile}, {$set: {password: hashPassword}}).then((result) => {
+        
+        if(result.n === 1){
+            res.status(200).json({
+                message: "Password Updated Successfully."
+            })
+        }else{
+            return res.status(400).send("Failed. May be you entered a wrong phone number.");
+        }
+    })
+
+ 
+}
+
+
+exports.downloadCustomers = async (req, res) => {
+
+    const customers = await Customer.find({});
+    var csv = convertToCSV(JSON.stringify(customers))
+
+    fs.writeFile('customers.csv', csv, (err) => {
+        if(err) throw err
+        res.download('customers.csv', 'customers.csv')
+    })
+    
+
+}
+

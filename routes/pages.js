@@ -15,6 +15,8 @@ Router.get("/course/:id", pages.course)
 
 Router.get("/gallery", pages.gallery)
 
+Router.get("/results", pages.results)
+
 Router.get("/blogs", pages.blogs)
 
 Router.get("/blog/:id", pages.blogDetails)
@@ -24,8 +26,6 @@ Router.get("/blog/content/:id", pages.blogContent)
 Router.get("/login", pages.login)
 
 Router.get("/signup", pages.signup)
-
-Router.get("/resetpassword", pages.resetPassword)
 
 Router.get('/comingsoon', (req, res) => {
     res.render('status-page', {

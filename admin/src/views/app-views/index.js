@@ -13,6 +13,7 @@ export const AppViews = ({match}) => {
         <Route path={`${match.url}/blogs`} component={lazy(() => import(`./blogs`))} />
         <Route path={`${match.url}/gallery`} component={lazy(() => import(`./media/gallerywithurl`))} />
         <Route path={`${match.url}/slider`} component={lazy(() => import(`./media/sliderwithurl`))} />
+        <Route path={`${match.url}/results`} component={lazy(() => import(`./media/resultwithurl`))} />
         <Redirect from={`${match.url}`} to={`${match.url}/home`} />
       </Switch>
     </Suspense>

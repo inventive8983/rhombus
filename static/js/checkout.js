@@ -32,7 +32,7 @@ const sendOTP = () => {
                 $.ajax({
                     url :'/payment/initialize',
                     type: "POST", 
-                    data: {paymentOption, token: response.token, code, ...formData}, 
+                    data: {paymentOption, hashed: response.hashed, code, ...formData}, 
                     success: (response) => {
                         document.getElementById('otp-error').innerHTML = ''
                         document.getElementById('proceedBtn').innerHTML = 'Redirecting...'

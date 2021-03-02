@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('components/head') %>
+<%- include('components/theme') %>
+<%- include('components/header') %>
+
+<div class="inner-banner bg-default-2 py-20">
+    <div class="container">
+      <div class="row  justify-content-center pt-5">
+        <div class="col-xl-8 col-lg-9">
+          <div class="px-md-15 text-center">
+            <h2 class="title gr-text-2 mb-9">Our Results</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section pb-20 bg-default-2">
+    <div class="container ">
+        <div class="row  justify-content-center pt-5">
+            <% files.forEach(image => {%>
+            <div class="col-xl-10 col-lg-12">
+                <img class="w-100 object-fit-cover rounded-8" style="cursor: pointer;" data-fancybox="" href="<%= image %>" src="<%= image %>" alt="">
+            </div>
+            <% }) %>
+        </div>
+    </div>
+  </div>
+    
+<%- include('components/footer') %>
+</body>
+</html>

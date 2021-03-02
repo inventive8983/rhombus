@@ -3,7 +3,8 @@ const https = require('https');
 const crypto = require('crypto');
 const updateOrder = require('../helpers/updateOrder');
 const secret_key = 'my-secret-is-nothing' 
-const Order = require('../models/order')
+const Order = require('../models/order');
+const { sendMail } = require('../helpers/mail');
 
 const razorpay = new Razorpay({
     key_id: 'rzp_test_mBfTcQewtdvFRL',
@@ -92,7 +93,7 @@ module.exports.webhook = async (req, res) => {
         updateOrder(
             req.body.payload.payment.entity.order_id, 
             req.body.payload.payment.entity.status === "captured" ? "TXN_SUCCESS" : "TXN_FAILED", 
-            req.body.payload.payment.entity.email,
+            req.body.payload.payment.entity.mobile,
             req.body.payload.payment.entity
         ).then((result) => {
             res.json({
@@ -108,5 +109,14 @@ module.exports.webhook = async (req, res) => {
     } else {
         res.status(400).send('Invalid signature. Please contact our customer support.');
     }
+
+}
+
+module.exports.failure = (req, res) => {
+
+    sendMail(req.body.payload.payment.entity.email, "Payment for Order Failed", "Payment Failed")
+    res.json({
+        status: 'ok'
+    })
 
 }
