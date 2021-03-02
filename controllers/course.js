@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
 const Course = require('../models/course')
+const User = require('../models/user')
 const formidable = require('formidable');
 var fs = require('fs');
 const Customers = require('../models/customers');
+const { verifyOTP } = require('../helpers/sms');
 
 exports.addCourse = async (req, res) => {
 
@@ -222,10 +224,23 @@ exports.deleteCourse = async (req, res) => {
     })
 }
 
+exports.getDetails = async (req, res) => {
+
+    const _id = req.session.passport.user
+    const user = await User.findOne({_id})
+
+    const access =  user.myOrders.filter(order => order.id === req.params.id && order.details.includes('Google Drive'))
+    if(access.length === 0) return res.status(204).send("Not available on drive.")
+
+    const link = await Course.findOne({_id: req.params.id}, {driveLink: 1})
+    res.redirect(link.driveLink)
+
+}
 
 exports.watchDemo = async (req, res) => {
 
-    console.log(req.body);
+    const pass = await verifyOTP(req.body.hashed, req.body.code)
+    if(pass.Status !== "Success") return res.status(400).send("Invalid Code")
 
     const newCust = new Customers({
         _id: new mongoose.Types.ObjectId,

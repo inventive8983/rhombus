@@ -1,32 +1,38 @@
-//SMS using NEXMO 
-const Nexmo = require('nexmo');
+var axios = require('axios');
 
-const successMessage = {
-  messageSent: "Message has successfully sent to"
-}
+const verifyOTP = (session, otp) => new Promise(resolve => {
 
-const errorMessage = {
-  error: "An Error has Occured"
-}
-
-const nexmo = new Nexmo({
-  apiKey: '',
-  apiSecret: '',
-});
-
-exports.sendSMS = (to, text)=>{
-
-  nexmo.message.sendSms('Vonage APIs', to, text, {
-    type: "unicode"
-    },(err, data )=>{
-    if(err){
-        console.log(errorMessage.error)
-    }
-    else{
-        console.log(`${messageSent} ${to} `)
-    }
+  var config = {
+    method: 'get',
+    url: `https://2factor.in/API/V1/${process.env.SMS_API_KEY}/SMS/VERIFY/${session}/${otp}`,
+  };
+  
+  axios(config)
+  .then(function (response) {
+    resolve(response.data)
   })
-}
+  .catch(function (error) {
+    resolve({"Status":"Error", "Details": "Invalid OTP"})
+  });
 
-//Format for sending the SMS
-//  sendSMS(to,text) 
+})
+
+const sendOTP = (mobile) => new Promise(resolve => {
+
+  var config = {
+    method: 'get',
+    url: `https://2factor.in/API/V1/${process.env.SMS_API_KEY}/SMS/${mobile}/AUTOGEN`,
+  };
+  
+  axios(config)
+  .then(function (response) {
+    resolve(response.data)
+  })
+  .catch(function (error) {
+    resolve({"Status":"Error", "Details": "Unable to send OTP"})
+  });
+
+})
+
+module.exports.verifyOTP = verifyOTP
+module.exports.sendOTP = sendOTP

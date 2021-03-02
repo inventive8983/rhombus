@@ -11,6 +11,7 @@ const { sendMail } = require('../helpers/mail');
 const domain = 'http://localhost:4000'
 const fs = require('fs');
 const convertToCSV = require('../helpers/convertToCSV');
+const { verifyOTP } = require('../helpers/sms');
 
 
 //signUP  controller 
@@ -210,8 +211,8 @@ exports.resetPasswordFromOTP = async (req, res) => {
         return res.status(400).send(errors.array()[0].msg);
     }
 
-    const pass = await bcrypt.compare(req.body.code, req.body.hashed)
-    if(!pass) return res.status(400).send("Invalid Code")
+    const pass = await verifyOTP(req.body.hashed, req.body.code)
+    if(pass.Status !== "Success") return res.status(400).send("Invalid Code")
 
     if(req.body.password1 !== req.body.password2){
         res.status(400).send("Password did not match.")

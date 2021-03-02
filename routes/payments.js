@@ -6,7 +6,7 @@ const Order = require('../models/order')
 const Razorpay = require('../controllers/razorpay');
 const { sendMail } = require('../helpers/mail')
 const jwt  = require('jsonwebtoken')
-const sendSMS = require('../helpers/SNS')
+const sendSMS = require('../helpers/sms')
 const bcrypt = require('bcryptjs')
 
 const totalOrders = async (req, res, next) => {
@@ -98,17 +98,11 @@ Router.post('/sendotp', [check("mobile", "Please enter a valid mobile number").i
         return res.status(400).send(errors.array()[0].msg);
     }
 
-    const code = `${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`
+    const details = await sendSMS.sendOTP(req.body.mobile)
 
-    const salt = await bcrypt.genSalt(10)
-    const hashed = await bcrypt.hash(`${code}`, salt)  
-
-    console.log(code);
-
-    sendSMS("Your OTP for checkout at Rhombus Education is " + code, `+91${req.body.mobile}`)
     res.send({
         message: "Sent an email to your inbox.",
-        hashed
+        hashed: details.Details
     })
 
 })
@@ -118,12 +112,11 @@ Router.post('/initialize', validate, totalOrders, totalAmount, async (req, res) 
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        console.log(errors.array()[0].msg);
         return res.status(400).send(errors.array()[0].msg);
     }
 
-    const pass = await bcrypt.compare(req.body.code, req.body.hashed)
-    if(!pass) return res.status(400).send("Invalid Code")
+    const pass = await sendSMS.verifyOTP(req.body.hashed, req.body.code)
+    if(pass.Status !== "Success") return res.status(400).send("Invalid Code")
 
     Order({
 

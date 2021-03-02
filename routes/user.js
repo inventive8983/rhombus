@@ -21,7 +21,6 @@ const validate = [
 
 const validateUser = [
     check("name", "Please enter a valid name").isLength({min: 3}),
-    check("mobile", "Please enter a valid mobile number").isNumeric().isLength({max: 10}),
     check("addresses.*.street", "Address field is required").exists().isLength({min:2}),
     check("addresses.*.city", "Please enter a city").exists(),
     check("addresses.*.state", "Please enter a state").exists(),

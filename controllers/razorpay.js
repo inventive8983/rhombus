@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const updateOrder = require('../helpers/updateOrder');
 const secret_key = 'my-secret-is-nothing' 
 const Order = require('../models/order');
-const { sendMail } = require('../helpers/mail');
+const { sendMail, sendMailWithTemplate } = require('../helpers/mail');
 
 const razorpay = new Razorpay({
     key_id: 'rzp_test_mBfTcQewtdvFRL',
@@ -56,15 +56,13 @@ module.exports.createOrder = async (req, res) => {
             });
             });
             
-            console.log(paymentOrder);
-
             var postData = JSON.stringify({
 
                 "key_id":"rzp_test_mBfTcQewtdvFRL",
                 "order_id": paymentOrder.id,
                 "name":"Rhombus Education",
-                "calback_url":"www.google.com",
-                "cancel_url": "www.google.com/cancel",
+                "calback_url":"https://rhombuseducation.com/transaction/successful",
+                "cancel_url": "https://rhombuseducation.com/checkout",
                 "prefill": {
                     "contact": req.userMobile,
                     "email": req.userEmail,
@@ -93,7 +91,7 @@ module.exports.webhook = async (req, res) => {
         updateOrder(
             req.body.payload.payment.entity.order_id, 
             req.body.payload.payment.entity.status === "captured" ? "TXN_SUCCESS" : "TXN_FAILED", 
-            req.body.payload.payment.entity.mobile,
+            req.body.payload.payment.entity.contact,
             req.body.payload.payment.entity
         ).then((result) => {
             res.json({
@@ -114,9 +112,30 @@ module.exports.webhook = async (req, res) => {
 
 module.exports.failure = (req, res) => {
 
-    sendMail(req.body.payload.payment.entity.email, "Payment for Order Failed", "Payment Failed")
-    res.json({
-        status: 'ok'
-    })
+    // do a validation
+    const data = crypto.createHmac('sha256', secret_key)
+    data.update(JSON.stringify(req.body))
+    const digest = data.digest('hex')
+    if (digest === req.headers['x-razorpay-signature']) {
+
+        sendMailWithTemplate(req.body.payload.payment.entity.email, "Payment Failed", {
+            name: '',
+            html: "Your payment with Rhombus Education was failed due to some error. Please contact our support for help. Your order ID is: " + req.body.payload.payment.entity.order_id,
+            action: "Contact Us",
+            link:"https://rhombuseducation.com/contact"
+        }).then((result) => {
+            res.json({
+                status: 'ok'
+            })
+        }).catch(err => {
+            console.log(err);
+            res.json({
+                status: 'ok'
+            })
+        })
+        
+    } else {
+        res.status(400).send('Invalid signature. Please contact our customer support.');
+    }
 
 }

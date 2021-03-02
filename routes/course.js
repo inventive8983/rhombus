@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { addCourse, getAllCourses, getCourse, deleteCourse, changeStatus, addToCart, getCourseCover, duplicate, watchDemo } = require("../controllers/course");
-const {isAdmin} = require('../controllers/admin')
+const { addCourse, getAllCourses, getCourse, deleteCourse, changeStatus, addToCart, getCourseCover, duplicate, watchDemo, getDetails } = require("../controllers/course");
+const {isAdmin} = require('../controllers/admin');
+const { isSignedIn } = require('../controllers/user');
 
 router.post('/add', isAdmin, addCourse)
 
@@ -20,6 +21,7 @@ router.get('/status/:id/:status', isAdmin, changeStatus)
 
 router.post('/watchdemo', watchDemo)
 
+router.get('/details/:id', isSignedIn, getDetails)
 
 router.delete('/delete/:id', isAdmin, deleteCourse)
 

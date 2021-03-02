@@ -1,7 +1,7 @@
 const Order = require('../models/order')
 const User = require('../models/user')
 const createUser = require('./createUser')
-const { sendMail } = require('./mail')
+const { sendMail, sendMailWithTemplate } = require('./mail')
 const sendSMS = require('./SNS')
 const generator = require('generate-password');
 
@@ -35,7 +35,18 @@ const updateOrder = async (id, status, mobile, meta) => {
                     User.updateOne({mobile}, {$set: {
                         myOrders: totalItems
                     }}).then(result2 => {
-                        resolve(result2)
+                        sendMailWithTemplate(user.email, 
+                        `Order Successful`, 
+                        {
+                            name: user.name,
+                            html: `Your order with Rhombus Educaion is successful. Thankyou for being a part of our family.<br/><br/>
+                                    <br/> Order Id : ${id}`,
+                            action: 'Go to Dashbaord',
+                            link: "rhombuseducation.com/dashboard"
+                        })
+                        .then(() => {
+                            resolve(user)
+                        })
                     })
                 }
                 else{
@@ -62,11 +73,16 @@ const updateOrder = async (id, status, mobile, meta) => {
                         myOrders: totalItems
                     }).then((user) => {
 
-                        sendMail(user.email, 
+                        sendMailWithTemplate(user.email, 
                             `Order Successful`, 
-                            `Your order was successful. We have created your new account successfully. To login to your dashboard, use credentials : <br /> USERNAME : ${user.mobile} <br /> PASSWORD: ${password}`)
+                            {
+                                name: user.name,
+                                html: `Your order with Rhombus Educaion is successful. We have also created your account so that you can get course details very easily. <br/> Mobile: ${mobile} <br/> Password ${password}. <br/><br/>
+                                        <br/> Order Id : ${id}`,
+                                action: 'Go to Dashbaord',
+                                link: "rhombuseducation.com/dashboard"
+                            })
                             .then(() => {
-                                sendSMS("Your order has been done. We have mailed you the credentials to login to your dashboard on your mail. Thanks.", "+91" + mobile)
                                 resolve(user)
                             })
                         
@@ -79,7 +95,6 @@ const updateOrder = async (id, status, mobile, meta) => {
                 }
             }
             else{
-                console.log(result);
                 reject("Some error occured")
             }
 

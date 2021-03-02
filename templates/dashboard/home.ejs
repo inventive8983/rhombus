@@ -23,7 +23,7 @@
 
                         <div class="container-fluid page__container">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="student-dashboard.html">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
                                 <li class="breadcrumb-item active">My Courses</li>
                             </ol>
                             <div class="media mb-headings align-items-center">
@@ -46,7 +46,7 @@
                                                 </a>
                                             </div>
                                             <div class="media-body">
-                                                <h4 class="card-title m-0"><a href="/course/<%= order.id %>"><%= order.name %></a></h4>
+                                                <h4 class="card-title m-0"><a href="/api/course/details/<%= order.id %>"><%= order.name %></a></h4>
                                                 <small class="text-muted"><%= order.details %></small>
                                             </div>
                                         </div>

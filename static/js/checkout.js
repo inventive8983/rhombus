@@ -35,11 +35,14 @@ const sendOTP = () => {
                     data: {paymentOption, hashed: response.hashed, code, ...formData}, 
                     success: (response) => {
                         document.getElementById('otp-error').innerHTML = ''
-                        document.getElementById('proceedBtn').innerHTML = 'Redirecting...'
-                        window.location.replace(`/payment?orderId=${response.order._id}&mode=${paymentOption}`);
+                        document.getElementById('modalLabel').innerHTML = ` <i class="fa fa-check-circle text-green"></i> 
+                                                                            <span class="text-green">OTP Verified</span>`
+                        document.getElementById('modalBody').innerHTML = 'We will send you a mail about the status of your payment and all the course details you want to buy. Please click on the button to proceed.'
+                 
+                        document.getElementById('modalFooter').innerHTML = `<button type="button" onclick="redirect('/payment?orderId=${response.order._id}&mode=${paymentOption}');" class="w-100 btn btn-primary">Proceed to Payment</button>`
                     },
                     error: function(error){
-                        document.getElementById('proceedBtn').innerHTML = 'Proceed to payment'
+                        document.getElementById('proceedBtn').innerHTML = 'Next'
                         document.getElementById('otp-error').innerHTML = 'Invalid Code'
                         document.getElementById('code').value = ''
                     }
@@ -97,6 +100,10 @@ const processPayment = ({txnToken, orderId}, paymentOptions) => {
     })
 }
 
+function redirect(url){
+    var win = window.open(url, '_blank');
+    win.focus();
+}
 
 const payWithWallet = ({mobile, txnToken, orderId}) => {
 

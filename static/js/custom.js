@@ -381,21 +381,55 @@ function checkDemo(link){
 
         $('#watchDemoBtn').click(() => {
 
+            document.getElementById('watchDemoBtn').innerHTML = '<img src="/static/image/animations/loading-circle.gif" style="filter: invert(1);" height="24px">'
+
             const name = document.getElementById('name').value
             const mobile = document.getElementById('mobile').value
             const city = document.getElementById('city').value
 
             $.ajax({
-                url :'/api/course/watchdemo',
+                url :'/payment/sendotp',
                 type: "POST", 
-                data: {name, city, mobile}, 
+                data: {mobile}, 
                 success: (response) => {
-                    setCookie('customer', response.customer._id)
                     $('#demoModal').modal('hide')
-                    $('#videoModal').modal('show')
+                    document.getElementById('showMobile').value = mobile
+                    $('#codeModal').modal({
+                        show: true, 
+                        backdrop: false
+                    })
+
+                    $('#verifyOTP').click(() => {
+
+                        const code = document.getElementById('code').value
+
+                        document.getElementById('verifyOTP').innerHTML = '<img src="/static/image/animations/loading-circle.gif" style="filter: invert(1);" height="24px">'
+
+                        $.ajax({
+                            url :'/api/course/watchdemo',
+                            type: "POST", 
+                            data: {name, mobile, city, hashed: response.hashed, code}, 
+                            success: (response) => {
+                                $('#codeModal').modal('hide')
+                                document.getElementById('videoFrame').src = link
+                                setCookie('customer', response.customer._id)
+                                $('#videoModal').modal('show')
+                            },
+                            error: function(error){
+            
+                                $('#codeModal').modal('hide')
+                                toast.error('Invalid OTP')
+                            }
+                        })
+
+                    })
+
+
                 },
                 error: function(error){
-                    console.log(error.responseText);
+                    $('#demoModal').modal('hide')
+                    document.getElementById('watchDemoBtn').innerHTML = 'Proceed'
+                    toast.error(error.responseText)
                 }
             })
         })

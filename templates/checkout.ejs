@@ -29,15 +29,15 @@
                 <div class="col-12">
                   <div class="form-group mb-7">
                     <label for="name" class="gr-text-11 font-weight-bold text-blackish-blue">First & Last Name</label>
-                    <input class="form-control gr-text-11 border-gray-3 px-4" name="name" type="text" id="name" placeholder="i.e. John Doe">
+                    <input class="form-control gr-text-11 border-gray-3 px-4" name="name" type="text" id="name" value="<%= authenticated ? user.name : '' %>" placeholder="i.e. John Doe">
                   </div>
                 </div>
                 <!-- ./name ends -->
                 <!-- .email-adress starts -->
                 <div class="col-12">
                   <div class="form-group mb-7">
-                    <label for="email" class="gr-text-11 font-weight-bold text-blackish-blue">Email Address</label>
-                    <input class="form-control gr-text-11 border" type="text" name="email" id="email" placeholder="i.e. john@mail.com">
+                    <label for="email" class="gr-text-11 font-weight-bold text-blackish-blue" >Email Address</label>
+                    <input class="form-control gr-text-11 border" type="text" name="email" value="<%= authenticated ? user.email : '' %>" id="email" placeholder="i.e. john@mail.com">
                   </div>
                 </div>
                 <!-- ./email-adress ends -->
@@ -47,7 +47,7 @@
                     <label for="mobile" class="gr-text-11 font-weight-bold text-blackish-blue">Mobile Number</label>
                     <div class="d-flex">
                       <input class="form-control gr-text-11 border mr-4" style="width: 80px;" name="country" disabled type="text" id="country" value="+91">
-                      <input class="form-control gr-text-11 border" type="text" name="mobile" id="mobile" placeholder="i.e. +91 XXXXX XXXXX">
+                      <input class="form-control gr-text-11 border" type="text" name="mobile" value="<%= authenticated ? user.mobile : '' %>" id="mobile" placeholder="i.e. +91 XXXXX XXXXX">
                     </div>
                     
                   </div>
@@ -69,14 +69,14 @@
                 <div class="col-md-12">
                   <div class="form-group mb-7">
                     <label for="address" class="gr-text-11 font-weight-bold text-blackish-blue">Address</label>
-                    <textarea rows="4" class="form-control gr-text-11 border" name="address" type="text" id="address" placeholder="Address"></textarea>
+                    <textarea rows="4" class="form-control gr-text-11 border" name="address" value="<%= authenticated ? user.addresses[0].street : '' %>" type="text" id="address" placeholder="Address"></textarea>
                   </div>
                 </div>
                 <!-- .city/zip starts -->
                 <div class="col-md-6">
                   <div class="form-group mb-7">
                     <label for="city" class="gr-text-11 font-weight-bold text-blackish-blue">City</label>
-                    <input class="form-control gr-text-11 border" name="city" type="text" id="city" placeholder="City">
+                    <input class="form-control gr-text-11 border" name="city" value="<%= authenticated ? user.addresses[0].city : '' %>" type="text" id="city" placeholder="City">
                   </div>
                 </div>
                 <!-- ./city/zip ends -->
@@ -84,7 +84,7 @@
                 <div class="col-md-6">
                   <div class="form-group mb-7">
                     <label for="state" class="gr-text-11 font-weight-bold text-blackish-blue">State</label>
-                    <input class="form-control gr-text-11 border" name="state" type="text" id="state" placeholder="State">
+                    <input class="form-control gr-text-11 border" name="state" type="text" value="<%= authenticated ? user.addresses[0].state : '' %>" id="state" placeholder="State">
                   </div>
                 </div>
                 <!-- state ends -->
@@ -100,7 +100,7 @@
                 <div class="col-md-6 pb-9">
                   <div class="form-group mb-7">
                     <label for="zip" class="gr-text-11 font-weight-bold text-blackish-blue">Zip/Postal Code</label>
-                    <input class="form-control gr-text-11 border" name="pincode" type="text" id="zip" placeholder="Zip Code">
+                    <input class="form-control gr-text-11 border" name="pincode" value="<%= authenticated ? user.addresses[0].pincode : '' %>" type="text" id="zip" placeholder="Zip Code">
                   </div>
                 </div>
                 <!-- ./Zip/Postal ends -->
@@ -252,20 +252,24 @@
     <div style="position: fixed;top:0px;height: 100vh;width: 1000vw;left: 0;background: rgba(0,0,0,.8);"></div>
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header pt-12 px-12 border-0">
-          <h5 class="modal-title" id="exampleModalLabel">Enter the code sent to +91<span id="showMobile"></span></h5>
-        </div>
-        <div class="modal-body px-12">
-          <div class="form-group w-100">
-            <input class="form-control gr-text-11 border" name="code" type="text" id="code" placeholder="Enter OTP here">
+          <div class="modal-header pt-12 px-12 border-0">
+            <h5 class="modal-title" id="modalLabel">
+              Enter the code sent to +91<span id="showMobile"></span>
+            </h5>
           </div>
-          <div class="d-flex justify-content-between">
-            <p class="py-2 text-danger mb-0" id="otp-error"></p>
-            <a id="resendOTP" href="#">Resend OTP</a>
+          <div id="modalBody" class="modal-body px-12">
+            <div class="form-group w-100">
+              <input class="form-control gr-text-11 border" name="code" type="text" id="code" placeholder="Enter OTP here">
+            </div>
+            <div class="d-flex justify-content-between">
+              <p class="py-2 text-danger mb-0" id="otp-error"></p>
+              <a id="resendOTP" href="#">Resend OTP</a>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer pb-12 px-12 border-0">
-          <button type="button" id="proceedBtn" class="w-100 btn btn-primary">Proceed</button>
+        
+        <div id="modalFooter" class="modal-footer pb-12 px-12 border-0">
+          <button type="button" id="proceedBtn" class="w-100 btn btn-primary">Next</button>
+          
         </div>
       </div>
     </div>
