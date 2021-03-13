@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 
 //requiring  basic middlewares
-const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -11,7 +10,6 @@ const MongoStore = require("connect-mongo")(session);
 const cors = require("cors");
 const path = require("path");
 const morgan = require('morgan')
-
 
 require('dotenv').config()
 
@@ -34,8 +32,8 @@ app.set('views', path.join(__dirname, 'templates'));
 app.set('view engine', 'ejs');
 
 //using basic middlwares
-app.use(bodyParser.json({extended: false}))
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.json({extended: false}))
+app.use(express.urlencoded({extended: false}))
 
 app.use(cookieParser())
 app.use(cors());
@@ -52,7 +50,7 @@ app.use(
       ttl: 24 * 60 * 60
     }),
     cookie: {
-      maxAge: 365 * 24 * 60 * 60 * 1000
+      maxAge: 24 * 60 * 60 * 1000
     }
   })
 );
@@ -61,7 +59,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-  //routes
+app.get('/restart', (req, res) => {
+
+  res.send("Servers restarted successfully.")
+  execShellCommand("pm2 restart server.js")
+  
+})
+
 const router = require('./routes/index');
 
 //database connectivity

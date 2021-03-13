@@ -2,7 +2,7 @@ const  userRoutes = require('./user')
 const  feedBackRoutes = require('./feedback')
 const  reportRoutes = require('./report')
 const  contactRoutes = require('./contact')
-const  pagesRoutes = require('./pages')
+// const  pagesRoutes = require('./pages')
 const  cartRoutes = require('./cart')
 const  paymentRoutes = require('./payments')
 const  blogRoutes = require('./blog')
@@ -35,11 +35,13 @@ const commonData = async (req, res, next) => {
         user: req.isAuthenticated() ? await User.findById(req.session.passport.user) : {}
     }
     req.session.message = false
+
+    console.log(req.session);
     next()
 
 }
 
-router.use("/", commonData, pagesRoutes)
+router.use("/", commonData, require('./pages'))
 router.use("/payment", paymentRoutes)
 
 router.use("/api/user", userRoutes)

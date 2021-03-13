@@ -1,5 +1,3 @@
-// importing the module
-const nodemailer = require("nodemailer");
 const { transporter } = require("./transporter");
 
 

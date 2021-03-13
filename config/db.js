@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const { connection } = require('./connection');
 
 //exporting the datbase conncetivity
 exports.connectionDB = async () => {
   try {
-    mongoose.connect(connection,
+    mongoose.connect(process.env.DB_CONNECTION,
     { useUnifiedTopology: true ,useNewUrlParser: true,useCreateIndex: true },(err, data)=>{
       
         if(err){ 

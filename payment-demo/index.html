@@ -112,21 +112,6 @@
                 alert(response.error.metadata.payment_id);
         });
         rzp1.open();
-        $('#cartModal').modal('hide')
-
-        $.ajax({
-            url: 'https://api.razorpay.com/v1/payment_links/',
-            type: "POST",
-            data: bodyData,
-            success: (response) => {
-                $('#cartModal').modal('show')
-                window.paymentDetails = response
-                document.getElementById('payment-details').innerHTML = JSON.stringify(response)
-            },
-            error: (error) => {
-                console.log(error);
-            }
-        })  
 
         e.preventDefault();
     }

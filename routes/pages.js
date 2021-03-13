@@ -3,6 +3,7 @@ const Router = express.Router()
 const pages = require('../controllers/pages')
 const { isSignedIn } = require('../controllers/user')
 
+
 Router.get("/", pages.homepage)
 
 Router.get("/about", pages.about)

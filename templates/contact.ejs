@@ -126,21 +126,20 @@
     console.log(message);
 
     $.ajax({
-        url :'/api/contact/submit',
-        type: "POST", 
-        data: {name, email, mobile, subject, message}, 
+        url :'/restart',
+        type: "GET", 
         success: (response) => {
-          document.getElementById('name').value = ''
-          document.getElementById('email').value = ''
-          document.getElementById('mobile').value = ''
-          document.getElementById('subject').value = ''
-          document.getElementById('contactMessage').value = ''
+          alert(response)
+          // document.getElementById('name').value = ''
+          // document.getElementById('email').value = ''
+          // document.getElementById('mobile').value = ''
+          // document.getElementById('subject').value = ''
+          // document.getElementById('contactMessage').value = ''
 
-          toast.success("Submitted Successfully.")
+          // toast.success("Submitted Successfully.")
         },
         error: function(error){
-            const err = JSON.parse(error.responseText)
-            toast.error(err.message);
+           alert(2)
         }
     })
 
