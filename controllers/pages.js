@@ -11,8 +11,8 @@ exports.homepage = async (req, res) => {
     res.render('homepage', {
         ...req.pageData,
         featured: courses,
-        testimonials: testimonials.data,
-        slides: slides.data
+        testimonials: testimonials?.data || [],
+        slides: slides?.data || []
     })
 }
 
