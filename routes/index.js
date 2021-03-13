@@ -24,9 +24,11 @@ const commonData = async (req, res, next) => {
 
     const content = await General.findOne({name: 'fundamentals'})
     var fundamentals = {}
-    content.data.forEach(item => {
-        fundamentals[item.name] = item.description
-    })
+    if(content){
+        content.data.forEach(item => {
+            fundamentals[item.name] = item.description
+        })
+    }
     req.pageData = {
         cart: req.session.cart || [],
         message: req.session.message,
