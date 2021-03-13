@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 exports.connectionDB = async () => {
   try {
     mongoose.connect(process.env.DB_CONNECTION,
-    { useUnifiedTopology: true ,useNewUrlParser: true},(err, data)=>{
+    { useUnifiedTopology: true ,useNewUrlParser: true,useCreateIndex: true },(err, data)=>{
       
         if(err){ 
           console.log("Unable to connect with DB",err);
