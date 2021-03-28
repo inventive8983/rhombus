@@ -5,13 +5,15 @@ const Blog = require('../models/blog')
 exports.homepage = async (req, res) => {
 
     const courses = await Course.find({featured: true}).limit(3)
-    const testimonials = await General.findOne({name: 'testimonials'})
+    var testimonials = await General.findOne({name: 'testimonials'})
     const slides = await General.findOne({name: 'slider'})    
+
+    if(testimonials.data) testimonials = testimonials.data
 
     res.render('homepage', {
         ...req.pageData,
         featured: courses,
-        testimonials: testimonials?.data || [],
+        testimonials: testimonials,
         slides: slides?.data || []
     })
 }
