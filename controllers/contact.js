@@ -2,6 +2,7 @@ const { handleError } = require('../helpers/errorHandler')
 const Contact  = require('../models/contact')
 const  { validationResult } = require('express-validator')
 const { sendMail } = require('../helpers/mail')
+const Customer = require('../models/customers')
 
 //submission  the contact
 exports.contactSubmit =async (req,res)=>{
@@ -38,18 +39,31 @@ exports.contactSubmit =async (req,res)=>{
                     <p>Message: ${message}</p>
                 `
             }
-            sendMail(emailObject.email,emailObject.subject,emailObject.html).then(data=>{
-                return res.status(200).json({
-                    success :true,
-                    message:"Contact Information stored Successfully"
-                })
+            sendMail(emailObject.email,emailObject.subject,emailObject.html)
+            res.status(200).json({
+                success :true,
+                message:"Contact Information stored Successfully"
             })
-            .catch(err =>{
-                    return handleError(res, err, "Please contact Support", 500)
-            })
+            
 
 
     }).catch(err => {
         return handleError(res, err, "Please contact Support", 403)
     })
+}
+
+exports.getQueries = (req, res) => {
+
+    Contact.find({}).then(queries => {
+        res.send(queries)
+    })
+
+}
+
+exports.getCourseQueries = (req, res) => {
+
+    Customer.find({}).sort({_id: -1}).then(queries => {
+        res.send(queries)
+    })
+
 }

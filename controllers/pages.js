@@ -47,7 +47,7 @@ exports.allCourses = async (req, res) => {
                     
             });
 
-            res.render('courses', {
+            res.render(`${req.params.category}`, {
                 courses,
                 category: req.params.category,
                 subCategories,
@@ -55,7 +55,12 @@ exports.allCourses = async (req, res) => {
             })
         }
         else{
-            res.sendStatus(404)
+            res.render('status-page', {
+                ...req.pageData,
+                icon: 'coming-soon',
+                title: req.params.category + " Courses are coming soon.",
+                info: "We are currently preparing something excellent in our studio. Stay tuned."
+            })
         }
     })
     
@@ -128,7 +133,7 @@ exports.blogDetails = async (req, res) => {
 
 exports.blogContent = async (req, res) => {
 
-    const blog = await Blog.findOne({_id: req.params.id, published: true}, {content: 1})
+    const blog = await Blog.findOne({_id: req.params.id}, {content: 1})
     if(!blog) return res.sendStatus(404)
     res.status(200).json({content: blog.content})
 

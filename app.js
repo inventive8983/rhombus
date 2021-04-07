@@ -23,6 +23,7 @@ const {connectionDB} = require('./config/db')
 
 app.use('/static', express.static('static'))
 app.use('/media', express.static('media'))
+app.use('/template', express.static('template'))
 app.use('/admin', express.static(path.join(__dirname, 'admin', 'build')))
 
 

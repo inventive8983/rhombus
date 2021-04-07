@@ -42,6 +42,30 @@ const dashBoardNavTree = [
         breadcrumb: false,
         submenu: []
       },
+      {
+        key: 'queries',
+        path: '/app/queries',
+        title: 'Enquiries',
+        icon: BookOutlined,
+        breadcrumb: false,
+        submenu: [
+          {
+            key: 'course-queries',
+            path: '/app/queries/courses',
+            title: 'Courses',
+            icon: BookOutlined,
+            breadcrumb: false,
+            submenu: []
+          },
+          {
+          key: 'general-queries',
+          path: '/app/queries/general',
+          title: 'General',
+          icon: BookOutlined,
+          breadcrumb: false,
+          submenu: []
+        }]
+      },
     ]
   },
   {

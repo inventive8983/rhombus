@@ -137,7 +137,7 @@ body[data-theme='light'] .default-logo, body[data-theme='light'] .default-shape,
 }
 
 .course-card-img img{
-  height: 200px;
+  height: 160px;
   object-fit: cover;
 }
 
@@ -203,6 +203,49 @@ body[data-theme='light'] .default-logo, body[data-theme='light'] .default-shape,
 .whatsapp-testimonials ::-webkit-scrollbar-track {
   width: 8px;
 }
+
+#article h2:not(:first){
+  margin-top: 64px;
+}
+#article th, #article td{
+  font-family: "Circular Std", sans-serif !important;
+}
+
+#article table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+#article th,
+#article td {
+  text-align: center;
+  padding: 8px;
+  font-family: geomanist regular;
+}
+
+#article tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+
+#article th {
+  background-color: #473bf0dd;
+  color: #ffffff;
+}
+
+#article h3{
+  font-size: 28px !important;
+}
+#article img, #content img{
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  #content-table{
+    display: none;
+  }
+}
+
 
 /*=== Media Query ===*/
 .accordion-trigger.arrow-icon {

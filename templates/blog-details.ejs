@@ -22,8 +22,17 @@
 </div>
 <div class="main-block py-6 py-lg-17">
     <div class="container">
-      <div class="row">
-        <div id="content" class="col-xl-8 col-lg-8">
+      <div class="row position-relative">
+        <div id="content-table" class="col-xl-3 col-lg-4">
+          <div class="rounded-10">
+            <div class="price-content light-mode-texts">
+                <ul class="mx-3 pl-0 my-3 mx-auto">
+                   
+                </ul>
+            </div>
+        </div>
+        </div>
+        <div id="content" class="col-xl-9 col-lg-8">
           
         </div>
         <!-- <div class="col-lg-4">
@@ -66,6 +75,27 @@
         window.onload = () => {
           $.ajax({url: '/blog/content/<%= blog._id %>', success: function(result){
             document.getElementById('content').innerHTML = result.content
+
+            var titles = $('#content h2')
+            var html = ''
+            Object.entries(titles).forEach((title, index) => {
+              title[1].id = "heading-" + index
+            })
+            Object.entries(titles).forEach((title, index) => {
+
+              if(title[1].innerText){
+                html += `<li class="text-black gr-text-9 mb-0 py-5 border-top border-bottom d-block">
+                          <a href="#heading-${index}"><span class="font-weight-bold">${title[1].innerText}</span></a>
+                        </li>`
+              }
+
+            })
+            document.getElementById('content-table').innerHTML = `<div class="rounded-10">
+            <div class="price-content light-mode-texts">
+                <ul class="mx-3 pl-0 my-3 mx-auto">
+                   ${html}
+                </ul>
+            </div>`
           }});
           
         }

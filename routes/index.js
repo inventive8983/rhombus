@@ -38,7 +38,6 @@ const commonData = async (req, res, next) => {
     }
     req.session.message = false
 
-    console.log(req.session);
     next()
 
 }
@@ -47,9 +46,9 @@ router.use("/", commonData, require('./pages'))
 router.use("/payment", paymentRoutes)
 
 router.use("/api/user", userRoutes)
-router.use("/api/feedback", feedBackRoutes)
+// router.use("/api/feedback", feedBackRoutes)
 router.use("/api/contact", contactRoutes)
-router.use("/api/report", reportRoutes)
+// router.use("/api/report", reportRoutes)
 router.use("/api/cart", cartRoutes)
 router.use("/api/blogs", blogRoutes)
 router.use("/api/upload", uploadRoutes)

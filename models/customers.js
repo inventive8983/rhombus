@@ -5,7 +5,12 @@ const customerSchema = new mongoose.Schema({
     _id: mongoose.Types.ObjectId,
     name: String,
     mobile: Number,
-    city: String    
+    city: String,
+    date: {
+        type: Date,
+        default: Date.now()
+    },
+    course: String    
 
 })
 

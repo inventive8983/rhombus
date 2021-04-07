@@ -245,6 +245,7 @@ exports.watchDemo = async (req, res) => {
     const newCust = new Customers({
         _id: new mongoose.Types.ObjectId,
         name: req.body.name,
+        course: req.body.course,
         mobile: req.body.mobile,
         city: req.body.city
     })

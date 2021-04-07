@@ -1,6 +1,6 @@
 const express = require('express')
 const Router = express.Router()
-const { contactSubmit } = require('../controllers/contact')
+const { contactSubmit, getQueries, getCourseQueries } = require('../controllers/contact')
 const {check} = require('express-validator')
 
 
@@ -12,6 +12,9 @@ Router.post("/submit",[
     check("subject","Subject should be Atleast three character").exists().isLength({min:3}),
     check("message","Message should be Atleast three character").exists().isLength({min:3}),
 ], contactSubmit)
+
+Router.get('/general', getQueries)
+Router.get('/courses', getCourseQueries)
 
 
 //exporting the file

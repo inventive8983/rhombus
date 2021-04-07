@@ -385,6 +385,7 @@ function checkDemo(link){
 
             const name = document.getElementById('name').value
             const mobile = document.getElementById('mobile').value
+            const course = document.getElementById('course-name').innerText
             const city = document.getElementById('city').value
 
             $.ajax({
@@ -393,7 +394,7 @@ function checkDemo(link){
                 data: {mobile}, 
                 success: (response) => {
                     $('#demoModal').modal('hide')
-                    document.getElementById('showMobile').value = mobile
+                    document.getElementById('showMobile').innerText = mobile
                     $('#codeModal').modal({
                         show: true, 
                         backdrop: false
@@ -408,7 +409,7 @@ function checkDemo(link){
                         $.ajax({
                             url :'/api/course/watchdemo',
                             type: "POST", 
-                            data: {name, mobile, city, hashed: response.hashed, code}, 
+                            data: {name, mobile, city, course, hashed: response.hashed, code}, 
                             success: (response) => {
                                 $('#codeModal').modal('hide')
                                 document.getElementById('videoFrame').src = link

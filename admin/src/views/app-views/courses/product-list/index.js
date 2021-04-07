@@ -7,6 +7,7 @@ import Flex from 'components/shared-components/Flex'
 import NumberFormat from 'react-number-format';
 import { useHistory } from "react-router-dom";
 import utils from 'utils'
+import AnchorLink from 'antd/lib/anchor/AnchorLink';
 
 const { Option } = Select
 
@@ -69,8 +70,8 @@ const ProductList = () => {
 	const duplicateCourse = row => {
 		courseAPI.duplicate({id: row._id}).then(course => {
 			message.success("Created!")
-			var data = [...ProductListData, course]
-			setProductListData(data)
+			var data = [...list, course]
+			setProductListData([...ProductListData, course])
 			setList(data)
 		})
 		.catch(err => {
@@ -117,6 +118,7 @@ const ProductList = () => {
 		{
 			title: 'Course',
 			dataIndex: 'name',
+			render: (_, elm) => <a onClick={() => viewDetails(elm)} className="text-dark" style={{textDecoration: "underline"}} type="text">{elm.name}</a>,
 			sorter: (a, b) => utils.antdTableSorter(a, b, 'name')
 		},
 		{
@@ -211,7 +213,7 @@ const ProductList = () => {
 					</div>
 					<div className="mb-3">
 						<Select 
-							defaultValue="All" 
+							defaultValue="All"
 							className="w-100" 
 							style={{ minWidth: 180 }} 
 							onChange={handleShowCategory} 
