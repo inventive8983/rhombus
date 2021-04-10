@@ -18,13 +18,18 @@
   </section>
   <div class="section pb-20 bg-default-2">
     <div class="container ">
-        <div class="row  justify-content-center pt-5">
-            <% files.forEach(image => {%>
-            <div class="col-xl-10 col-lg-12">
-                <img class="w-100 object-fit-cover rounded-8" style="cursor: pointer;" data-fancybox="" href="<%= image %>" src="<%= image %>" alt="">
-            </div>
+      <% files.forEach(collection => {%>
+        <div class="row pt-5">
+          <div class="text-center col-12 mt-12 mb-6">
+            <h3><%= collection[0] %></h3>
+          </div>
+          <% collection[1].split(',').forEach(image => {%>
+              <div class="col-8 offset-2">
+                <img class="w-100 object-fit-cover" style="cursor: pointer;" data-fancybox="" href="<%= image %>" src="<%= image %>" alt="">
+              </div>
             <% }) %>
         </div>
+        <% }) %>
     </div>
   </div>
     

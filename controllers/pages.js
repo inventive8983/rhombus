@@ -110,7 +110,10 @@ exports.results = async (req, res) => {
 
     res.render('results', {
         ...req.pageData,
-        files: results.data
+        files: [
+            ["Result Category 1", "https://imagizer.imageshack.com/img923/1167/McTGsq.jpg" ],
+            ["Result Category 2", "https://imagizer.imageshack.com/img922/9100/5sf2pm.jpg,https://imagizer.imageshack.com/img922/6513/rInSuc.jpg,https://imagizer.imageshack.com/img922/7557/gFXL7j.jpg"]
+        ]
     })
     
 }
