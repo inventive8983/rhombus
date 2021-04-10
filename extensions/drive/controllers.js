@@ -35,7 +35,6 @@ exports.upload = (req, res) => {
                     category: req.params.category,
                     description: fields.description,
                     fileType: files.file.type,
-                    tags: fields?.tags?.split(',')
                 })
 
                 newFile.save()
