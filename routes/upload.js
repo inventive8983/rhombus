@@ -5,6 +5,6 @@ const uploadImage = require('../helpers/upload')
 
 Router.post('/image/:folder', uploadImage.single('file') ,upload.uploadImage)
 
-Router.post('/fake', (req,res) => {res.sendStatus(200)})
+Router.post('/fake', upload.uploadImage)
 
 module.exports = Router

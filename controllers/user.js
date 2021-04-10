@@ -16,6 +16,12 @@ const { verifyOTP } = require('../helpers/sms');
 
 //signUP  controller 
 exports.signUp = async (req, res) =>{
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).send(errors.array()[0].msg);
+    }
+
   
     // //IF EMAIL ALREADY EXIST
     const emailExist = await User.findOne({email: req.body.email})
@@ -60,6 +66,11 @@ exports.isSignedIn = (req, res, next) => {
 
 //singin  controller
 exports.signin = async (req,res, next)=>{
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).send(errors.array()[0].msg);
+    }
 
      
     passport.authenticate('client', {

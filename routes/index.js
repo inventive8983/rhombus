@@ -9,6 +9,7 @@ const  blogRoutes = require('./blog')
 const  uploadRoutes = require('./upload')
 const  generalRoutes = require('./general')
 const  adminRoutes = require('./admin')
+const driveRoutes = require('../extensions/drive/routes')
 
 const User = require('../models/user')
 
@@ -54,6 +55,7 @@ router.use("/api/blogs", blogRoutes)
 router.use("/api/upload", uploadRoutes)
 router.use("/api/general", generalRoutes)
 router.use("/api/admin", adminRoutes)
+router.use("/api/drive", driveRoutes)
 
 //Products
 router.use("/api/course", courseRoutes)

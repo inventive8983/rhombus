@@ -32,7 +32,7 @@ exports.user = async (req, res) => {
 exports.isAdmin = async (req, res, next) => {
 
     jwt.verify(req.headers.authorization, 'my-secret', async (err, decoded) => {
-        if(err) res.status(400).send("You are not admin")
+        if(err) res.status(401).send("You are not admin")
         else {
             
             const user = await Admin.findOne({_id: decoded.data._id})

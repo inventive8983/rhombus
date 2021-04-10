@@ -43,7 +43,7 @@ router.post('/resetWithOTP',[
 //signin 
 router.post("/login",
     [
-      check("email", "email is required").isEmail(),
+      check("mobile", "Mobile is required").isNumeric().isLength({max:10}),
       check("password", "password field is required").isLength({ min: 1 })
     ],
     signin

@@ -96,10 +96,14 @@ exports.gallery = async (req, res) => {
 
     res.render('gallery', {
         ...req.pageData,
-        files: gallery.data
+        images:[
+          ["AKN Photos", "https://imagizer.imageshack.com/img924/7703/vzPz3r.jpg,https://imagizer.imageshack.com/img922/6654/Z30kyA.jpg,https://imagizer.imageshack.com/img924/1322/w9bWcH.jpg,https://imagizer.imageshack.com/img923/3676/anjLkF.jpg,https://imagizer.imageshack.com/img923/732/AOXqfc.jpg,https://imagizer.imageshack.com/img923/6031/9C4yVS.jpg,https://imagizer.imageshack.com/img922/9154/OfgtQ5.jpg,https://imagizer.imageshack.com/img923/1091/PcDrwY.jpg,https://imagizer.imageshack.com/img924/5923/WVeWtZ.jpg,https://imagizer.imageshack.com/img922/3269/V7QCNj.jpg,https://imagizer.imageshack.com/img924/1160/Pq1UTe.jpg,https://imagizer.imageshack.com/img923/3881/8BK517.jpg,https://imagizer.imageshack.com/img924/972/k6V2Ek.jpg"],
+          ["Classroom Photos", "https://imagizer.imageshack.com/img922/3108/pQvOZ4.jpg,https://imagizer.imageshack.com/img923/1772/HxGwqy.jpg,https://imagizer.imageshack.com/img922/6386/J105oc.jpg,https://imagizer.imageshack.com/img923/6044/nNg8hZ.jpg,https://imagizer.imageshack.com/img924/1697/fGq83k.jpg,https://imagizer.imageshack.com/img923/5146/WlCm2L.jpg,https://imagizer.imageshack.com/img923/2118/qOynAU.jpg,https://imagizer.imageshack.com/img922/6113/9cPeXC.jpg,https://imagizer.imageshack.com/img924/5299/oEtBwD.jpg,https://imagizer.imageshack.com/img923/1053/fP6s5M.jpg,https://imagizer.imageshack.com/img922/8656/0ATJ88.jpg,https://imagizer.imageshack.com/img922/7213/zTIiSf.jpg,https://imagizer.imageshack.com/img923/4183/qSwuGr.jpg,https://imagizer.imageshack.com/img923/8342/Zdvml3.jpg,https://imagizer.imageshack.com/img923/3065/MjmgGT.jpg"],
+          ["Feedbacks", "https://imagizer.imageshack.com/img924/4883/F9H78E.jpg,https://imagizer.imageshack.com/img924/7293/ndMCAJ.jpg,https://imagizer.imageshack.com/img924/8802/v84fH8.jpg,https://imagizer.imageshack.com/img923/1790/a31KsQ.jpg,https://imagizer.imageshack.com/img923/5062/J0CC0M.jpg"]
+        ]
     })
-    
 }
+
 exports.results = async (req, res) => {
 
     const results = await General.findOne({name: 'results'})    
