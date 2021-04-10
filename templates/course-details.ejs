@@ -5,10 +5,11 @@
 <%- include('components/header') %>
 
      <!-- navbar- -->
-     <section class="pt-29 bg-default">
+     <section class="card-<%= course.category %> py-20 position-relative">
+      <img src="/static/image/overlay.svg" style="mix-blend-mode: overlay;z-index: 0;position: absolute;top: 0px; left: 0px; width: 100%;height: 100%;object-fit: cover;">
         <div class="container">
           <div class="row">
-            <div class="col-xl-10 col-md-12 ml-n1 mt-12 mt-md-0">
+            <div class="text-center col-md-12 ml-n1 mt-12 mt-md-0">
               <div class="">
                 <!-- <div class="ratings d-flex">
                   <i class="fas fa-star mx-1 text-yellow gr-text-8"></i>
@@ -17,8 +18,8 @@
                   <i class="fas fa-star mx-1 text-yellow gr-text-8"></i>
                   <i class="far fa-star mx-1 text-yellow gr-text-8"></i>
                 </div> -->
-                <h3 id="course-name" class="gr-text-2 pt-5 font-weight-bold"><%= course.name %></h3>
-                <p class="gr-text-9">in <a href=""><%= course.category %></a></p>
+                <p class="gr-text-5"><a class="text-white" href="/courses/<%= course.catgory %>"><%= course.category %> <%= course.subCategory %></a></p>
+                <h3 id="course-name" class="gr-text-2 pt-5 text-white font-weight-bold"><%= course.name %></h3>
                 <!-- <p class="gr-text-8 mb-5">List Price: $90</p>
                 <p class="gr-text-5 font-weight-bold gr-heading-opacity">Price: <span class="gr-text-color"> $70</span></p> -->
                 <!-- <ul class="list-unstyled">
@@ -73,7 +74,7 @@
                   <% if(course.demoVideos.length > 0){ %>  
                     <div class="py-6">
                       <div class="w-100 border-bottom">
-                        <h4 class="h3 w-100 ">Demo Videos</h4>
+                        <h6 class="gr-text-7">Demo Videos</h6>
                       </div>
                       <% course.demoVideos.forEach((video, index) => { %>
                       <div class="p-6 border-bottom d-flex justify-content-between align-items-center">
@@ -86,6 +87,18 @@
                     </div>
                       
                   <% } %>
+                  <div class="py-6 mb-6">
+                    <div class="w-100">
+                      <h6 class="gr-text-7">Featured Reviews</h6>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-4 col-md-6">
+                        <div class="rounded-10 overflow-hidden" style="height: 160px;">
+                        <iframe width="100%" height="160px" src="https://www.youtube.com/embed/FoAhI2PxCGE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
                   <h6 class="gr-text-7">Basic Details</h6>
                   <p class="gr-text-9"><b>Modes:</b> Google Drive and Pen Drive</p>
                   <p class="gr-text-9"><b>Each Lecture Duration:</b> 40-45 Minutes</p>
@@ -104,8 +117,8 @@
                   <h6 class="gr-text-7">About the Faculties</h6>
                   <p class="gr-text-9">All Facuties are well qualified and knowledgeable, having expertise in their respective subjects and a minimum experience of 10years. Our team has given 54AIRs and 34AIRs in top 50 in Nov-2019 & Nov-2018 attempt, respectively. This indeed is a great achievement with highest selections every year. Also, they further thrive to give best results in coming years.</p>
                   <h6 class="gr-text-7">Technical Support</h6>
-                  <span class="gr-text-9">Email: </span><br/>
-                  <span class="gr-text-9">Mobile: </span>
+                  <span class="gr-text-9">Mobile: <% if(fundamentals.mobile1){ %><%= fundamentals.mobile1 %><% } %></span><br/>
+                  <span class="gr-text-9">Email: <% if(fundamentals.email1){ %><%= fundamentals.email1 %><% } %> </span>
                 </div>
                 <div class="tab-pane fade" id="nav-specification" role="tabpanel" aria-labelledby="nav-specification-tab">
                   terative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
@@ -120,7 +133,7 @@
                 <input name="streamSrc" id="streamSrc" value="<%= course.addons[0].name %>" hidden />
               <div class="btn-group-vertical course-pricing w-100 btn-group-toggle" data-toggle="buttons">
                 <% course.variants.map((variant, index) => { %>
-                <label onclick="addOption(`<%= index %>`)" class="btn py-5 mb-6 px-8 d-flex align-items-center justify-content-between active">
+                <label onclick="addOption(`<%= index %>`)" style="border-radius: 12px;background: white;" class="btn border py-5 mb-6 px-8 d-flex align-items-center justify-content-between active">
                   <% if(index === 0){ %>
                     <input type="radio" autocomplete="off" checked>
                   <% } else { %>
@@ -222,27 +235,6 @@
             </div>
           </div>
         </div>
-      <!-- Product Area -->
-      <div class="pt-13 pt-md-25 pb-13 pb-md-25 bg-default-5">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="section-title text-center">
-                <h2 class="gr-text-4">
-                  Related Products
-                </h2>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-8" data-aos="fade-right" data-aos-duration="600" data-aos-once="true">
-            <% relatedCourses.map(course => { %>
-              <div class="col-md-6 col-lg-4 px-2">
-                <%- include('components/course-card', course) %>
-              </div>
-            <% }) %>
-          </div>
-        </div>
-      </div>
       
       <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">

@@ -136,10 +136,16 @@ body[data-theme='light'] .default-logo, body[data-theme='light'] .default-shape,
   display: none;
 }
 
+body{
+  overflow-x: hidden;
+}
+
 .course-card-img img{
   height: 160px;
   object-fit: cover;
 }
+
+
 
 .img-hover{
   border-radius: 12px;
@@ -154,6 +160,31 @@ body[data-theme='light'] .default-logo, body[data-theme='light'] .default-shape,
 
 .carousel-cell{
   cursor: default !important;
+}
+.main-slider .carousel-cell img{
+  max-height: calc(100vh - 135px);
+  min-height: calc(100vh - 135px);
+  object-fit: fill;
+}
+
+@media (max-width: 540px){
+  
+  .main-slider .carousel-cell img{
+    max-height: 256px;
+    min-height: 256px;
+    object-fit: fill;
+  }
+
+}
+
+@media (max-width: 400px){
+  
+  .main-slider .carousel-cell img{
+    max-height: 160px;
+    min-height: 160px;
+    object-fit: fill;
+  }
+
 }
 
 .course-pricing .active{
@@ -204,6 +235,22 @@ body[data-theme='light'] .default-logo, body[data-theme='light'] .default-shape,
   width: 8px;
 }
 
+.card-CA{
+  background: #1334ee;
+}
+
+.card-MBA{
+  background: #e63731 !important;
+}
+
+.card-UGC-NET{
+  background: #0da13a;
+}
+
+.alert{
+  margin-bottom: 0px !important;
+}
+
 #article h2:not(:first){
   margin-top: 64px;
 }
@@ -244,6 +291,10 @@ body[data-theme='light'] .default-logo, body[data-theme='light'] .default-shape,
   #content-table{
     display: none;
   }
+}
+
+html{
+  scroll-behavior: smooth !important;
 }
 
 

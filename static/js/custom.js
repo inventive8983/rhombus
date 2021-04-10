@@ -1,6 +1,9 @@
 'use strict'
 
 $(document).ready(function() {
+
+  
+
     $('select').niceSelect();
 
     AOS.init();

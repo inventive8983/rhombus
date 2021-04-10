@@ -25,15 +25,15 @@
                 </div>
             </div>
 
-            <div class="container">
-                <div class="col-12 mb-8">
+            <div class="container my-8">
+                <div class="col-12">
                     <h4>Choose your course</h4>
                 </div>
                 <div class="row mb-16 d-flex">
                 <!-- <div class="main-carousel px-lg-12"
                     data-flickity='{ "cellAlign": "left", "contain": true, "pageDots": false }'> -->
                     <% courses.map(course=> { %>
-                        <div class="carousel-cell col-sm-6 col-md-4 col-lg-3 my-6">
+                        <div class="carousel-cell col-lg-3 px-1 my-3">
                             <%- include('components/course-card', course) %>
                         </div>
                         <% }) %>
@@ -43,8 +43,8 @@
             <div class="main-block pb-6 pb-lg-17 bg-default-6">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xl-4 col-lg-3">
-                            <div class="rounded-10">
+                        <div class="col-xl-4 col-lg-3 align-self-start position-sticky" style="top: 96px; height:auto;">
+                            <div class="d-none d-lg-block rounded-10 bg-default-3 p-6">
                                 <div class="price-content light-mode-texts">
                                   <ul id="content-table" class="mx-3 pl-0 my-3 mx-auto">
                                     
@@ -55,8 +55,8 @@
                         <div class="col-xl-8 col-lg-9" id="article">
                            
                         </div>
-                        </div>
                     </div>
+                </div>
             </div>
 
 
@@ -78,13 +78,38 @@
                             Object.entries(titles).forEach((title, index) => {
 
                                 if (title[1].innerText) {
-                                    html += `<li class="text-black gr-text-9 mb-0 py-5 border-top border-bottom d-block">
-                        <a href="#heading-${index}"><span class="font-weight-bold">${title[1].innerText}</span></a>
-                        </li>`
+                                    html += `<li class="text-black gr-text-9 mb-0 py-5 d-block">
+                                    <a href="#heading-${index}"><span class="font-weight-bold text-dark">${title[1].innerText}</span></a>
+                                    </li>`
                                 }
 
                             })
                             document.getElementById('content-table').innerHTML = html
+
+                            $('a[href*="#"]')
+                        // Remove links that don't actually link to anything
+                            .not('[href="#"]')
+                            .not('[href="#0"]')
+                            .click(function(event) {
+                                // On-page links
+                                if (
+                                location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+                                && 
+                                location.hostname == this.hostname
+                                ) {
+                                // Figure out element to scroll to
+                                var target = $(this.hash);
+                                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                                // Does a scroll target exist?
+                                if (target.length) {
+                                    // Only prevent default if animation is actually gonna happen
+                                    event.preventDefault();
+                                    $('html, body').animate({
+                                    scrollTop: (target.offset().top - 96)
+                                    }, 300);
+                                }
+                                }
+                            });
                         }
                     });
 

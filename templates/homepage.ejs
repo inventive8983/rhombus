@@ -34,15 +34,15 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>style="height: calc(100vh - 135px);"
     </div> -->
 
-    <div>
+    <div class="main-slider">
       <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true, "pageDots": true, "autoPlay": 7000, "pauseAutoPlayOnHover": false }'>
         <% slides.forEach(image => { %>
         <div class="carousel-cell w-100">
           <div class="w-100 bg-blue overflow-hidden">
-            <img class="w-100" style="max-height: 720px;min-height: 720px;object-fit: cover;" src="<%= image %>" alt="">
+            <img class="w-100" src="<%= image %>" alt="">
           </div>
         </div>
         <% }) %>
@@ -50,7 +50,7 @@
     </div>
 
     <!-- Fact Counter section -->
-    <div class="fact-section bg-default-3 pt-lg-30 py-12 pb-lg-30">
+    <div class="fact-section pt-lg-30 py-12 pb-lg-30">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-4 col-md-6 col-sm-6 mb-9 mb-lg-0">
@@ -76,47 +76,42 @@
     </div>
 
     <!-- Service section  -->
-    <div id="courses" class="service-section pt-15 pb-13 py-lg-24">
+    <div id="courses" class="service-section bg-default-3 position-relative pt-15 pb-13 py-lg-24">
+      <div style="position: absolute;background: linear-gradient(349deg, rgba(208,228,255,1) 0%, rgba(235,244,255,1) 100%);top: 0px;left: 0px;width: 100%;height: calc(100% - 250px);transform: skewY(-3deg);" class="bg-default-3"></div>
       <div class="container">
         <div class="row">
-          <div class="col-xl-4 col-lg-4 col-md-12">
-            <div class="section-title mb-11 mb-lg-19 px-lg-3">
-              <h4 class="pre-title gr-text-2 mt-12">Our <br/>Courses</h4>
-            </div>
+          <div class="col-12 mb-16">
+            <h1 class="text-center">Our Courses</h1>
           </div>
-          <div class="col-xl-4 col-lg-4 col-md-12 h-100 mb-10">
+          <div class="col-xl-3 col-lg-3 col-sm-6 h-100 mb-10">
             <a href="/courses/CA" class="h-100">
               <div class="rounded-10 overflow-hidden position-relative bg-blue text-white shadow-4 h-100 px-12 py-16">
                   <img class="position-absolute object-fit-cover" style="bottom: -6px;right: -32px;filter: brightness(99);" height="140px" src="/static/image/main-covers/ca.png" alt="">
-                  <h2 class="mb-16 text-white">CA <br/>Courses</h2>
-                  <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
+                  <h2 class="mb-24 text-white">CA <br/>Courses</h2>
               </div>
             </a>
           </div>
-          <div class="col-xl-4 col-lg-4 col-md-12 h-100 mb-10">
+          <div class="col-xl-3 col-lg-3 col-sm-6 h-100 mb-10">
             <a href="/courses/UGC-NET">
               <div class="rounded-10 overflow-hidden position-relative bg-green text-white shadow-4 px-12 py-16">
-                  <img class="position-absolute object-fit-cover" style="bottom: -32px;right: -32px;filter: brightness(99);" height="200px" src="/static/image/main-covers/ugc.png" alt="">
-                  <h2 class="mb-16 text-white">UGC NET Courses</h2>
-                  <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
+                  <img class="position-absolute object-fit-cover" style="bottom: -44px;right: -32px;filter: brightness(99);" height="200px" src="/static/image/main-covers/ugc.png" alt="">
+                  <h2 class="mb-24 text-white">UGC NET Courses</h2>
               </div>
             </a>
           </div>
-          <div class="ml-lg-30 col-xl-4 col-lg-4 col-md-12 h-100 mb-10">
+          <div class="col-xl-3 col-lg-3 col-sm-6 h-100 mb-10">
             <a href="/courses/MBA">
               <div class="rounded-10 overflow-hidden position-relative bg-red text-white shadow-4 px-12 py-16">
                   <img class="position-absolute object-fit-cover" style="bottom: -32px;right: -32px;filter: invert(1);" height="140px" src="/static/image/main-covers/mba.png" alt="">
-                  <h2 class="mb-16 text-white">MBA <br/>Courses</h2>
-                  <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
+                  <h2 class="mb-24 text-white">MBA <br/>Courses</h2>
               </div>
             </a>
           </div>
-          <div class="col-xl-4 col-lg-4 col-md-12 h-100 mb-10">
+          <div class="col-xl-3 col-lg-3 col-sm-6 h-100 mb-10">
             <a href="/courses/Junior">
               <div class="rounded-10 overflow-hidden position-relative bg-yellow text-white shadow-4 px-12 py-16">
                   <img class="position-absolute object-fit-cover" style="bottom: -16px;right: -32px;filter: invert(1);" height="180px" src="/static/image/main-covers/junior.png" alt="">
-                  <h2 class="mb-16 text-white">Junior <br/> Courses</h2>
-                  <span class="gr-text-6"><i class="fa fa-arrow-right"></i></span>
+                  <h2 class="mb-24 text-white">Junior <br/> Courses</h2>
               </div>
             </a>
           </div>
@@ -188,7 +183,7 @@
     
 
     <!-- Feature section -->
-    <div class="feature-section pt-8 pt-lg-12 pb-7 pb-lg-12 bg-default-3">
+    <div class="feature-section py-2 bg-default-3">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-6 col-lg-7 col-md-8">

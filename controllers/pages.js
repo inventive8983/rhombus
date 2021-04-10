@@ -33,7 +33,7 @@ exports.contact = async (req, res) => {
 
 exports.allCourses = async (req, res) => {
 
-    Course.find({status:"Published", category: req.params.category}, {name: 1, category: 1, duration: 1, variants: 1, cover: 1, subCategory: 1}).then(courses => {
+    Course.find({status:"Published", category: req.params.category}, {name: 1, category: 1, duration: 1, variants: 1, cover: 1, subCategory: 1, category: 1}).then(courses => {
         if(courses.length !== 0){   
 
             var subCategories = []
