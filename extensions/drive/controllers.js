@@ -35,7 +35,7 @@ exports.upload = (req, res) => {
                     category: req.params.category,
                     description: fields.description,
                     fileType: files.file.type,
-                })
+git                 })
 
                 newFile.save()
                     .then(result => handler.success(res, 201, result, "File uploaded succesfully", {}))
@@ -94,12 +94,7 @@ exports.getFiles = (req, res) => {
 
     if(!req.query.search) req.query.search = ""
 
-    File.find({}).or([
-        {name: {$regex: req.query?.search, $options: "i"}},
-        {tags: {$regex: req.query?.search, $options: "i"}},
-        {description: {$regex: req.query?.search, $options: "i"}},
-        {caption: {$regex: req.query?.search, $options: "i"}},
-    ])
+    File.find({})
     .then(result =>
         handler.success(res, 200, result, `Found ${result.length} results.`, {})
     ).catch(err =>{
